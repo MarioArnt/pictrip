@@ -7,7 +7,12 @@ Navbar
     color: #ccc
 }
 
+.nav-pictrip {
+    padding: 0 10px;
+}
+
 .jh-navbar {
+    display: none;
     background-color: #353d47;
     padding: .2em 1em;
     .profile-image {

@@ -1,0 +1,149 @@
+
+entity Trip {
+	name String required maxlength(80),
+    description String,
+    dateFrom Long,
+    dateTo Long,
+    privacy Privacy required,
+    color Color
+}
+
+entity Step {
+	lat Double required,
+	lon Double required,
+    number Integer required min(0),
+	name String required maxlength(80),
+    description String,
+    dateFrom Long,
+    dateTo Long,
+}
+
+entity Picture {
+	url String required,
+    caption String,
+}
+
+entity Journey {
+	duration Long,
+    type Transportation required,
+}
+
+entity Action {
+	date Long required,
+    type ActionType required
+}
+
+entity Notification {
+	message String required,
+    read Boolean required,
+    type NotificationType required,
+}
+
+entity Comment {
+	message String required,
+    datePosted Long required,
+}
+
+entity Like {
+	date Long required
+}
+
+entity Permission {
+	canAddStep Boolean required,
+    canEditStep Boolean required,
+    canDeleteStep Boolean required,
+    canAddPicture Boolean required,
+    canEditPicture Boolean required,
+    canDeletePicture Boolean required,
+    canAddJourney Boolean required,
+    canEditJourney Boolean required,
+    canDeleteJourney Boolean required,
+}
+
+enum NotificationType {
+	TRIP_EDITED_BY_OTHER_USER,
+    TRIP_DELETED_BY_OWNER,
+    STEP_ADDED_BY_OTHER_USER,
+    STEP_EDITED_BY_OTHER_USER,
+    STEP_DELETED_BY_OTHER_USER,
+    PICTURES_ADDED_BY_OTHER_USER,
+    PICTURE_CAPTION_EDITED_BY_OTHER_USER,
+    PICTURE_DELETED_BY_OTHER_USER,
+    JOURNEY_ADDED_BY_USER,
+    JOURNEY_EDITED_BY_OTHER_USER,
+    PICTURES_LIKED,
+    STEP_LIKED,
+    TRIP_LIKED,
+    HAVE_BEEN_INVITED_TO_SEE_A_TRIP,
+    HAVE_BEEN_INVITED_TO_MANAGE_A_TRIP
+}
+
+enum ActionType {
+	CREATE, UPDATE, DELETE
+}
+
+enum Transportation {
+	PLANE, TRAIN, BUS, BIKE, MOTORBIKE, CAR, BOAT, HIKING
+}
+
+enum Privacy {
+    PUBLIC, ANYONE_WITH_LINK, PRIVATE
+}
+
+enum Color {
+	RED, 
+    PINK, 
+    PURPLE, 
+    DEEP_PURPLE, 
+    INDIGO, 
+    BLUE, 
+    LIGHT_BLUE, 
+    CYAN, 
+    TEAL, 
+    GREEN, 
+    LIGHT_GREEN, 
+    LIME, 
+    YELLOW, 
+    AMBER, 
+    ORANGE, 
+    DEEP_ORANGE,
+    BROWN
+}
+
+relationship OneToOne {
+	Trip{owner required} to User,
+    Trip{cover} to Picture,
+    Action{user required} to User,
+    Action{trip} to Trip,
+    Action{step} to Step,
+    Action{picture} to Picture,
+    Action{journey} to Journey,
+    Notification{from} to User,
+    Notification{to required} to User,
+    Notification{trip} to Trip,
+    Notification{step} to Step,
+    Notification{picture} to Picture,
+    Notification{journey} to Journey,
+    Like{trip} to Trip,
+    Like{step} to Step,
+    Like{picture} to Picture,
+    Like{journey} to Journey,
+    Like{user required} to User,
+    Comment{trip} to Trip,
+    Comment{step} to Step,
+    Comment{picture} to Picture,
+    Comment{journey} to Journey,
+    Comment{author required} to User,
+    Permission{trip required} to Trip,
+    Permission{user required} to User
+}
+
+relationship OneToMany {
+	Trip{steps} to Step,
+    Trip{members} to User,
+    Step{pictures} to Picture,
+    Journey{between} to Step
+}
+
+dto * with mapstruct
+service all with serviceImpl
