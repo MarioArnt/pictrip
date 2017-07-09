@@ -1,9 +1,22 @@
-<div class="modal-header">
+<!-- Modal Structure -->
+<div id="modal1" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <h4>Modal Header</h4>
+        <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
+    </div>
+</div>
+
+
+
+<div class="modal-header hidden" id="modal-login-old">
     <h4 class="modal-title" jhiTranslate="login.title">Sign in</h4>
     <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="activeModal.dismiss('closed')"><span aria-hidden="true">x</span>
     </button>
 </div>
-<div class="modal-body">
+<div class="modal-body hidden">
     <div class="row">
         <div class="col-12">
             <div class="alert alert-danger" *ngIf="authenticationError" jhiTranslate="login.messages.error.authentication">

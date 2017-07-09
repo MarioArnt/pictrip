@@ -24,6 +24,9 @@ $margin-step: 10px;
     }
 }
 
+.hidden {
+    display: none;
+}
 
 $padding-step: 10px;
 @for $i from 1 through 10 {

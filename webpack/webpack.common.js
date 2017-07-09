@@ -14,7 +14,7 @@ module.exports = (options) => {
     return {
         resolve: {
             extensions: ['.ts', '.js'],
-            modules: ['node_modules']
+            modules: ['node_modules'],
         },
         module: {
             rules: [
@@ -107,8 +107,11 @@ module.exports = (options) => {
                 { from: './src/main/webapp/robots.txt', to: 'robots.txt' }
             ]),
             new webpack.ProvidePlugin({
-                $: "jquery",
-                jQuery: "jquery"
+                $: 'jquery',
+                jQuery: 'jquery',
+                'window.$': 'jquery',
+                'window.jQuery': 'jquery',
+                Hammer: "hammerjs/hammer"
             }),
             new MergeJsonWebpackPlugin({
                 output: {
