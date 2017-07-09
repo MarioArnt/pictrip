@@ -5,15 +5,22 @@ Main page styles
 
 .display-4,
 .lead,
-#btn-login {
+#btn-login,
+.alert.alert-warning,
+.alert.alert-warning a
+{
     color: #ffffff;
 }
 
 .cover {
     background-color: transparent;
+    height: calc(100vh - 64px);
 }
 
 .alert.alert-warning {
     background-color: rgba(255,255,255,0.2);
-    color: #ffffff;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
 }

@@ -1,15 +1,14 @@
-<div class="row">
     <div class="col-md-12 center-align cover">
-        <h1 class="display-4 margin-t-40" jhiTranslate="home.title">The best way to share your trip</h1>
-        <p class="lead" jhiTranslate="home.subtitle">Pictrip allows you to draw maps of your trips, add pictures on each step and share it to your friends and family</p>
+        <h1 class="flow-text display-4 padding-t-8" jhiTranslate="home.title">The best way to share your trip</h1>
+        <p class="flow-text lead" jhiTranslate="home.subtitle">Pictrip allows you to draw maps of your trips, add pictures on each step and share it to your friends and family</p>
         <div [ngSwitch]="isAuthenticated()">
             <div class="alert alert-success" *ngSwitchCase="true">
                 <span *ngIf="account" jhiTranslate="home.logged.message"
                     translateValues="{username: '{{account.login}}'}"> You are logged in as user "{{account.login}}". </span>
             </div>
 
-            <div *ngSwitchCase="false">
-                <a (click)="login()" id="btn-login" class="waves-effect waves-light btn">Sign In</a>
+            <div *ngSwitchCase="false" class="margin-t-6">
+                <a (click)="login()" id="btn-login" class="waves-effect btn-large waves-light red accent-3">Sign In</a>
             </div>
 
             <div class="alert alert-warning" *ngSwitchCase="false">
@@ -18,4 +17,3 @@
             </div>
         </div>
     </div>
-</div>
