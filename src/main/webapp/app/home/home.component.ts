@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { Account, LoginModalService, Principal } from '../shared';
+import { Account, Principal, LoginModalService } from '../shared';
 
 @Component({
     selector: 'jhi-home',
@@ -10,16 +10,14 @@ import { Account, LoginModalService, Principal } from '../shared';
     styleUrls: [
         'home.scss'
     ]
-
 })
 export class HomeComponent implements OnInit {
     account: Account;
     modalRef: NgbModalRef;
-
     constructor(
         private principal: Principal,
+        private eventManager: JhiEventManager,
         private loginModalService: LoginModalService,
-        private eventManager: JhiEventManager
     ) {
     }
 
@@ -43,6 +41,6 @@ export class HomeComponent implements OnInit {
     }
 
     login() {
-        this.modalRef = this.loginModalService.open();
+        this.loginModalService.open();
     }
 }

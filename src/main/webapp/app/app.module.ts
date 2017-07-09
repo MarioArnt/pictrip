@@ -25,6 +25,7 @@ import {
     ActiveMenuDirective,
     ErrorComponent
 } from './layouts';
+import {LoginModalService} from './shared/login/login-modal.service';
 
 @NgModule({
     imports: [
@@ -44,13 +45,14 @@ import {
         ErrorComponent,
         PageRibbonComponent,
         ActiveMenuDirective,
-        FooterComponent
+        FooterComponent,
     ],
     providers: [
         ProfileService,
         customHttpProvider(),
         PaginationConfig,
-        UserRouteAccessService
+        UserRouteAccessService,
+        LoginModalService,
     ],
     bootstrap: [ JhiMainComponent ]
 })

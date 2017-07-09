@@ -1,28 +1,28 @@
 import { Injectable } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-
-import { JhiLoginModalComponent } from './login.component';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class LoginModalService {
-    private isOpen = false;
-    constructor(
-        private modalService: NgbModal,
-    ) {}
 
-    open(): NgbModalRef {
-        if (this.isOpen) {
-            return;
-        }
-        this.isOpen = true;
-        const modalRef = this.modalService.open(JhiLoginModalComponent, {
-            container: 'nav'
-        });
-        modalRef.result.then((result) => {
-            this.isOpen = false;
-        }, (reason) => {
-            this.isOpen = false;
-        });
-        return modalRef;
+    // Observable string sources
+    private showLoginModal = new Subject<void>();
+    private closeLoginModal = new Subject<void>();
+
+    // Observable string streams
+    showLoginModal$ = this.showLoginModal.asObservable();
+    closeLoginModal$ = this.closeLoginModal.asObservable();
+    constructor(
+    ) {
+    }
+
+    open() {
+        console.log('Call service to open modal');
+        this.showLoginModal.next();
+        return;
+    }
+
+    close() {
+        console.log('Call service to close modal');
+        this.closeLoginModal.next();
     }
 }

@@ -1,5 +1,4 @@
 import { Component, OnInit, AfterViewInit, Renderer, ElementRef } from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 
 import { PasswordResetFinishService } from './password-reset-finish.service';
@@ -16,7 +15,6 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
     keyMissing: boolean;
     resetAccount: any;
     success: string;
-    modalRef: NgbModalRef;
     key: string;
 
     constructor(
@@ -57,6 +55,6 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
     }
 
     login() {
-        this.modalRef = this.loginModalService.open();
+        this.loginModalService.open();
     }
 }

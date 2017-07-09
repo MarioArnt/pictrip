@@ -1,5 +1,4 @@
 import { Component, OnInit, AfterViewInit, Renderer, ElementRef } from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiLanguageService } from 'ng-jhipster';
 
 import { Register } from './register.service';
@@ -18,7 +17,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     errorUserExists: string;
     registerAccount: any;
     success: boolean;
-    modalRef: NgbModalRef;
 
     constructor(
         private languageService: JhiLanguageService,
@@ -56,7 +54,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     }
 
     openLogin() {
-        this.modalRef = this.loginModalService.open();
+        this.loginModalService.open();
     }
 
     private processError(response) {

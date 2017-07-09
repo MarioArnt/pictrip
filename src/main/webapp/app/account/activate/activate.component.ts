@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 
 import { ActivateService } from './activate.service';
@@ -12,7 +11,6 @@ import { LoginModalService } from '../../shared';
 export class ActivateComponent implements OnInit {
     error: string;
     success: string;
-    modalRef: NgbModalRef;
 
     constructor(
         private activateService: ActivateService,
@@ -34,6 +32,6 @@ export class ActivateComponent implements OnInit {
     }
 
     login() {
-        this.modalRef = this.loginModalService.open();
+        this.loginModalService.open();
     }
 }
