@@ -1,42 +1,33 @@
-<div id="login-modal" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+<div id="login-modal" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]"
+     [materializeActions]="modalActions" xmlns="http://www.w3.org/1999/html">
     <div class="modal-content">
-        <h4>Sign in</h4>
+        <h4 jhiTranslate="login.title">Sign in</h4>
         <div class="row">
-            <div class="col-12">
+            <div class="col m12">
                 <div class="alert alert-danger" *ngIf="authenticationError" jhiTranslate="login.messages.error.authentication">
                     <strong>Failed to sign in!</strong> Please check your credentials and try again.
                 </div>
             </div>
-            <div class="col-md-6">
-                <form class="form" role="form" (ngSubmit)="login()">
-                    <div class="form-group">
+        </div>
+        <div class="row">
+            <div class="col m6">
+                <form class="form" role="form">
+                    <div class="input-field">
+                        <input type="text" name="username" id="username" [(ngModel)]="username">
                         <label for="username" jhiTranslate="global.form.username">Login</label>
-                        <input type="text" class="form-control" name="username" id="username" placeholder="{{'global.form.username.placeholder' | translate}}"
-                               [(ngModel)]="username">
-                    </div>lo
-                    <div class="form-group">
+                    </div>
+                    <div class="input-field">
+                        <input type="password" name="password" id="password" [(ngModel)]="password">
                         <label for="password" jhiTranslate="login.form.password">Password</label>
-                        <input type="password" class="form-control" name="password" id="password" placeholder="{{'login.form.password.placeholder' | translate}}"
-                               [(ngModel)]="password">
                     </div>
-                    <div class="form-check">
-                        <label class="form-check-label" for="rememberMe">
-                            <input class="form-check-input" type="checkbox" name="rememberMe" id="rememberMe" [(ngModel)]="rememberMe" checked>
-                            <span jhiTranslate="login.form.rememberme">Remember me</span>
-                        </label>
+                    <div class="checkbox">
+                        <input class="filled-in" type="checkbox" name="rememberMe" id="rememberMe" [(ngModel)]="rememberMe" checked>
+                        <label for="rememberMe">Remember me</label>
                     </div>
-                    <button type="submit" class="btn btn-primary" jhiTranslate="login.form.button">Sign in</button>
                 </form>
                 <p></p>
-                <div class="alert alert-warning">
-                    <a class="alert-link" (click)="requestResetPassword()" jhiTranslate="login.password.forgot">Did you forget your password?</a>
-                </div>
-                <div class="alert alert-warning">
-                    <span jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</span>
-                    <a class="alert-link" (click)="register()" jhiTranslate="global.messages.info.register.link">Register a new account</a>
-                </div>
             </div>
-            <div class="col-md-6">
+            <div class="col m6">
                 <br/>
                 <jhi-social provider="google"></jhi-social>
                 <jhi-social provider="facebook"></jhi-social>
@@ -44,22 +35,17 @@
                 <!-- jhipster-needle-add-social-button -->
             </div>
         </div>
+        <div class=""row>
+            <div class="center-align col m12">
+                <span jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</span>
+                <a class="alert-link" (click)="register()" jhiTranslate="global.messages.info.register.link">Register a new account</a>
+                <br/>
+                <a class="alert-link" (click)="requestResetPassword()" jhiTranslate="login.password.forgot">Did you forget your password?</a>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
-        <a class="waves-effect waves-green btn-flat" (click)="closeModal()">Close</a>
-        <a class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+        <a class="waves-effect waves-teal btn-flat" (click)="closeModal()">Cancel</a>
+        <a class="waves-effect waves-light btn" jhiTranslate="login.form.button" (click)="login()">Sign in</a>
     </div>
 </div>
-
-
-<!--
-OLD JHIPSTER CODE
-<div class="modal-header hidden" id="modal-login-old">
-    <h4 class="modal-title" jhiTranslate="login.title">Sign in</h4>
-    <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="activeModal.dismiss('closed')"><span aria-hidden="true">x</span>
-    </button>
-</div>
-<div class="modal-body hidden">
-
-</div>
--->
