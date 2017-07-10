@@ -8,6 +8,10 @@ body, h1, h2, h3, h4 {
     font-weight: 300;
 }
 
+#main-content {
+    min-height: calc(100vh - 64px);
+}
+
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
