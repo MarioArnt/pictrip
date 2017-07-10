@@ -3,6 +3,26 @@
 Main page styles
 ========================================================================== */
 
+.cover {
+    height: calc(100vh - 64px);
+    margin:0;
+    padding:0;
+    background: url(../../content/images/background.jpg) no-repeat center fixed;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right:0;
+    width:100%;
+    height:100%;
+    background-color: rgba(0, 121, 107, 0.65);
+}
+
 .display-4,
 .lead,
 #btn-login,
@@ -12,9 +32,11 @@ Main page styles
     color: #ffffff;
 }
 
-.cover {
-    background-color: transparent;
-    height: calc(100vh - 64px);
+.title {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
 }
 
 .alert.alert-warning {

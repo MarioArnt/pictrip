@@ -1,19 +1,20 @@
-    <div class="col-md-12 center-align cover">
-        <h1 class="flow-text display-4 padding-t-8" jhiTranslate="home.title">The best way to share your trip</h1>
+<div class="col-md-12 center-align cover">
+    <div class="overlay"></div>
+    <div class="title">
+        <h1 class="flow-text display-4" jhiTranslate="home.title">The best way to share your trip</h1>
         <p class="flow-text lead" jhiTranslate="home.subtitle">Pictrip allows you to draw maps of your trips, add pictures on each step and share it with your friends and family</p>
         <div [ngSwitch]="isAuthenticated()">
             <div class="alert alert-success" *ngSwitchCase="true">
                 <span *ngIf="account" jhiTranslate="home.logged.message"
-                    translateValues="{username: '{{account.login}}'}"> You are logged in as user "{{account.login}}". </span>
+                translateValues="{username: '{{account.login}}'}"> You are logged in as user "{{account.login}}". </span>
             </div>
-
             <div *ngSwitchCase="false" class="margin-t-6">
                 <a (click)="login()" id="btn-login" class="waves-effect btn-large waves-light red accent-3">Sign In</a>
             </div>
-
-            <div class="alert alert-warning" *ngSwitchCase="false">
-                <span jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</span>
-                <a class="alert-link" routerLink="register" jhiTranslate="global.messages.info.register.link">Register a new account</a>
-            </div>
         </div>
     </div>
+    <div class="alert alert-warning" *ngIf="!isAuthenticated()">
+        <span jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</span>
+        <a class="alert-link" routerLink="register" jhiTranslate="global.messages.info.register.link">Register a new account</a>
+    </div>
+</div>

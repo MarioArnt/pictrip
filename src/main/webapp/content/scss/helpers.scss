@@ -1,6 +1,6 @@
 
 $margin-step: 10px;
-@for $i from 1 through 10 {
+@for $i from 0 through 10 {
     .margin-t-#{$i} {
         margin-top: $margin-step * $i;
     }
@@ -29,7 +29,7 @@ $margin-step: 10px;
 }
 
 $padding-step: 10px;
-@for $i from 1 through 10 {
+@for $i from 0 through 10 {
     .padding-t-#{$i} {
         padding-top: $padding-step * $i;
     }
