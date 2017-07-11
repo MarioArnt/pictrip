@@ -6,6 +6,7 @@ import { LoginService } from './login.service';
 import { LoginModalService } from './login-modal.service';
 import { StateStorageService } from '../auth/state-storage.service';
 import { SocialService } from '../social/social.service';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
     selector: 'jhi-login-modal',
@@ -29,7 +30,8 @@ export class JhiLoginModalComponent {
         private renderer: Renderer,
         private socialService: SocialService,
         private router: Router,
-        private loginModalService: LoginModalService) {
+        private loginModalService: LoginModalService,
+        private toastr: ToastsManager) {
         this.modalActions = new EventEmitter<string|MaterializeAction>();
         this.credentials = {};
         loginModalService.showLoginModal$.subscribe(() => {
@@ -86,6 +88,7 @@ export class JhiLoginModalComponent {
             }
         }).catch(() => {
             this.authenticationError = true;
+            this.toastr.error('<strong>Failed to sign in!</strong> Please check your credentials and try again.', '');
         });
     }
 

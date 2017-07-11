@@ -38,7 +38,7 @@ export class PasswordResetInitComponent implements OnInit, AfterViewInit {
         }, (response) => {
             this.success = null;
             if (response.status === 400) {
-                this.toastr.error('<strong>Email address isn\'t registered!</strong> Please check and try again.', '', {enableHTML: true, toastLife: 2000, positionClass: 'toast-top-center'})
+                this.toastr.error('<strong>Email address isn\'t registered!</strong> Please check and try again.', '');
                 this.errorEmailNotExists = 'ERROR';
             } else {
                 this.error = 'ERROR';
