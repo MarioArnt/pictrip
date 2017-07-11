@@ -1,3 +1,4 @@
+import 'materialize-css';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -6,7 +7,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgJhipsterModule } from 'ng-jhipster';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CookieModule } from 'ngx-cookie';
-import 'materialize-css';
 import { MaterializeModule } from 'angular2-materialize';
 
 @NgModule({
@@ -28,7 +28,7 @@ import { MaterializeModule } from 'angular2-materialize';
         NgbModule,
         NgJhipsterModule,
         InfiniteScrollModule,
-        MaterializeModule
+        MaterializeModule,
     ]
 })
 export class PictripSharedLibsModule {}

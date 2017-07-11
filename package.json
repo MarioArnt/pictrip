@@ -25,6 +25,7 @@
     "jquery": "3.2.1",
     "materialize-css": "^0.99.0",
     "ng-jhipster": "0.2.6",
+    "ng2-materialize": "^1.4.2",
     "ng2-toastr": "^4.1.2",
     "ng2-webstorage": "1.8.0",
     "ngx-cookie": "1.0.0",

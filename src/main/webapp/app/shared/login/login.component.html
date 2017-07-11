@@ -22,9 +22,11 @@
             </div>
             <div class="col m6">
                 <br/>
-                <jhi-social provider="google"></jhi-social>
-                <jhi-social provider="facebook"></jhi-social>
-                <jhi-social provider="twitter"></jhi-social>
+                <div class="flex">
+                    <jhi-social provider="google"></jhi-social>
+                    <jhi-social provider="facebook"></jhi-social>
+                    <jhi-social provider="twitter"></jhi-social>
+                </div>
                 <!-- jhipster-needle-add-social-button -->
             </div>
         </div>
@@ -39,6 +41,6 @@
     </div>
     <div class="modal-footer">
         <a class="waves-effect waves-teal btn-flat" (click)="closeModal()">Cancel</a>
-        <a class="waves-effect waves-light btn" jhiTranslate="login.form.button" (click)="login()">Sign in</a>
+        <a class="waves-effect waves-light btn red accent-3" jhiTranslate="login.form.button" (click)="login()">Sign in</a>
     </div>
 </div>

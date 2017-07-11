@@ -1,4 +1,3 @@
-
 $margin-step: 10px;
 @for $i from 0 through 10 {
     .margin-t-#{$i} {
@@ -51,4 +50,8 @@ $padding-step: 10px;
     .padding-#{$i} {
         padding: $padding-step * $i;
     }
+}
+
+.flex {
+    display: flex;
 }

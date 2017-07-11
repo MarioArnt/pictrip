@@ -12,6 +12,7 @@ export class JhiSocialComponent implements OnInit {
     providerSetting: string;
     providerURL: string;
     csrf: string;
+    tooltipText: string;
 
     constructor(
         private csrfService: CSRFService,
@@ -23,5 +24,6 @@ export class JhiSocialComponent implements OnInit {
         this.providerSetting = this.socialService.getProviderSetting(this.provider);
         this.providerURL = this.socialService.getProviderURL(this.provider);
         this.csrf = this.csrfService.getCSRF();
+        this.tooltipText = `Sign in with ${this.label}`;
     }
 }
