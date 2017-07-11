@@ -2,6 +2,12 @@
 # yarn lockfile v1
 
 
+"@angular/animations@^4.2.6":
+  version "4.2.6"
+  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-4.2.6.tgz#9d9c80a119b0c03693cbd23bbaf728b1531fffc7"
+  dependencies:
+    tslib "^1.7.1"
+
 "@angular/cli@1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-1.2.0.tgz#dfd8b8983ec37c2b6d7f902ead60396d7b571597"
@@ -4580,6 +4586,10 @@ ng-jhipster@0.2.6:
   dependencies:
     "@ngx-translate/core" "7.0.0"
     "@ngx-translate/http-loader" "0.1.0"
+
+ng2-toastr@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/ng2-toastr/-/ng2-toastr-4.1.2.tgz#1b452f07139961c38f866c6e24a06247efa21b11"
 
 ng2-webstorage@1.8.0:
   version "1.8.0"

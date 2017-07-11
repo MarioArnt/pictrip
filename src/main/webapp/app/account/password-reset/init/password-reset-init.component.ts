@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit, Renderer, ElementRef } from '@angular/core';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { PasswordResetInitService } from './password-reset-init.service';
 
@@ -13,6 +14,7 @@ export class PasswordResetInitComponent implements OnInit, AfterViewInit {
     success: string;
 
     constructor(
+        private toastr: ToastsManager,
         private passwordResetInitService: PasswordResetInitService,
         private elementRef: ElementRef,
         private renderer: Renderer
@@ -36,6 +38,7 @@ export class PasswordResetInitComponent implements OnInit, AfterViewInit {
         }, (response) => {
             this.success = null;
             if (response.status === 400) {
+                this.toastr.error('<strong>Email address isn\'t registered!</strong> Please check and try again.', '', {enableHTML: true, toastLife: 2000, positionClass: 'toast-top-center'})
                 this.errorEmailNotExists = 'ERROR';
             } else {
                 this.error = 'ERROR';

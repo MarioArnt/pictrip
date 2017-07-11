@@ -1,4 +1,5 @@
 @import 'helpers.scss';
+@import 'color.scss';
 
 /* ==============================================================
 Bootstrap tweaks
@@ -6,6 +7,22 @@ Bootstrap tweaks
 
 body, h1, h2, h3, h4 {
     font-weight: 300;
+}
+
+.toast-error {
+    background-color: color('red', 'accent-3');
+}
+
+.toast-warning {
+    background-color: color('orange', 'accent-3');
+}
+
+.toast-success {
+    background-color: color('green', 'accent-3');
+}
+
+.toast-info {
+    background-color: color('blue', 'accent-3');
 }
 
 #main-content {
