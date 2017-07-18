@@ -1,0 +1,24 @@
+{
+    "pictripApp": {
+        "Color" : {
+            "null": "",
+            "RED": "RED",
+            "PINK": "PINK",
+            "PURPLE": "PURPLE",
+            "DEEP_PURPLE": "DEEP_PURPLE",
+            "INDIGO": "INDIGO",
+            "BLUE": "BLUE",
+            "LIGHT_BLUE": "LIGHT_BLUE",
+            "CYAN": "CYAN",
+            "TEAL": "TEAL",
+            "GREEN": "GREEN",
+            "LIGHT_GREEN": "LIGHT_GREEN",
+            "LIME": "LIME",
+            "YELLOW": "YELLOW",
+            "AMBER": "AMBER",
+            "ORANGE": "ORANGE",
+            "DEEP_ORANGE": "DEEP_ORANGE",
+            "BROWN": "BROWN"
+        }
+    }
+}

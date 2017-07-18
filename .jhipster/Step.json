@@ -1,0 +1,59 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "place",
+            "otherEntityName": "place",
+            "relationshipType": "one-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "name",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "step"
+        },
+        {
+            "relationshipName": "pictures",
+            "otherEntityName": "picture",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "step"
+        },
+        {
+            "relationshipName": "trip",
+            "otherEntityName": "trip",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "name"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "number",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required",
+                "min"
+            ],
+            "fieldValidateRulesMin": "0"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "dateFrom",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "dateTo",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "changelogDate": "20170718192832",
+    "dto": "mapstruct",
+    "service": "serviceImpl",
+    "entityTableName": "step",
+    "pagination": "no"
+}

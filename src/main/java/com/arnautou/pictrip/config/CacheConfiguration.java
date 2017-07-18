@@ -40,7 +40,15 @@ public class CacheConfiguration {
             cm.createCache(com.arnautou.pictrip.domain.User.class.getName(), jcacheConfiguration);
             cm.createCache(com.arnautou.pictrip.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(com.arnautou.pictrip.domain.User.class.getName() + ".authorities", jcacheConfiguration);
+            cm.createCache(com.arnautou.pictrip.domain.User.class.getName() + ".trips", jcacheConfiguration);
             cm.createCache(com.arnautou.pictrip.domain.SocialUserConnection.class.getName(), jcacheConfiguration);
+            cm.createCache(com.arnautou.pictrip.domain.Trip.class.getName(), jcacheConfiguration);
+            cm.createCache(com.arnautou.pictrip.domain.Trip.class.getName() + ".steps", jcacheConfiguration);
+            cm.createCache(com.arnautou.pictrip.domain.Trip.class.getName() + ".members", jcacheConfiguration);
+            cm.createCache(com.arnautou.pictrip.domain.Step.class.getName(), jcacheConfiguration);
+            cm.createCache(com.arnautou.pictrip.domain.Step.class.getName() + ".pictures", jcacheConfiguration);
+            cm.createCache(com.arnautou.pictrip.domain.Place.class.getName(), jcacheConfiguration);
+            cm.createCache(com.arnautou.pictrip.domain.Picture.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

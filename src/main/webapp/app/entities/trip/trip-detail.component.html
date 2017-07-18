@@ -1,0 +1,61 @@
+
+<div *ngIf="trip">
+    <h2><span jhiTranslate="pictripApp.trip.detail.title">Trip</span> {{trip.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="pictripApp.trip.name">Name</span></dt>
+        <dd>
+            <span>{{trip.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="pictripApp.trip.description">Description</span></dt>
+        <dd>
+            <span>{{trip.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="pictripApp.trip.dateFrom">Date From</span></dt>
+        <dd>
+            <span>{{trip.dateFrom | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="pictripApp.trip.dateTo">Date To</span></dt>
+        <dd>
+            <span>{{trip.dateTo | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="pictripApp.trip.privacy">Privacy</span></dt>
+        <dd>
+            <span jhiTranslate="{{'pictripApp.Privacy.' + trip.privacy}}">{{trip.privacy}}</span>
+        </dd>
+        <dt><span jhiTranslate="pictripApp.trip.color">Color</span></dt>
+        <dd>
+            <span jhiTranslate="{{'pictripApp.Color.' + trip.color}}">{{trip.color}}</span>
+        </dd>
+        <dt><span jhiTranslate="pictripApp.trip.cover">Cover</span></dt>
+        <dd>
+            <div *ngIf="trip.coverId">
+                <a [routerLink]="['/picture', trip.coverId]">{{trip.coverSrc}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="pictripApp.trip.members">Members</span></dt>
+        <dd>
+            <span *ngFor="let members of trip.members; let last = last">
+                {{members.login}}{{last ? '' : ', '}}
+            </span>
+        </dd>
+        <dt><span jhiTranslate="pictripApp.trip.owner">Owner</span></dt>
+        <dd>
+            {{trip.ownerLogin}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'trip/'+ trip.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

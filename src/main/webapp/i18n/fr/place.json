@@ -1,0 +1,24 @@
+{
+    "pictripApp": {
+        "place" : {
+            "home": {
+                "title": "Places",
+                "createLabel": "Créer un nouveau Place",
+                "createOrEditLabel": "Créer ou éditer un Place",
+                "search": "Recherche pour Place"
+            },
+            "created": "Un nouveau Place a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Place avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Place avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Place {{ id }} ?"
+            },
+            "detail": {
+                "title": "Place"
+            },
+            "lat": "Lat",
+            "lon": "Lon",
+            "name": "Name"
+        }
+    }
+}

@@ -1,0 +1,132 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myTripLabel" jhiTranslate="pictripApp.trip.home.createOrEditLabel">Create or edit a Trip</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!trip.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="trip.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pictripApp.trip.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="trip.name" required maxlength="80" />
+            <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 80 }">
+                   This field cannot be longer than 80 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pictripApp.trip.description" for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                [(ngModel)]="trip.description"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pictripApp.trip.dateFrom" for="field_dateFrom">Date From</label>
+            <div class="input-group">
+                <input id="field_dateFrom" type="text" class="form-control" name="dateFrom" ngbDatepicker  #dateFromDp="ngbDatepicker" [(ngModel)]="trip.dateFrom"
+                />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="dateFromDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pictripApp.trip.dateTo" for="field_dateTo">Date To</label>
+            <div class="input-group">
+                <input id="field_dateTo" type="text" class="form-control" name="dateTo" ngbDatepicker  #dateToDp="ngbDatepicker" [(ngModel)]="trip.dateTo"
+                />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="dateToDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pictripApp.trip.privacy" for="field_privacy">Privacy</label>
+            <select class="form-control" name="privacy" [(ngModel)]="trip.privacy" id="field_privacy"  required>
+                <option value="PUBLIC" jhiTranslate="pictripApp.Privacy.PUBLIC">PUBLIC</option>
+                <option value="ANYONE_WITH_LINK" jhiTranslate="pictripApp.Privacy.ANYONE_WITH_LINK">ANYONE_WITH_LINK</option>
+                <option value="PRIVATE" jhiTranslate="pictripApp.Privacy.PRIVATE">PRIVATE</option>
+            </select>
+            <div [hidden]="!(editForm.controls.privacy?.dirty && editForm.controls.privacy?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.privacy?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pictripApp.trip.color" for="field_color">Color</label>
+            <select class="form-control" name="color" [(ngModel)]="trip.color" id="field_color"  required>
+                <option value="RED" jhiTranslate="pictripApp.Color.RED">RED</option>
+                <option value="PINK" jhiTranslate="pictripApp.Color.PINK">PINK</option>
+                <option value="PURPLE" jhiTranslate="pictripApp.Color.PURPLE">PURPLE</option>
+                <option value="DEEP_PURPLE" jhiTranslate="pictripApp.Color.DEEP_PURPLE">DEEP_PURPLE</option>
+                <option value="INDIGO" jhiTranslate="pictripApp.Color.INDIGO">INDIGO</option>
+                <option value="BLUE" jhiTranslate="pictripApp.Color.BLUE">BLUE</option>
+                <option value="LIGHT_BLUE" jhiTranslate="pictripApp.Color.LIGHT_BLUE">LIGHT_BLUE</option>
+                <option value="CYAN" jhiTranslate="pictripApp.Color.CYAN">CYAN</option>
+                <option value="TEAL" jhiTranslate="pictripApp.Color.TEAL">TEAL</option>
+                <option value="GREEN" jhiTranslate="pictripApp.Color.GREEN">GREEN</option>
+                <option value="LIGHT_GREEN" jhiTranslate="pictripApp.Color.LIGHT_GREEN">LIGHT_GREEN</option>
+                <option value="LIME" jhiTranslate="pictripApp.Color.LIME">LIME</option>
+                <option value="YELLOW" jhiTranslate="pictripApp.Color.YELLOW">YELLOW</option>
+                <option value="AMBER" jhiTranslate="pictripApp.Color.AMBER">AMBER</option>
+                <option value="ORANGE" jhiTranslate="pictripApp.Color.ORANGE">ORANGE</option>
+                <option value="DEEP_ORANGE" jhiTranslate="pictripApp.Color.DEEP_ORANGE">DEEP_ORANGE</option>
+                <option value="BROWN" jhiTranslate="pictripApp.Color.BROWN">BROWN</option>
+            </select>
+            <div [hidden]="!(editForm.controls.color?.dirty && editForm.controls.color?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.color?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="pictripApp.trip.cover" for="field_cover">Cover</label>
+            <select class="form-control" id="field_cover" name="cover" [(ngModel)]="trip.coverId">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="pictureOption.id" *ngFor="let pictureOption of covers; trackBy: trackPictureById">{{pictureOption.src}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="pictripApp.trip.members" for="field_members">Members</label>
+            <select class="form-control" id="field_members" multiple name="members" [(ngModel)]="trip.members">
+                <option [ngValue]="getSelected(trip.members, userOption)" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="pictripApp.trip.owner" for="field_owner">Owner</label>
+            <select class="form-control" id="field_owner" name="owner" [(ngModel)]="trip.ownerId"  required>
+                <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
+            </select>
+        </div>
+        <div [hidden]="!(editForm.controls.owner?.dirty && editForm.controls.owner?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.owner?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

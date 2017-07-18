@@ -9,18 +9,23 @@ entity Trip {
 }
 
 entity Step {
-	lat Double required,
-	lon Double required,
+
     number Integer required min(0),
-	name String required maxlength(80),
     description String,
     dateFrom Long,
     dateTo Long,
 }
 
+entity Place {
+	lat Double required,
+	lon Double required,
+    name String required maxlength(80),
+}
+
 entity Picture {
 	url String required,
     caption String,
+    size Long
 }
 
 entity Journey {
@@ -91,23 +96,7 @@ enum Privacy {
 }
 
 enum Color {
-	RED, 
-    PINK, 
-    PURPLE, 
-    DEEP_PURPLE, 
-    INDIGO, 
-    BLUE, 
-    LIGHT_BLUE, 
-    CYAN, 
-    TEAL, 
-    GREEN, 
-    LIGHT_GREEN, 
-    LIME, 
-    YELLOW, 
-    AMBER, 
-    ORANGE, 
-    DEEP_ORANGE,
-    BROWN
+	RED,PINK,PURPLE,DEEP_PURPLE,INDIGO,BLUE,LIGHT_BLUE,CYAN,TEAL,GREEN,LIGHT_GREEN,LIME,YELLOW,AMBER,ORANGE,DEEP_ORANGE,BROWN
 }
 
 relationship OneToOne {
@@ -135,7 +124,9 @@ relationship OneToOne {
     Comment{journey} to Journey,
     Comment{author required} to User,
     Permission{trip required} to Trip,
-    Permission{user required} to User
+    Permission{user required} to User,
+    Step{place required} to Place,
+    Picture{place} to Place
 }
 
 relationship OneToMany {

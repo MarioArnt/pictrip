@@ -1,0 +1,31 @@
+{
+    "pictripApp": {
+        "trip" : {
+            "home": {
+                "title": "Trips",
+                "createLabel": "Create a new Trip",
+                "createOrEditLabel": "Create or edit a Trip",
+                "search": "Search for Trip"
+            },
+            "created": "A new Trip is created with identifier {{ param }}",
+            "updated": "A Trip is updated with identifier {{ param }}",
+            "deleted": "A Trip is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Trip {{ id }}?"
+            },
+            "detail": {
+                "title": "Trip"
+            },
+            "name": "Name",
+            "description": "Description",
+            "dateFrom": "Date From",
+            "dateTo": "Date To",
+            "privacy": "Privacy",
+            "color": "Color",
+            "cover": "Cover",
+            "steps": "Steps",
+            "members": "Members",
+            "owner": "Owner"
+        }
+    }
+}

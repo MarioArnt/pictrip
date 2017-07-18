@@ -1,0 +1,28 @@
+{
+    "pictripApp": {
+        "step" : {
+            "home": {
+                "title": "Steps",
+                "createLabel": "Créer un nouveau Step",
+                "createOrEditLabel": "Créer ou éditer un Step",
+                "search": "Recherche pour Step"
+            },
+            "created": "Un nouveau Step a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Step avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Step avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Step {{ id }} ?"
+            },
+            "detail": {
+                "title": "Step"
+            },
+            "number": "Number",
+            "description": "Description",
+            "dateFrom": "Date From",
+            "dateTo": "Date To",
+            "place": "Place",
+            "pictures": "Pictures",
+            "trip": "Trip"
+        }
+    }
+}

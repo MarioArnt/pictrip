@@ -1,0 +1,82 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myPlaceLabel" jhiTranslate="pictripApp.place.home.createOrEditLabel">Create or edit a Place</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!place.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="place.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pictripApp.place.lat" for="field_lat">Lat</label>
+            <input type="number" class="form-control" name="lat" id="field_lat"
+                [(ngModel)]="place.lat" required min="-85.05115" max="85.05115" />
+            <div [hidden]="!(editForm.controls.lat?.dirty && editForm.controls.lat?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.lat?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.lat?.errors?.min" jhiTranslate="entity.validation.min" translateValues="{ min: -85.05115 }">
+                    This field should be at least -85.05115.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.lat?.errors?.max" jhiTranslate="entity.validation.max" translateValues="{ max: 85.05115 }">
+                    This field cannot be more than 85.05115.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.lat?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pictripApp.place.lon" for="field_lon">Lon</label>
+            <input type="number" class="form-control" name="lon" id="field_lon"
+                [(ngModel)]="place.lon" required min="-180" max="180" />
+            <div [hidden]="!(editForm.controls.lon?.dirty && editForm.controls.lon?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.lon?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.lon?.errors?.min" jhiTranslate="entity.validation.min" translateValues="{ min: -180 }">
+                    This field should be at least -180.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.lon?.errors?.max" jhiTranslate="entity.validation.max" translateValues="{ max: 180 }">
+                    This field cannot be more than 180.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.lon?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="pictripApp.place.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="place.name" required />
+            <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

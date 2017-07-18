@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Trip.
+    -->
+    <changeSet id="20170718191932-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="cover_id"
+                                 baseTableName="trip"
+                                 constraintName="fk_trip_cover_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="picture"/>
+
+        <addForeignKeyConstraint baseColumnNames="trips_id"
+                                 baseTableName="trip_members"
+                                 constraintName="fk_trip_members_trips_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="trip"/>
+        <addForeignKeyConstraint baseColumnNames="members_id"
+                                 baseTableName="trip_members"
+                                 constraintName="fk_trip_members_members_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+        
+        <addForeignKeyConstraint baseColumnNames="owner_id"
+                                 baseTableName="trip"
+                                 constraintName="fk_trip_owner_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+    </changeSet>
+</databaseChangeLog>

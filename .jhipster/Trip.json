@@ -1,0 +1,82 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "cover",
+            "otherEntityName": "picture",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "src",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "trip"
+        },
+        {
+            "relationshipName": "steps",
+            "otherEntityName": "step",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "trip"
+        },
+        {
+            "relationshipName": "members",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-many",
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "trip"
+        },
+        {
+            "relationshipName": "owner",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "trip"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "80"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "dateFrom",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "dateTo",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "privacy",
+            "fieldType": "Privacy",
+            "fieldValues": "PUBLIC, ANYONE_WITH_LINK, PRIVATE",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "color",
+            "fieldType": "Color",
+            "fieldValues": "RED,PINK,PURPLE,DEEP_PURPLE,INDIGO,BLUE,LIGHT_BLUE,CYAN,TEAL,GREEN,LIGHT_GREEN,LIME,YELLOW,AMBER,ORANGE,DEEP_ORANGE,BROWN",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20170718191932",
+    "dto": "mapstruct",
+    "service": "serviceImpl",
+    "entityTableName": "trip",
+    "pagination": "no"
+}

@@ -1,0 +1,49 @@
+
+<div *ngIf="step">
+    <h2><span jhiTranslate="pictripApp.step.detail.title">Step</span> {{step.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="pictripApp.step.number">Number</span></dt>
+        <dd>
+            <span>{{step.number}}</span>
+        </dd>
+        <dt><span jhiTranslate="pictripApp.step.description">Description</span></dt>
+        <dd>
+            <span>{{step.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="pictripApp.step.dateFrom">Date From</span></dt>
+        <dd>
+            <span>{{step.dateFrom | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="pictripApp.step.dateTo">Date To</span></dt>
+        <dd>
+            <span>{{step.dateTo | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="pictripApp.step.place">Place</span></dt>
+        <dd>
+            <div *ngIf="step.placeId">
+                <a [routerLink]="['/place', step.placeId]">{{step.placeName}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="pictripApp.step.trip">Trip</span></dt>
+        <dd>
+            <div *ngIf="step.tripId">
+                <a [routerLink]="['/trip', step.tripId]">{{step.tripName}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'step/'+ step.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,10 @@
+{
+    "pictripApp": {
+        "Privacy" : {
+            "null": "",
+            "PUBLIC": "PUBLIC",
+            "ANYONE_WITH_LINK": "ANYONE_WITH_LINK",
+            "PRIVATE": "PRIVATE"
+        }
+    }
+}

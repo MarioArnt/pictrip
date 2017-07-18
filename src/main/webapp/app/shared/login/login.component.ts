@@ -35,6 +35,7 @@ export class JhiLoginModalComponent {
         this.modalActions = new EventEmitter<string|MaterializeAction>();
         this.credentials = {};
         loginModalService.showLoginModal$.subscribe(() => {
+            console.log('Open login modal');
             this.modalActions.emit({
                 action: 'modal',
                 params: ['open'],
