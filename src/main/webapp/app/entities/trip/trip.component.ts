@@ -10,7 +10,10 @@ import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
 @Component({
     selector: 'jhi-trip',
-    templateUrl: './trip.component.html'
+    templateUrl: './trip.component.html',
+    styleUrls: [
+        'trip.scss'
+    ]
 })
 export class TripComponent implements OnInit, OnDestroy {
 trips: Trip[];

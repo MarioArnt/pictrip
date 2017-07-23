@@ -1,12 +1,19 @@
-<div>
+<div class="main-content">
     <h2>
         <span jhiTranslate="pictripApp.trip.home.title">Trips</span>
-        <button class="btn btn-primary float-right create-trip" [routerLink]="['/', { outlets: { popup: ['trip-new'] } }]">
+
+        <div class="fixed-action-btn">
+            <a class="btn-floating btn-large red accent-3" data-delay="10" data-position="top" data-tooltip="Create new Trip" materialize="tooltip" [routerLink]="['/', { outlets: { popup: ['trip-new'] } }]">
+                <i class="fa fa-plus"></i>
+            </a>
+        </div>
+
+        <!--<button class="btn btn-primary float-right create-trip" [routerLink]="['/', { outlets: { popup: ['trip-new'] } }]">
             <span class="fa fa-plus"></span>
             <span class="hidden-sm-down"  jhiTranslate="pictripApp.trip.home.createLabel">
             Create new Trip
             </span>
-        </button>
+        </button>-->
     </h2>
     <jhi-alert></jhi-alert>
     <div class="row">
@@ -25,7 +32,24 @@
         </div>
     </div>
     <br/>
-    <div class="table-responsive" *ngIf="trips">
+    <div *ngIf="trips" class="trip-container flex flex-wrap">
+        <div class="card trip-card" *ngFor="let trip of trips ;trackBy: trackId">
+            <div class="card-image" [ngClass]="trip.color.toLowerCase()">
+                <img *ngIf="trip.coverId" src="{{trip.coverSrc}}">
+                <a [routerLink]="['../trip', trip.id ]"><span class="card-title truncate">{{trip.name}}</span></a>
+                <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="fa fa-trash"></i></a>
+                <a [routerLink]="['/', { outlets: { popup: 'trip/'+ trip.id + '/edit'} }]" class="btn-floating halfway-fab waves-effect waves-light red accent-3"><i class="fa fa-pencil"></i></a>
+            </div>
+            <div class="card-content">
+                <p>{{trip.description}}</p>
+            </div>
+            <div class="card-action">
+                <a [routerLink]="['../trip', trip.id ]">See the trip</a>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!--<div class="table-responsive" *ngIf="trips">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -91,5 +115,5 @@
             </tr>
             </tbody>
         </table>
-    </div>
+    </div>-->
 </div>
