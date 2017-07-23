@@ -6,16 +6,20 @@ import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
-import { Trip } from './trip.model';
+import { Trip} from './trip.model';
 import { TripPopupService } from './trip-popup.service';
 import { TripService } from './trip.service';
 import { Picture, PictureService } from '../picture';
 import { User, UserService } from '../../shared';
 import { ResponseWrapper } from '../../shared';
+import { Privacy, Color } from './trip.model';
 
 @Component({
     selector: 'jhi-trip-dialog',
-    templateUrl: './trip-dialog.component.html'
+    templateUrl: './trip-dialog.component.html',
+    styleUrls: [
+        'trip.scss'
+    ]
 })
 export class TripDialogComponent implements OnInit {
 
@@ -28,15 +32,43 @@ export class TripDialogComponent implements OnInit {
     users: User[];
     dateFromDp: any;
     dateToDp: any;
+    routeSub: any;
 
     constructor(
-        public activeModal: NgbActiveModal,
+        private route: ActivatedRoute,
         private alertService: JhiAlertService,
         private tripService: TripService,
         private pictureService: PictureService,
         private userService: UserService,
         private eventManager: JhiEventManager
     ) {
+        this.routeSub = this.route.params.subscribe((params) => {
+            const id = params['id'];
+            if (id) {
+                this.tripService.find(id).subscribe((trip) => {
+                    if (trip.dateFrom) {
+                        trip.dateFrom = {
+                            year: trip.dateFrom.getFullYear(),
+                            month: trip.dateFrom.getMonth() + 1,
+                            day: trip.dateFrom.getDate()
+                        };
+                    }
+                    if (trip.dateTo) {
+                        trip.dateTo = {
+                            year: trip.dateTo.getFullYear(),
+                            month: trip.dateTo.getMonth() + 1,
+                            day: trip.dateTo.getDate()
+                        };
+                    }
+                    this.trip = trip;
+                });
+            } else {
+                this.trip = new Trip();
+                this.trip.color = this.getRandomColor();
+                console.log(this.trip.privacy.toString());
+                console.log(this.trip.color.toString());
+            }
+        });
     }
 
     ngOnInit() {
@@ -59,8 +91,8 @@ export class TripDialogComponent implements OnInit {
             .subscribe((res: ResponseWrapper) => { this.users = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
-    clear() {
-        this.activeModal.dismiss('cancel');
+    changePrivacy(newPrivacy: Privacy) {
+        this.trip.privacy = newPrivacy;
     }
 
     save() {
@@ -74,6 +106,20 @@ export class TripDialogComponent implements OnInit {
         }
     }
 
+    private getRandomColor(): Color {
+        const enumValues = Object.keys(Color)
+            .map((n) => Number.parseInt(n))
+            .filter((n) => !Number.isNaN(n));
+        const randomIndex = this.getRandomInt(0, enumValues.length);
+        return enumValues[randomIndex];
+    }
+
+    private getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min; // The maximum is exclusive and the minimum is inclusive
+}
+
     private subscribeToSaveResponse(result: Observable<Trip>) {
         result.subscribe((res: Trip) =>
             this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
@@ -82,7 +128,7 @@ export class TripDialogComponent implements OnInit {
     private onSaveSuccess(result: Trip) {
         this.eventManager.broadcast({ name: 'tripListModification', content: 'OK'});
         this.isSaving = false;
-        this.activeModal.dismiss(result);
+        window.history.back();
     }
 
     private onSaveError(error) {

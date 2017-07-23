@@ -1,12 +1,12 @@
 import { BaseEntity, User } from './../../shared';
 
-const enum Privacy {
+export const enum Privacy {
     'PUBLIC',
-    ' ANYONE_WITH_LINK',
-    ' PRIVATE'
+    'ANYONE_WITH_LINK',
+    'PRIVATE'
 }
 
-const enum Color {
+export enum Color {
     'RED',
     'PINK',
     'PURPLE',
@@ -40,5 +40,6 @@ export class Trip implements BaseEntity {
         public members?: User[],
         public ownerId?: number,
     ) {
+        this.privacy = Privacy.PUBLIC;
     }
 }

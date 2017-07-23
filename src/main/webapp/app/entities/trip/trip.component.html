@@ -3,7 +3,7 @@
         <span jhiTranslate="pictripApp.trip.home.title">Trips</span>
 
         <div class="fixed-action-btn">
-            <a class="btn-floating btn-large red accent-3" data-delay="10" data-position="top" data-tooltip="Create new Trip" materialize="tooltip" [routerLink]="['/', { outlets: { popup: ['trip-new'] } }]">
+            <a class="btn-floating btn-large red accent-3" data-delay="10" data-position="top" data-tooltip="Create new Trip" materialize="tooltip" [routerLink]="['../trip-new']">
                 <i class="fa fa-plus"></i>
             </a>
         </div>
@@ -38,7 +38,7 @@
                 <img *ngIf="trip.coverId" src="{{trip.coverSrc}}">
                 <a [routerLink]="['../trip', trip.id ]"><span class="card-title truncate">{{trip.name}}</span></a>
                 <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="fa fa-trash"></i></a>
-                <a [routerLink]="['/', { outlets: { popup: 'trip/'+ trip.id + '/edit'} }]" class="btn-floating halfway-fab waves-effect waves-light red accent-3"><i class="fa fa-pencil"></i></a>
+                <a [routerLink]="['../trip/' + trip.id + '/edit']" class="btn-floating halfway-fab waves-effect waves-light red accent-3"><i class="fa fa-pencil"></i></a>
             </div>
             <div class="card-content">
                 <p>{{trip.description}}</p>

@@ -1,0 +1,56 @@
+.trip-card {
+    margin: 0 10px 20px 10px;
+}
+
+.card-image,
+.card-image > img {
+    height: 150px;
+}
+
+.privacy-select > .card-panel {
+    cursor: pointer;
+    text-align: center;
+}
+
+
+@mixin max-width($width) {
+    @media screen and (max-width: $width) {
+        @content;
+    }
+}
+
+.trip-card {
+    min-width: 300px;
+    box-sizing: border-box;
+    flex: 1;
+}
+
+@include max-width(375px) {
+    .trip-card {
+        width: 90%;
+        flex-basis: 100%;
+    }
+}
+
+@include max-width(750px) {
+    .trip-card {
+        flex-basis: 100% / 2;
+    }
+    .privacy-select > .card-panel {
+        width: 100%;
+        flex-basis: 100%;
+        margin: 10px 0;
+    }
+}
+
+@include max-width(3*375px) {
+    .trip-card {
+        flex-basis: 100% / 3;
+    }
+    .privacy-select > .card-panel {
+        width: 33.33%;
+        flex-basis: 33.33%;
+    }
+}
+
+

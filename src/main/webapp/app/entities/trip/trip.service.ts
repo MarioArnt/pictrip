@@ -5,6 +5,7 @@ import { JhiDateUtils } from 'ng-jhipster';
 
 import { Trip } from './trip.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
+import * as moment from 'moment';
 
 @Injectable()
 export class TripService {
@@ -74,9 +75,9 @@ export class TripService {
     private convert(trip: Trip): Trip {
         const copy: Trip = Object.assign({}, trip);
         copy.dateFrom = this.dateUtils
-            .convertLocalDateToServer(trip.dateFrom);
+            .convertLocalDateToServer(moment(trip.dateFrom, 'YYYY-MM-DD').toDate());
         copy.dateTo = this.dateUtils
-            .convertLocalDateToServer(trip.dateTo);
+            .convertLocalDateToServer(moment(trip.dateTo, 'YYYY-MM-DD').toDate());
         return copy;
     }
 }

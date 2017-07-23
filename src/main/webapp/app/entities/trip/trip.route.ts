@@ -6,7 +6,7 @@ import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { TripComponent } from './trip.component';
 import { TripDetailComponent } from './trip-detail.component';
-import { TripPopupComponent } from './trip-dialog.component';
+import { TripPopupComponent, TripDialogComponent } from './trip-dialog.component';
 import { TripDeletePopupComponent } from './trip-delete-dialog.component';
 
 import { Principal } from '../../shared';
@@ -28,30 +28,28 @@ export const tripRoute: Routes = [
             pageTitle: 'pictripApp.trip.home.title'
         },
         canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'trip-new',
+        component: TripDialogComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'pictripApp.trip.home.title'
+        },
+        canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'trip/:id/edit',
+        component: TripDialogComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'pictripApp.trip.home.title'
+        },
+        canActivate: [UserRouteAccessService]
     }
 ];
 
 export const tripPopupRoute: Routes = [
-    {
-        path: 'trip-new',
-        component: TripPopupComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'pictripApp.trip.home.title'
-        },
-        canActivate: [UserRouteAccessService],
-        outlet: 'popup'
-    },
-    {
-        path: 'trip/:id/edit',
-        component: TripPopupComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'pictripApp.trip.home.title'
-        },
-        canActivate: [UserRouteAccessService],
-        outlet: 'popup'
-    },
     {
         path: 'trip/:id/delete',
         component: TripDeletePopupComponent,
