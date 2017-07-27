@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { JhiEventManager } from 'ng-jhipster';
 import { MaterializeAction } from 'angular2-materialize';
 import { LoginService } from './login.service';
-import { LoginModalService } from './login-modal.service';
 import { StateStorageService } from '../auth/state-storage.service';
 import { SocialService } from '../social/social.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { MdDialogRef } from '@angular/material';
 
 @Component({
     selector: 'jhi-login-modal',
@@ -23,6 +23,7 @@ export class JhiLoginModalComponent {
     credentials: any;
     modalActions: EventEmitter<string|MaterializeAction>;
     constructor(
+        public dialogRef: MdDialogRef<JhiLoginModalComponent>,
         private eventManager: JhiEventManager,
         private loginService: LoginService,
         private stateStorageService: StateStorageService,
@@ -30,27 +31,14 @@ export class JhiLoginModalComponent {
         private renderer: Renderer,
         private socialService: SocialService,
         private router: Router,
-        private loginModalService: LoginModalService,
         private toastr: ToastsManager) {
         this.modalActions = new EventEmitter<string|MaterializeAction>();
         this.credentials = {};
-        loginModalService.showLoginModal$.subscribe(() => {
-            console.log('Open login modal');
-            this.modalActions.emit({
-                action: 'modal',
-                params: ['open'],
-            });
-        });
-        loginModalService.closeLoginModal$.subscribe(() => {
-            this.modalActions.emit({
-                action: 'modal',
-                params: ['close'],
-            });
-        });
     }
 
     closeModal() {
-        this.loginModalService.close();
+        console.log('close login modal', this.dialogRef);
+        this.dialogRef.close();
     }
 
     cancel() {

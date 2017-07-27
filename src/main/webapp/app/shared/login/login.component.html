@@ -1,46 +1,44 @@
-<div id="login-modal" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]"
-     [materializeActions]="modalActions" xmlns="http://www.w3.org/1999/html">
-    <div class="modal-content">
-        <h4 jhiTranslate="login.title">Sign in</h4>
-        <div class="row">
-            <div class="col m6">
-                <form class="form" role="form">
-                    <div class="input-field">
-                        <input type="text" name="username" id="username" [(ngModel)]="username">
-                        <label for="username" jhiTranslate="global.form.username">Login</label>
-                    </div>
-                    <div class="input-field">
-                        <input type="password" name="password" id="password" [(ngModel)]="password">
-                        <label for="password" jhiTranslate="login.form.password">Password</label>
-                    </div>
-                    <div class="checkbox">
-                        <input class="filled-in" type="checkbox" name="rememberMe" id="rememberMe" [(ngModel)]="rememberMe" checked>
-                        <label for="rememberMe">Remember me</label>
-                    </div>
-                </form>
-                <p></p>
-            </div>
-            <div class="col m6">
-                <br/>
-                <div class="flex">
-                    <jhi-social provider="google"></jhi-social>
-                    <jhi-social provider="facebook"></jhi-social>
-                    <jhi-social provider="twitter"></jhi-social>
+<h1 md-dialog-title>Sign in</h1>
+<div md-dialog-content>
+    <h4 jhiTranslate="login.title">Sign in</h4>
+    <div class="row">
+        <div class="col m6">
+            <form class="form" role="form">
+                <div class="input-field">
+                    <input type="text" name="username" id="username" [(ngModel)]="username">
+                    <label for="username" jhiTranslate="global.form.username">Login</label>
                 </div>
-                <!-- jhipster-needle-add-social-button -->
-            </div>
+                <div class="input-field">
+                    <input type="password" name="password" id="password" [(ngModel)]="password">
+                    <label for="password" jhiTranslate="login.form.password">Password</label>
+                </div>
+                <div class="checkbox">
+                    <input class="filled-in" type="checkbox" name="rememberMe" id="rememberMe" [(ngModel)]="rememberMe" checked>
+                    <label for="rememberMe">Remember me</label>
+                </div>
+            </form>
+            <p></p>
         </div>
-        <div class=""row>
-            <div class="center-align col m12">
-                <span jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</span>
-                <a class="alert-link" (click)="register()" jhiTranslate="global.messages.info.register.link">Register a new account</a>
-                <br/>
-                <a class="alert-link" (click)="requestResetPassword()" jhiTranslate="login.password.forgot">Did you forget your password?</a>
+        <div class="col m6">
+            <br/>
+            <div class="flex">
+                <jhi-social provider="google"></jhi-social>
+                <jhi-social provider="facebook"></jhi-social>
+                <jhi-social provider="twitter"></jhi-social>
             </div>
+            <!-- jhipster-needle-add-social-button -->
         </div>
     </div>
-    <div class="modal-footer">
-        <a class="waves-effect waves-teal btn-flat" (click)="closeModal()">Cancel</a>
-        <a class="waves-effect waves-light btn red accent-3" jhiTranslate="login.form.button" (click)="login()">Sign in</a>
+    <div class=""row>
+        <div class="center-align col m12">
+            <span jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</span>
+            <a class="alert-link" (click)="register()" jhiTranslate="global.messages.info.register.link">Register a new account</a>
+            <br/>
+            <a class="alert-link" (click)="requestResetPassword()" jhiTranslate="login.password.forgot">Did you forget your password?</a>
+        </div>
     </div>
+</div>
+<div md-dialog-actions>
+    <a class="waves-effect waves-teal btn-flat" md-dialog-close (click)="closeModal()">Cancel</a>
+    <a class="waves-effect waves-light btn red accent-3" jhiTranslate="login.form.button" (click)="login()">Sign in</a>
 </div>

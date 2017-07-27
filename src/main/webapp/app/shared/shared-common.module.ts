@@ -28,7 +28,8 @@ import {
         PictripSharedLibsModule,
         FindLanguageFromKeyPipe,
         JhiAlertComponent,
-        JhiAlertErrorComponent
+        JhiAlertErrorComponent,
+
     ]
 })
 export class PictripSharedCommonModule {}

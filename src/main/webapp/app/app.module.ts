@@ -3,7 +3,6 @@ import './vendor.ts';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Ng2Webstorage } from 'ng2-webstorage';
-
 import { PictripSharedModule, UserRouteAccessService } from './shared';
 import { PictripHomeModule } from './home/home.module';
 import { PictripAdminModule } from './admin/admin.module';
@@ -15,6 +14,7 @@ import { PaginationConfig } from './blocks/config/uib-pagination.config';
 import { ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
 import { CustomToasts } from './shared/toast/custom-toasts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PictripSharedLibsModule } from './shared/shared-libs.module';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
@@ -33,7 +33,6 @@ import {LoginModalService} from './shared/login/login-modal.service';
 @NgModule({
     imports: [
         BrowserModule,
-        BrowserAnimationsModule,
         LayoutRoutingModule,
         ToastModule.forRoot(),
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
@@ -42,6 +41,7 @@ import {LoginModalService} from './shared/login/login-modal.service';
         PictripAdminModule,
         PictripAccountModule,
         PictripEntityModule,
+        PictripSharedLibsModule
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [

@@ -42,7 +42,9 @@ import {
         UserService,
         DatePipe
     ],
-    entryComponents: [JhiLoginModalComponent],
+    entryComponents: [
+        JhiLoginModalComponent
+    ],
     exports: [
         PictripSharedCommonModule,
         JhiSocialComponent,

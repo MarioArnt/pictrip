@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import { navbarRoute } from '../app.route';
 import { errorRoute } from './';
+import { MaterialDesignModule } from '../shared/shared-libs.module';
 
 const LAYOUT_ROUTES = [
     navbarRoute,
@@ -11,7 +12,8 @@ const LAYOUT_ROUTES = [
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(LAYOUT_ROUTES, { useHash: true })
+        RouterModule.forRoot(LAYOUT_ROUTES, { useHash: true }),
+        MaterialDesignModule,
     ],
     exports: [
         RouterModule

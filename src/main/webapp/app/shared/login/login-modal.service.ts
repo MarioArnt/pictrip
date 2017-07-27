@@ -1,28 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { MdDialog, MdDialogRef } from '@angular/material';
+import { JhiLoginModalComponent } from './login.component';
 
 @Injectable()
 export class LoginModalService {
 
-    // Observable string sources
-    private showLoginModal = new Subject<void>();
-    private closeLoginModal = new Subject<void>();
-
-    // Observable string streams
-    showLoginModal$ = this.showLoginModal.asObservable();
-    closeLoginModal$ = this.closeLoginModal.asObservable();
+    private loginModalRef: MdDialogRef<JhiLoginModalComponent>;
     constructor(
-    ) {
-    }
+        public dialog: MdDialog
+    ) {}
 
     open() {
-        console.log('Call service to open modal');
-        this.showLoginModal.next();
+        this.loginModalRef = this.dialog.open(JhiLoginModalComponent);
         return;
-    }
-
-    close() {
-        console.log('Call service to close modal');
-        this.closeLoginModal.next();
     }
 }
