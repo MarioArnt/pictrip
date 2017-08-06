@@ -42,8 +42,10 @@ public interface TripService {
      * Search for the trip corresponding to the query.
      *
      *  @param query the query of the search
-     *  
+     *
      *  @return the list of entities
      */
     List<TripDTO> search(String query);
+
+    List<TripDTO> findByOwnerIsCurrentUser();
 }

@@ -1,5 +1,8 @@
 package com.arnautou.pictrip.web.rest;
 
+import com.arnautou.pictrip.repository.UserRepository;
+import com.arnautou.pictrip.security.SecurityUtils;
+import com.arnautou.pictrip.service.UserService;
 import com.codahale.metrics.annotation.Timed;
 import com.arnautou.pictrip.service.TripService;
 import com.arnautou.pictrip.web.rest.util.HeaderUtil;
@@ -7,6 +10,7 @@ import com.arnautou.pictrip.service.dto.TripDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +37,12 @@ public class TripResource {
 
     private final TripService tripService;
 
-    public TripResource(TripService tripService) {
+    private final UserService userService;
+
+    public TripResource(TripService tripService, UserService userService) {
+
         this.tripService = tripService;
+        this.userService = userService;
     }
 
     /**
@@ -51,6 +59,7 @@ public class TripResource {
         if (tripDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new trip cannot already have an ID")).body(null);
         }
+        tripDTO.setOwnerId(userService.getCurrentLoggedUserId());
         TripDTO result = tripService.save(tripDTO);
         return ResponseEntity.created(new URI("/api/trips/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -88,7 +97,7 @@ public class TripResource {
     @Timed
     public List<TripDTO> getAllTrips() {
         log.debug("REST request to get all Trips");
-        return tripService.findAll();
+        return tripService.findByOwnerIsCurrentUser();
     }
 
     /**

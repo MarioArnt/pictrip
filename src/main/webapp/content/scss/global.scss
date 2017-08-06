@@ -1,5 +1,5 @@
 @import 'helpers.scss';
-@import 'color.scss';
+@import 'materialize.scss';
 @import '~@angular/material/theming';
 @include mat-core();
 $app-primary: mat-palette($mat-teal);
@@ -14,6 +14,19 @@ Bootstrap tweaks
 
 body, h1, h2, h3, h4 {
     font-weight: 300;
+}
+
+a,
+a:hover{
+    text-decoration: none;
+}
+
+button {
+    outline: none;
+}
+
+.ng-invalid:not(form) {
+    border: 0 !important;
 }
 
 .main-content {

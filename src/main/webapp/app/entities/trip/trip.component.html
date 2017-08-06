@@ -33,20 +33,38 @@
     </div>
     <br/>
     <div *ngIf="trips" class="trip-container flex flex-wrap">
-        <div class="card trip-card" *ngFor="let trip of trips ;trackBy: trackId">
-            <div class="card-image" [ngClass]="trip.color.toLowerCase()">
+        <md-card class="trip-card" *ngFor="let trip of trips ;trackBy: trackId">
+            <div md-card-image class="card-image darken-2" [ngClass]="trip.color.toLowerCase()">
                 <img *ngIf="trip.coverId" src="{{trip.coverSrc}}">
-                <a [routerLink]="['../trip', trip.id ]"><span class="card-title truncate">{{trip.name}}</span></a>
-                <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="fa fa-trash"></i></a>
-                <a [routerLink]="['../trip/' + trip.id + '/edit']" class="btn-floating halfway-fab waves-effect waves-light red accent-3"><i class="fa fa-pencil"></i></a>
+                <a [routerLink]="['../trip', trip.id ]">
+                    <h5 class="card-title truncate">{{trip.name}}</h5>
+                </a>
+                <div class="fill"></div>
+                <button md-icon-button [mdMenuTriggerFor]="menu">
+                    <i class="fa fa-ellipsis-v more-actions-button"></i>
+                </button>
+                <md-menu #menu="mdMenu" xPosition="before">
+                    <button md-menu-item [routerLink]="['../trip/' + trip.id + '/edit']">
+                        <i class="fa fa-pencil"></i>
+                        <span>Edit</span>
+                    </button>
+                    <button md-menu-item disabled>
+                        <i class="fa fa-trash"></i>
+                        <span>Delete</span>
+                    </button>
+                </md-menu>
             </div>
-            <div class="card-content">
+            <md-card-header>
+                <md-card-title></md-card-title>
+            </md-card-header>
+            <md-card-content>
                 <p>{{trip.description}}</p>
-            </div>
-            <div class="card-action">
-                <a [routerLink]="['../trip', trip.id ]">See the trip</a>
-            </div>
-        </div>
+                <p>From 12/01/2017 to 18/08/2107</p>
+            </md-card-content>
+            <md-card-footer>
+                    <button [routerLink]="['../trip', trip.id ]" md-button>SEE</button>
+            </md-card-footer>
+        </md-card>
     </div>
     </div>
     <!--<div class="table-responsive" *ngIf="trips">

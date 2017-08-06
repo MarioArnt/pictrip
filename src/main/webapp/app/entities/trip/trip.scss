@@ -2,15 +2,48 @@
     margin: 0 10px 20px 10px;
 }
 
-.card-image,
-.card-image > img {
-    height: 150px;
+.card-image {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.privacy-select > .card-panel {
-    cursor: pointer;
-    text-align: center;
+.card-image,
+.card-image > img {
+    height: 60px;
 }
+
+.card-title {
+    color: white;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.more-actions-button {
+    color: white;
+    font-size: 16pt;
+}
+
+.fill {
+    flex-grow: 1;
+}
+
+.create-edit-trip-form {
+    .row {
+        padding: 15px 0;
+    }
+    md-input-container {
+        width: 100%;
+    }
+    .privacy-select {
+        md-card {
+            cursor: pointer;
+            text-align: center;
+            width: 33.33%;
+        }
+    }
+}
+
 
 
 @mixin max-width($width) {

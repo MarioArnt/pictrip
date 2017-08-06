@@ -1,25 +1,20 @@
-<h1 md-dialog-title>Sign in</h1>
+<h1 md-dialog-title jhiTranslate="login.title">Sign in</h1>
 <div md-dialog-content>
-    <h4 jhiTranslate="login.title">Sign in</h4>
     <div class="row">
-        <div class="col m6">
+        <div class="col-md-6">
             <form class="form" role="form">
-                <div class="input-field">
-                    <input type="text" name="username" id="username" [(ngModel)]="username">
-                    <label for="username" jhiTranslate="global.form.username">Login</label>
-                </div>
-                <div class="input-field">
-                    <input type="password" name="password" id="password" [(ngModel)]="password">
-                    <label for="password" jhiTranslate="login.form.password">Password</label>
-                </div>
-                <div class="checkbox">
-                    <input class="filled-in" type="checkbox" name="rememberMe" id="rememberMe" [(ngModel)]="rememberMe" checked>
-                    <label for="rememberMe">Remember me</label>
-                </div>
+                <md-input-container>
+                    <input mdInput placeholder="Login" type="text" name="username" id="username" [(ngModel)]="username">
+                </md-input-container>
+                <md-input-container>
+                    <input mdInput placeholder="Password" type="password" name="password" id="password" [(ngModel)]="password">
+                </md-input-container>
+                <p></p>
+                <md-checkbox name="rememberMe" id="rememberMe" [(ngModel)]="rememberMe" checked>Remember me</md-checkbox>
             </form>
             <p></p>
         </div>
-        <div class="col m6">
+        <div class="col-md-6">
             <br/>
             <div class="flex">
                 <jhi-social provider="google"></jhi-social>

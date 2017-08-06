@@ -75,9 +75,9 @@ export class TripService {
     private convert(trip: Trip): Trip {
         const copy: Trip = Object.assign({}, trip);
         copy.dateFrom = this.dateUtils
-            .convertLocalDateToServer(moment(trip.dateFrom, 'YYYY-MM-DD').toDate());
+            .convertLocalDateToServer(trip.dateFrom);
         copy.dateTo = this.dateUtils
-            .convertLocalDateToServer(moment(trip.dateTo, 'YYYY-MM-DD').toDate());
+            .convertLocalDateToServer(trip.dateTo);
         return copy;
     }
 }

@@ -5,6 +5,7 @@ import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import {FormControl, Validators} from '@angular/forms';
 
 import { Trip} from './trip.model';
 import { TripPopupService } from './trip-popup.service';
@@ -33,6 +34,10 @@ export class TripDialogComponent implements OnInit {
     dateFromDp: any;
     dateToDp: any;
     routeSub: any;
+
+    nameFormControl = new FormControl('', [
+        Validators.required,
+        Validators.maxLength(80)]);
 
     constructor(
         private route: ActivatedRoute,

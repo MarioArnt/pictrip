@@ -1,6 +1,7 @@
 package com.arnautou.pictrip.service.impl;
 
 import com.arnautou.pictrip.service.TripService;
+import com.arnautou.pictrip.service.UserService;
 import com.arnautou.pictrip.domain.Trip;
 import com.arnautou.pictrip.repository.TripRepository;
 import com.arnautou.pictrip.repository.search.TripSearchRepository;
@@ -33,10 +34,13 @@ public class TripServiceImpl implements TripService{
 
     private final TripSearchRepository tripSearchRepository;
 
-    public TripServiceImpl(TripRepository tripRepository, TripMapper tripMapper, TripSearchRepository tripSearchRepository) {
+    private final UserService userService;
+
+    public TripServiceImpl(TripRepository tripRepository, TripMapper tripMapper, TripSearchRepository tripSearchRepository, UserService userService) {
         this.tripRepository = tripRepository;
         this.tripMapper = tripMapper;
         this.tripSearchRepository = tripSearchRepository;
+        this.userService = userService;
     }
 
     /**
@@ -65,6 +69,20 @@ public class TripServiceImpl implements TripService{
     public List<TripDTO> findAll() {
         log.debug("Request to get all Trips");
         return tripRepository.findAllWithEagerRelationships().stream()
+            .map(tripMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    /**
+     *  Get all the trips of the current logged user.
+     *
+     *  @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<TripDTO> findByOwnerIsCurrentUser() {
+        log.debug("Request to get all current user's Trips");
+        return tripRepository.findByCurrentUserWithEagerRelationships(userService.getCurrentLoggedUserId()).stream()
             .map(tripMapper::toDto)
             .collect(Collectors.toCollection(LinkedList::new));
     }

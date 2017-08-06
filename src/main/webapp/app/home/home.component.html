@@ -1,7 +1,7 @@
 <div class="col-md-12 center-align cover">
     <div class="overlay"></div>
-    <div class="title">
-        <h1 class="flow-text display-4" jhiTranslate="home.title">The best way to share your trip</h1>
+    <div class="title main-content">
+        <h1 class="display-4" jhiTranslate="home.title">The best way to share your trip</h1>
         <p class="flow-text lead" jhiTranslate="home.subtitle">Pictrip allows you to draw maps of your trips, add pictures on each step and share it with your friends and family</p>
         <div [ngSwitch]="isAuthenticated()">
             <div class="alert alert-success" *ngSwitchCase="true">
@@ -18,3 +18,4 @@
         <a class="alert-link" routerLink="register" jhiTranslate="global.messages.info.register.link">Register a new account</a>
     </div>
 </div>
+<jhi-footer></jhi-footer>

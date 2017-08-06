@@ -7,6 +7,7 @@ import com.arnautou.pictrip.domain.User;
 import com.arnautou.pictrip.repository.TripRepository;
 import com.arnautou.pictrip.service.TripService;
 import com.arnautou.pictrip.repository.search.TripSearchRepository;
+import com.arnautou.pictrip.service.UserService;
 import com.arnautou.pictrip.service.dto.TripDTO;
 import com.arnautou.pictrip.service.mapper.TripMapper;
 import com.arnautou.pictrip.web.rest.errors.ExceptionTranslator;
@@ -74,6 +75,9 @@ public class TripResourceIntTest {
     private TripService tripService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private TripSearchRepository tripSearchRepository;
 
     @Autowired
@@ -95,7 +99,7 @@ public class TripResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        TripResource tripResource = new TripResource(tripService);
+        TripResource tripResource = new TripResource(tripService, userService);
         this.restTripMockMvc = MockMvcBuilders.standaloneSetup(tripResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

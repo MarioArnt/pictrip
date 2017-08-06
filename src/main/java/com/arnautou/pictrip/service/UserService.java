@@ -254,4 +254,12 @@ public class UserService {
     public List<String> getAuthorities() {
         return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
     }
+
+    public Long getCurrentLoggedUserId() {
+        Optional<User> currentLoggedUser = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin());
+        if(currentLoggedUser.isPresent()) {
+            return currentLoggedUser.get().getId();
+        }
+        return null;
+    }
 }

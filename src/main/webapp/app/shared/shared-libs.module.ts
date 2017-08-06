@@ -1,10 +1,21 @@
 import 'materialize-css';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdDialogModule, MdMenuModule, MdTooltipModule, MdInputModule } from '@angular/material';
+import {
+    MdDialogModule,
+    MdMenuModule,
+    MdCheckboxModule,
+    MdButtonModule,
+    MdCardModule,
+    MdTooltipModule,
+    MdInputModule,
+    MdIconModule,
+    MdNativeDateModule,
+    MdDatepickerModule
+} from '@angular/material';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgJhipsterModule } from 'ng-jhipster';
@@ -16,8 +27,14 @@ import { MaterializeModule } from 'angular2-materialize';
     exports: [
         MdDialogModule,
         MdMenuModule,
+        MdCheckboxModule,
         MdTooltipModule,
         MdInputModule,
+        MdNativeDateModule,
+        MdIconModule,
+        MdDatepickerModule,
+        MdCardModule,
+        MdButtonModule,
     ]
 })
 export class MaterialDesignModule {}
@@ -39,6 +56,7 @@ export class MaterialDesignModule {}
     ],
     exports: [
         FormsModule,
+        ReactiveFormsModule,
         HttpModule,
         CommonModule,
         NgbModule,

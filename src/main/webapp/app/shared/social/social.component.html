@@ -1,6 +1,6 @@
 <form ngNoForm action="{{ providerURL }}" method="POST">
     <a class="btn-floating tooltipped margin-h-1 btn-large waves-effect waves-light jh-btn-{{ provider }}"
-       [ngSwitch]="provider" data-delay="10" data-position="top" [attr.data-tooltip]="tooltipText" materialize="tooltip">
+       [ngSwitch]="provider" [mdTooltip]="tooltipText" mdTooltipPosition="above">
         <i *ngSwitchCase="'google'" class="fa fa-google-plus"></i>
         <i *ngSwitchCase="'facebook'" class="fa fa-facebook"></i>
         <i *ngSwitchCase="'twitter'" class="fa fa-twitter"></i>
