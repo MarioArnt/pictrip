@@ -1,4 +1,3 @@
-import 'materialize-css';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -21,7 +20,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgJhipsterModule } from 'ng-jhipster';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CookieModule } from 'ngx-cookie';
-import { MaterializeModule } from 'angular2-materialize';
 
 @NgModule({
     exports: [
@@ -50,7 +48,6 @@ export class MaterialDesignModule {}
         }),
         InfiniteScrollModule,
         CookieModule.forRoot(),
-        MaterializeModule,
         MaterialDesignModule,
         BrowserAnimationsModule,
     ],
@@ -62,7 +59,6 @@ export class MaterialDesignModule {}
         NgbModule,
         NgJhipsterModule,
         InfiniteScrollModule,
-        MaterializeModule,
         MaterialDesignModule,
         BrowserAnimationsModule
     ]

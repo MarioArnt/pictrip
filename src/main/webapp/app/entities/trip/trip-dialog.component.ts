@@ -34,6 +34,7 @@ export class TripDialogComponent implements OnInit {
     dateFromDp: any;
     dateToDp: any;
     routeSub: any;
+    tripId: number;
 
     nameFormControl = new FormControl('', [
         Validators.required,
@@ -49,6 +50,9 @@ export class TripDialogComponent implements OnInit {
     ) {
         this.routeSub = this.route.params.subscribe((params) => {
             const id = params['id'];
+            this.tripId = id;
+            this.trip = new Trip();
+            this.trip.color = this.getRandomColor();
             if (id) {
                 this.tripService.find(id).subscribe((trip) => {
                     if (trip.dateFrom) {
@@ -67,11 +71,6 @@ export class TripDialogComponent implements OnInit {
                     }
                     this.trip = trip;
                 });
-            } else {
-                this.trip = new Trip();
-                this.trip.color = this.getRandomColor();
-                console.log(this.trip.privacy.toString());
-                console.log(this.trip.color.toString());
             }
         });
     }
@@ -133,6 +132,10 @@ export class TripDialogComponent implements OnInit {
     private onSaveSuccess(result: Trip) {
         this.eventManager.broadcast({ name: 'tripListModification', content: 'OK'});
         this.isSaving = false;
+        window.history.back();
+    }
+
+    public cancel() {
         window.history.back();
     }
 
