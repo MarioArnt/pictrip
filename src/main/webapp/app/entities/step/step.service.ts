@@ -2,8 +2,11 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { JhiDateUtils } from 'ng-jhipster';
+import * as moment from 'moment';
 
 import { Step } from './step.model';
+import { Place } from '../place/place.model';
+
 import { ResponseWrapper, createRequestOption } from '../../shared';
 
 @Injectable()
@@ -14,8 +17,8 @@ export class StepService {
 
     constructor(private http: Http, private dateUtils: JhiDateUtils) { }
 
-    create(step: Step): Observable<Step> {
-        const copy = this.convert(step);
+    create(step: Step, place: Place): Observable<Step> {
+        const copy = this.convert(step, place);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
             this.convertItemFromServer(jsonResponse);
@@ -23,8 +26,8 @@ export class StepService {
         });
     }
 
-    update(step: Step): Observable<Step> {
-        const copy = this.convert(step);
+    update(step: Step, place: Place): Observable<Step> {
+        const copy = this.convert(step, place);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
             this.convertItemFromServer(jsonResponse);
@@ -71,12 +74,14 @@ export class StepService {
             .convertLocalDateFromServer(entity.dateTo);
     }
 
-    private convert(step: Step): Step {
-        const copy: Step = Object.assign({}, step);
-        copy.dateFrom = this.dateUtils
-            .convertLocalDateToServer(step.dateFrom);
-        copy.dateTo = this.dateUtils
-            .convertLocalDateToServer(step.dateTo);
-        return copy;
+    private convert(step: Step, place: Place): any {
+        const stepCopy: Step = Object.assign({}, step);
+        const placeCopy: Place = Object.assign({}, place);
+        stepCopy.dateFrom = moment(step.dateFrom).format('YYYY-MM-DD');
+        stepCopy.dateTo = moment(step.dateTo).format('YYYY-MM-DD');
+        return {
+            stepDTO: stepCopy,
+            placeDTO: placeCopy,
+        };
     }
 }

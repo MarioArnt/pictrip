@@ -9,8 +9,7 @@ import org.springframework.data.jpa.repository.*;
 /**
  * Spring Data JPA repository for the Step entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface StepRepository extends JpaRepository<Step,Long> {
-    
+    Integer countByTripId(Long tripId);
 }

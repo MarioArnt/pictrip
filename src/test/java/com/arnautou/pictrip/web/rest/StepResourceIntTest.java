@@ -6,8 +6,11 @@ import com.arnautou.pictrip.domain.Step;
 import com.arnautou.pictrip.domain.Place;
 import com.arnautou.pictrip.domain.Trip;
 import com.arnautou.pictrip.repository.StepRepository;
+import com.arnautou.pictrip.service.PlaceService;
 import com.arnautou.pictrip.service.StepService;
 import com.arnautou.pictrip.repository.search.StepSearchRepository;
+import com.arnautou.pictrip.service.TripService;
+import com.arnautou.pictrip.service.UserService;
 import com.arnautou.pictrip.service.dto.StepDTO;
 import com.arnautou.pictrip.service.mapper.StepMapper;
 import com.arnautou.pictrip.web.rest.errors.ExceptionTranslator;
@@ -67,6 +70,15 @@ public class StepResourceIntTest {
     private StepService stepService;
 
     @Autowired
+    private TripService tripService;
+
+    @Autowired
+    private PlaceService placeService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
     private StepSearchRepository stepSearchRepository;
 
     @Autowired
@@ -88,7 +100,7 @@ public class StepResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        StepResource stepResource = new StepResource(stepService);
+        StepResource stepResource = new StepResource(stepService, tripService, userService, placeService);
         this.restStepMockMvc = MockMvcBuilders.standaloneSetup(stepResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

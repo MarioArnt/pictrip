@@ -55,6 +55,11 @@ public class StepServiceImpl implements StepService{
         return result;
     }
 
+    @Override
+    public Integer countStepsByTripId(Long tripId) {
+        return stepRepository.countByTripId(tripId);
+    }
+
     /**
      *  Get all the steps.
      *

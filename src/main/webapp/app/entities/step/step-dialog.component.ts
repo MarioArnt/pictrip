@@ -25,11 +25,10 @@ import {} from '@types/googlemaps';
 export class StepDialogComponent implements OnInit {
 
     step: Step;
+    place: Place;
     authorities: any[];
     isSaving: boolean;
     routeSub: any;
-    lat: number;
-    lng: number;
     zoom: number;
     addressResolved: boolean;
     stepNumber: number;
@@ -40,17 +39,21 @@ export class StepDialogComponent implements OnInit {
     constructor(
         private alertService: JhiAlertService,
         private stepService: StepService,
+        private placeService: PlaceService,
         private route: ActivatedRoute,
         private eventManager: JhiEventManager,
         private mapsAPILoader: MapsAPILoader,
         private ngZone: NgZone,
     ) {
-        this.lat = 43.604652;
-        this.lng = 1.444209;
+        this.place = new Place();
+        this.place.lat = 43.604652;
+        this.place.lon = 1.444209;
         this.zoom = 2;
         this.stepNumber = 1;
         this.step = new Step();
+
         this.routeSub = this.route.params.subscribe((params) => {
+            this.step.tripId = params['tripId'];
             const id = params['id'];
             if (id) {
                 this.stepService.find(id).subscribe((step) => {
@@ -69,6 +72,9 @@ export class StepDialogComponent implements OnInit {
                         };
                     }
                     this.step = step;
+                });
+                this.placeService.find(id).subscribe((place) => {
+                    this.place = place;
                 });
             }
         })
@@ -95,10 +101,10 @@ export class StepDialogComponent implements OnInit {
                         return;
                     }
                     console.log('Place correct');
-                    console.log(this.lat, this.lng);
+                    console.log(this.place.lat, this.place.lon);
                     // set latitude, longitude and zoom
-                    this.lat = place.geometry.location.lat();
-                    this.lng = place.geometry.location.lng();
+                    this.place.lat = place.geometry.location.lat();
+                    this.place.lon = place.geometry.location.lng();
                     this.zoom = 12;
                     this.addressResolved = true;
                 });
@@ -113,11 +119,15 @@ export class StepDialogComponent implements OnInit {
         this.isSaving = true;
         if (this.step.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.stepService.update(this.step));
+                this.stepService.update(this.step, this.place));
         } else {
             this.subscribeToSaveResponse(
-                this.stepService.create(this.step));
+                this.stepService.create(this.step, this.place));
         }
+    }
+
+    placeChanged() {
+        this.addressResolved = false;
     }
 
     private subscribeToSaveResponse(result: Observable<Step>) {

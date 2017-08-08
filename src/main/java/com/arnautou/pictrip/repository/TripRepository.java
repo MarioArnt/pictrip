@@ -26,4 +26,6 @@ public interface TripRepository extends JpaRepository<Trip,Long> {
     @Query("select trip from Trip trip left join fetch trip.members where trip.id =:id")
     Trip findOneWithEagerRelationships(@Param("id") Long id);
 
+    Trip findOne(Long id);
+
 }

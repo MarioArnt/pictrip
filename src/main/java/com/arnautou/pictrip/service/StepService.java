@@ -38,11 +38,13 @@ public interface StepService {
      */
     void delete(Long id);
 
+    Integer countStepsByTripId(Long tripId);
+
     /**
      * Search for the step corresponding to the query.
      *
      *  @param query the query of the search
-     *  
+     *
      *  @return the list of entities
      */
     List<StepDTO> search(String query);

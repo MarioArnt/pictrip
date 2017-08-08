@@ -100,6 +100,13 @@ public class TripServiceImpl implements TripService{
         Trip trip = tripRepository.findOneWithEagerRelationships(id);
         return tripMapper.toDto(trip);
     }
+    @Override
+    @Transactional(readOnly = true)
+    public Trip findTripById(Long id) {
+        log.debug("Request to get Trip : {}", id);
+        return tripRepository.findOne(id);
+    }
+
 
     /**
      *  Delete the  trip by id.

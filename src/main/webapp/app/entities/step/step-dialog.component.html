@@ -1,5 +1,5 @@
-<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-    <agm-marker *ngIf="addressResolved" [latitude]="lat" [longitude]="lng" [label]="stepNumber.toString()"></agm-marker>
+<agm-map [latitude]="place.lat" [longitude]="place.lon" [zoom]="zoom">
+    <agm-marker *ngIf="addressResolved" [latitude]="place.lat" [longitude]="place.lon" [label]="stepNumber.toString()"></agm-marker>
 </agm-map>
 <form class="main-content" name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
 
@@ -35,7 +35,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <md-input-container>
-                    <input #placeAutocomplete id="field_place" name="place" [(ngModel)]="step.placeId" mdInput placeholder="Place"/>
+                    <input #placeAutocomplete id="field_place" name="place" [(ngModel)]="place.name" (ngModelChange)="placeChanged()" mdInput placeholder="Place"/>
                 </md-input-container>
             </div>
         </div>
@@ -108,7 +108,7 @@
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
             <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>
-        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+        <button type="submit" [disabled]="!addressResolved || isSaving" class="btn btn-primary">
             <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
         </button>
 </form>

@@ -1,5 +1,6 @@
 package com.arnautou.pictrip.service;
 
+import com.arnautou.pictrip.domain.Trip;
 import com.arnautou.pictrip.service.dto.TripDTO;
 import java.util.List;
 
@@ -30,6 +31,8 @@ public interface TripService {
      *  @return the entity
      */
     TripDTO findOne(Long id);
+
+    Trip findTripById(Long id);
 
     /**
      *  Delete the "id" trip.

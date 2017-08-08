@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -79,6 +80,11 @@ public class TripResource {
     @Timed
     public ResponseEntity<TripDTO> updateTrip(@Valid @RequestBody TripDTO tripDTO) throws URISyntaxException {
         log.debug("REST request to update Trip : {}", tripDTO);
+        if(!tripDTO.getOwnerId().equals(userService.getCurrentLoggedUserId())) {
+            return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(null);
+        }
         if (tripDTO.getId() == null) {
             return createTrip(tripDTO);
         }
