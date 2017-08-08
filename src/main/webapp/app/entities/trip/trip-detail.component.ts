@@ -8,13 +8,19 @@ import { TripService } from './trip.service';
 
 @Component({
     selector: 'jhi-trip-detail',
-    templateUrl: './trip-detail.component.html'
+    templateUrl: './trip-detail.component.html',
+    styleUrls: [
+        'trip.scss'
+    ]
 })
 export class TripDetailComponent implements OnInit, OnDestroy {
 
     trip: Trip;
     private subscription: Subscription;
     private eventSubscriber: Subscription;
+    lat = 43.604652;
+    lng = 1.444209;
+    zoom = 2;
 
     constructor(
         private eventManager: JhiEventManager,

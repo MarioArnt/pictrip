@@ -16,6 +16,10 @@ body, h1, h2, h3, h4 {
     font-weight: 300;
 }
 
+html {
+    overflow-x: hidden;
+}
+
 a,
 a:hover{
     text-decoration: none;

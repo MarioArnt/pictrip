@@ -1,17 +1,17 @@
-<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+    <agm-marker *ngIf="addressResolved" [latitude]="lat" [longitude]="lng" [label]="stepNumber.toString()"></agm-marker>
+</agm-map>
+<form class="main-content" name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
 
-    <div class="modal-header">
         <h4 class="modal-title" id="myStepLabel" jhiTranslate="pictripApp.step.home.createOrEditLabel">Create or edit a Step</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                (click)="clear()">&times;</button>
-    </div>
-    <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!step.id">
+
+        <!-- <div class="form-group" [hidden]="!step.id">
             <label for="id" jhiTranslate="global.field.id">ID</label>
             <input type="text" class="form-control" id="id" name="id"
                    [(ngModel)]="step.id" readonly />
         </div>
+
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="pictripApp.step.number" for="field_number">Number</label>
             <input type="number" class="form-control" name="number" id="field_number"
@@ -30,13 +30,49 @@
                     This field should be a number.
                 </small>
             </div>
+        </div>-->
+
+        <div class="row">
+            <div class="col-sm-6">
+                <md-input-container>
+                    <input #placeAutocomplete id="field_place" name="place" [(ngModel)]="step.placeId" mdInput placeholder="Place"/>
+                </md-input-container>
+            </div>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="pictripApp.step.description" for="field_description">Description</label>
-            <input type="text" class="form-control" name="description" id="field_description"
-                [(ngModel)]="step.description"  />
+        <div [hidden]="!(editForm.controls.place?.dirty && editForm.controls.place?.invalid)">
+            <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.place?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
         </div>
-        <div class="form-group">
+
+        <div class="row">
+            <md-input-container class="col-md-12">
+                    <textarea mdInput mdTextareaAutosize name="description" id="field_description"
+                              [(ngModel)]="step.description" placeholder="Description"></textarea>
+                <md-hint align="end">{{!step.description ? 0 : step.description.length}} / 255</md-hint>
+            </md-input-container>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <md-input-container>
+                    <input id="field_dateFrom" mdInput name="dateFrom" type="text" [(ngModel)]="step.dateFrom" [mdDatepicker]="dateFromPicker" placeholder="Date from"/>
+                    <button mdSuffix [mdDatepickerToggle]="dateFromPicker"></button>
+                </md-input-container>
+                <md-datepicker touchUi="true" #dateFromPicker></md-datepicker>
+            </div>
+
+            <div class="col-sm-6">
+                <md-input-container>
+                    <input id="field_dateTo" mdInput name="dateTo" type="text" [(ngModel)]="step.dateTo" [mdDatepicker]="dateToPicker" placeholder="Date to"/>
+                    <button mdSuffix [mdDatepickerToggle]="dateToPicker"></button>
+                </md-input-container>
+                <md-datepicker touchUi="true" #dateToPicker></md-datepicker>
+            </div>
+        </div>
+
+        <!-- <div class="form-group">
             <label class="form-control-label" jhiTranslate="pictripApp.step.dateFrom" for="field_dateFrom">Date From</label>
             <div class="input-group">
                 <input id="field_dateFrom" type="text" class="form-control" name="dateFrom" ngbDatepicker  #dateFromDp="ngbDatepicker" [(ngModel)]="step.dateFrom"
@@ -55,21 +91,9 @@
                     <button type="button" class="btn btn-default" (click)="dateToDp.toggle()"><i class="fa fa-calendar"></i></button>
                 </span>
             </div>
-        </div>
+        </div>-->
 
-        <div class="form-group">
-            <label jhiTranslate="pictripApp.step.place" for="field_place">Place</label>
-            <select class="form-control" id="field_place" name="place" [(ngModel)]="step.placeId" required>
-                <option [ngValue]="placeOption.id" *ngFor="let placeOption of places; trackBy: trackPlaceById">{{placeOption.name}}</option>
-            </select>
-        </div>
-        <div [hidden]="!(editForm.controls.place?.dirty && editForm.controls.place?.invalid)">
-            <small class="form-text text-danger"
-                [hidden]="!editForm.controls.place?.errors?.required" jhiTranslate="entity.validation.required">
-                This field is required.
-            </small>
-        </div>
-        <div class="form-group">
+        <!--<div class="form-group">
             <label jhiTranslate="pictripApp.step.trip" for="field_trip">Trip</label>
             <select class="form-control" id="field_trip" name="trip" [(ngModel)]="step.tripId"  required>
                 <option [ngValue]="tripOption.id" *ngFor="let tripOption of trips; trackBy: trackTripById">{{tripOption.name}}</option>
@@ -80,14 +104,11 @@
                 [hidden]="!editForm.controls.trip?.errors?.required" jhiTranslate="entity.validation.required">
                 This field is required.
             </small>
-        </div>
-    </div>
-    <div class="modal-footer">
+        </div>-->
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
             <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>
         <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
             <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
         </button>
-    </div>
 </form>

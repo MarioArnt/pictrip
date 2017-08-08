@@ -8,6 +8,7 @@ import { StepComponent } from './step.component';
 import { StepDetailComponent } from './step-detail.component';
 import { StepPopupComponent } from './step-dialog.component';
 import { StepDeletePopupComponent } from './step-delete-dialog.component';
+import { StepDialogComponent } from './step-dialog.component';
 
 import { Principal } from '../../shared';
 
@@ -28,7 +29,25 @@ export const stepRoute: Routes = [
             pageTitle: 'pictripApp.step.home.title'
         },
         canActivate: [UserRouteAccessService]
-    }
+    },
+    {
+        path: 'trip/:tripId/step-new',
+        component: StepDialogComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'pictripApp.step.home.title'
+        },
+        canActivate: [UserRouteAccessService],
+    },
+    {
+        path: 'step/:id/edit',
+        component: StepDialogComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'pictripApp.step.home.title'
+        },
+        canActivate: [UserRouteAccessService],
+    },
 ];
 
 export const stepPopupRoute: Routes = [

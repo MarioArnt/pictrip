@@ -10,6 +10,7 @@ import {
     MdButtonModule,
     MdCardModule,
     MdTooltipModule,
+    MdSidenavModule,
     MdInputModule,
     MdIconModule,
     MdNativeDateModule,
@@ -20,6 +21,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgJhipsterModule } from 'ng-jhipster';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CookieModule } from 'ngx-cookie';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
     exports: [
@@ -29,6 +31,7 @@ import { CookieModule } from 'ngx-cookie';
         MdTooltipModule,
         MdInputModule,
         MdNativeDateModule,
+        MdSidenavModule,
         MdIconModule,
         MdDatepickerModule,
         MdCardModule,
@@ -46,6 +49,10 @@ export class MaterialDesignModule {}
             i18nEnabled: true,
             defaultI18nLang: 'en'
         }),
+        AgmCoreModule.forRoot({
+            apiKey: 'AIzaSyD3P5eSwSKPg79q1gDRofEtv4aQYDvqcT0',
+            libraries: ['places']
+        }),
         InfiniteScrollModule,
         CookieModule.forRoot(),
         MaterialDesignModule,
@@ -57,6 +64,7 @@ export class MaterialDesignModule {}
         HttpModule,
         CommonModule,
         NgbModule,
+        AgmCoreModule,
         NgJhipsterModule,
         InfiniteScrollModule,
         MaterialDesignModule,

@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
-import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Step } from './step.model';
@@ -12,55 +11,102 @@ import { StepService } from './step.service';
 import { Place, PlaceService } from '../place';
 import { Trip, TripService } from '../trip';
 import { ResponseWrapper } from '../../shared';
+import { ElementRef, NgZone, ViewChild } from '@angular/core';
+import { MapsAPILoader } from '@agm/core';
+import {} from '@types/googlemaps';
 
 @Component({
     selector: 'jhi-step-dialog',
-    templateUrl: './step-dialog.component.html'
+    templateUrl: './step-dialog.component.html',
+    styleUrls: [
+        'step.scss'
+    ]
 })
 export class StepDialogComponent implements OnInit {
 
     step: Step;
     authorities: any[];
     isSaving: boolean;
+    routeSub: any;
+    lat: number;
+    lng: number;
+    zoom: number;
+    addressResolved: boolean;
+    stepNumber: number;
 
-    places: Place[];
-
-    trips: Trip[];
-    dateFromDp: any;
-    dateToDp: any;
+    @ViewChild('placeAutocomplete')
+    public placeAutocompleteElementRef: ElementRef;
 
     constructor(
-        public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private stepService: StepService,
-        private placeService: PlaceService,
-        private tripService: TripService,
-        private eventManager: JhiEventManager
+        private route: ActivatedRoute,
+        private eventManager: JhiEventManager,
+        private mapsAPILoader: MapsAPILoader,
+        private ngZone: NgZone,
     ) {
+        this.lat = 43.604652;
+        this.lng = 1.444209;
+        this.zoom = 2;
+        this.stepNumber = 1;
+        this.step = new Step();
+        this.routeSub = this.route.params.subscribe((params) => {
+            const id = params['id'];
+            if (id) {
+                this.stepService.find(id).subscribe((step) => {
+                    if (step.dateFrom) {
+                        step.dateFrom = {
+                            year: step.dateFrom.getFullYear(),
+                            month: step.dateFrom.getMonth() + 1,
+                            day: step.dateFrom.getDate()
+                        };
+                    }
+                    if (step.dateTo) {
+                        step.dateTo = {
+                            year: step.dateTo.getFullYear(),
+                            month: step.dateTo.getMonth() + 1,
+                            day: step.dateTo.getDate()
+                        };
+                    }
+                    this.step = step;
+                });
+            }
+        })
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.placeService
-            .query({filter: 'step-is-null'})
-            .subscribe((res: ResponseWrapper) => {
-                if (!this.step.placeId) {
-                    this.places = res.json;
-                } else {
-                    this.placeService
-                        .find(this.step.placeId)
-                        .subscribe((subRes: Place) => {
-                            this.places = [subRes].concat(res.json);
-                        }, (subRes: ResponseWrapper) => this.onError(subRes.json));
-                }
-            }, (res: ResponseWrapper) => this.onError(res.json));
-        this.tripService.query()
-            .subscribe((res: ResponseWrapper) => { this.trips = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+
+        // load Places Autocomplete
+        this.mapsAPILoader.load().then(() => {
+            const autocomplete = new google.maps.places.Autocomplete(this.placeAutocompleteElementRef.nativeElement, {
+                types: []
+            });
+            autocomplete.addListener('place_changed', () => {
+                console.log('Place changed');
+                this.addressResolved = false;
+                this.ngZone.run(() => {
+                    // get the place result
+                    const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+                    // verify result
+                    if (place.geometry === undefined || place.geometry === null) {
+                        return;
+                    }
+                    console.log('Place correct');
+                    console.log(this.lat, this.lng);
+                    // set latitude, longitude and zoom
+                    this.lat = place.geometry.location.lat();
+                    this.lng = place.geometry.location.lng();
+                    this.zoom = 12;
+                    this.addressResolved = true;
+                });
+            });
+        });
     }
 
     clear() {
-        this.activeModal.dismiss('cancel');
     }
 
     save() {
@@ -82,7 +128,6 @@ export class StepDialogComponent implements OnInit {
     private onSaveSuccess(result: Step) {
         this.eventManager.broadcast({ name: 'stepListModification', content: 'OK'});
         this.isSaving = false;
-        this.activeModal.dismiss(result);
     }
 
     private onSaveError(error) {
@@ -98,14 +143,6 @@ export class StepDialogComponent implements OnInit {
     private onError(error) {
         this.alertService.error(error.message, null, null);
     }
-
-    trackPlaceById(index: number, item: Place) {
-        return item.id;
-    }
-
-    trackTripById(index: number, item: Trip) {
-        return item.id;
-    }
 }
 
 @Component({
@@ -113,28 +150,14 @@ export class StepDialogComponent implements OnInit {
     template: ''
 })
 export class StepPopupComponent implements OnInit, OnDestroy {
-
-    modalRef: NgbModalRef;
-    routeSub: any;
-
     constructor(
-        private route: ActivatedRoute,
         private stepPopupService: StepPopupService
     ) {}
 
     ngOnInit() {
-        this.routeSub = this.route.params.subscribe((params) => {
-            if ( params['id'] ) {
-                this.modalRef = this.stepPopupService
-                    .open(StepDialogComponent, params['id']);
-            } else {
-                this.modalRef = this.stepPopupService
-                    .open(StepDialogComponent);
-            }
-        });
+        /*;*/
     }
 
     ngOnDestroy() {
-        this.routeSub.unsubscribe();
     }
 }

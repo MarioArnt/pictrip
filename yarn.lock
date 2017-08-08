@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@agm/core@^1.0.0-beta.0":
+  version "1.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@agm/core/-/core-1.0.0-beta.0.tgz#5ca53f0efa321e1e24c7ba3a6be72f96bccf82a4"
+
 "@angular/animations@^4.2.6":
   version "4.2.6"
   resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-4.2.6.tgz#9d9c80a119b0c03693cbd23bbaf728b1531fffc7"
@@ -172,6 +176,10 @@
 "@ngx-translate/http-loader@0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@ngx-translate/http-loader/-/http-loader-0.1.0.tgz#6029325561d7868fe325a419de2770e98ff1502e"
+
+"@types/googlemaps@^3.26.17":
+  version "3.26.17"
+  resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.26.17.tgz#539921ff45999367c51202436bf11ac995662ef5"
 
 "@types/jasmine@2.5.53":
   version "2.5.53"

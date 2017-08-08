@@ -1,61 +1,88 @@
-
-<div *ngIf="trip">
-    <h2><span jhiTranslate="pictripApp.trip.detail.title">Trip</span> {{trip.id}}</h2>
-    <hr>
-    <jhi-alert-error></jhi-alert-error>
-    <dl class="row-md jh-entity-details">
-        <dt><span jhiTranslate="pictripApp.trip.name">Name</span></dt>
-        <dd>
-            <span>{{trip.name}}</span>
-        </dd>
-        <dt><span jhiTranslate="pictripApp.trip.description">Description</span></dt>
-        <dd>
-            <span>{{trip.description}}</span>
-        </dd>
-        <dt><span jhiTranslate="pictripApp.trip.dateFrom">Date From</span></dt>
-        <dd>
-            <span>{{trip.dateFrom | date:'mediumDate'}}</span>
-        </dd>
-        <dt><span jhiTranslate="pictripApp.trip.dateTo">Date To</span></dt>
-        <dd>
-            <span>{{trip.dateTo | date:'mediumDate'}}</span>
-        </dd>
-        <dt><span jhiTranslate="pictripApp.trip.privacy">Privacy</span></dt>
-        <dd>
-            <span jhiTranslate="{{'pictripApp.Privacy.' + trip.privacy}}">{{trip.privacy}}</span>
-        </dd>
-        <dt><span jhiTranslate="pictripApp.trip.color">Color</span></dt>
-        <dd>
-            <span jhiTranslate="{{'pictripApp.Color.' + trip.color}}">{{trip.color}}</span>
-        </dd>
-        <dt><span jhiTranslate="pictripApp.trip.cover">Cover</span></dt>
-        <dd>
-            <div *ngIf="trip.coverId">
-                <a [routerLink]="['/picture', trip.coverId]">{{trip.coverSrc}}</a>
-            </div>
-        </dd>
-        <dt><span jhiTranslate="pictripApp.trip.members">Members</span></dt>
-        <dd>
-            <span *ngFor="let members of trip.members; let last = last">
-                {{members.login}}{{last ? '' : ', '}}
-            </span>
-        </dd>
-        <dt><span jhiTranslate="pictripApp.trip.owner">Owner</span></dt>
-        <dd>
-            {{trip.ownerLogin}}
-        </dd>
-    </dl>
-
-    <button type="submit"
-            (click)="previousState()"
-            class="btn btn-info">
-        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
-    </button>
-
-    <button type="button"
-            [routerLink]="['/', { outlets: { popup: 'trip/'+ trip.id + '/edit'} }]"
-            replaceUrl="true"
-            class="btn btn-primary">
-        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
-    </button>
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large red accent-3" mdTooltip="Create new Step" mdTooltipPosition="above" [routerLink]="['./step-new']">
+        <i class="fa fa-plus"></i>
+    </a>
 </div>
+<md-sidenav-container>
+    <md-sidenav #sidenav mode="side" opened="true">
+        <p>Equitis Romani autem esse filium criminis loco poni ab accusatoribus neque his iudicantibus oportuit neque defendentibus nobis. Nam quod de pietate dixistis, est quidem ista nostra existimatio, sed iudicium certe parentis; quid nos opinemur, audietis ex iuratis; quid parentes sentiant, lacrimae matris incredibilisque maeror, squalor patris et haec praesens maestitia, quam cernitis, luctusque declarat.
+            Iis igitur est difficilius satis facere, qui se Latina scripta dicunt contemnere. in quibus hoc primum est in quo admirer, cur in gravissimis rebus non delectet eos sermo patrius, cum idem fabellas Latinas ad verbum e Graecis expressas non inviti legant. quis enim tam inimicus paene nomini Romano est, qui Ennii Medeam aut Antiopam Pacuvii spernat aut reiciat, quod se isdem Euripidis fabulis delectari dicat, Latinas litteras oderit?
+            Proinde die funestis interrogationibus praestituto imaginarius iudex equitum resedit magister adhibitis aliis iam quae essent agenda praedoctis, et adsistebant hinc inde notarii, quid quaesitum esset, quidve responsum, cursim ad Caesarem perferentes, cuius imperio truci, stimulis reginae exsertantis aurem subinde per aulaeum, nec diluere obiecta permissi nec defensi periere conplures.
+            Ut enim quisque sibi plurimum confidit et ut quisque maxime virtute et sapientia sic munitus est, ut nullo egeat suaque omnia in se ipso posita iudicet, ita in amicitiis expetendis colendisque maxime excellit. Quid enim? Africanus indigens mei? Minime hercule! ac ne ego quidem illius; sed ego admiratione quadam virtutis eius, ille vicissim opinione fortasse non nulla, quam de meis moribus habebat, me dilexit; auxit benevolentiam consuetudo. Sed quamquam utilitates multae et magnae consecutae sunt, non sunt tamen ab earum spe causae diligendi profectae.
+            Utque aegrum corpus quassari etiam levibus solet offensis, ita animus eius angustus et tener, quicquid increpuisset, ad salutis suae dispendium existimans factum aut cogitatum, insontium caedibus fecit victoriam luctuosam.
+            Iam in altera philosophiae parte. quae est quaerendi ac disserendi, quae logikh dicitur, iste vester plane, ut mihi quidem videtur, inermis ac nudus est. tollit definitiones, nihil de dividendo ac partiendo docet, non quo modo efficiatur concludaturque ratio tradit, non qua via captiosa solvantur ambigua distinguantur ostendit; iudicia rerum in sensibus ponit, quibus si semel aliquid falsi pro vero probatum sit, sublatum esse omne iudicium veri et falsi putat.
+            Superatis Tauri montis verticibus qui ad solis ortum sublimius attolluntur, Cilicia spatiis porrigitur late distentis dives bonis omnibus terra, eiusque lateri dextro adnexa Isauria, pari sorte uberi palmite viget et frugibus minutis, quam mediam navigabile flumen Calycadnus interscindit.
+            Haec igitur prima lex amicitiae sanciatur, ut ab amicis honesta petamus, amicorum causa honesta faciamus, ne exspectemus quidem, dum rogemur; studium semper adsit, cunctatio absit; consilium vero dare audeamus libere. Plurimum in amicitia amicorum bene suadentium valeat auctoritas, eaque et adhibeatur ad monendum non modo aperte sed etiam acriter, si res postulabit, et adhibitae pareatur.
+            His cognitis Gallus ut serpens adpetitus telo vel saxo iamque spes extremas opperiens et succurrens saluti suae quavis ratione colligi omnes iussit armatos et cum starent attoniti, districta dentium acie stridens adeste inquit viri fortes mihi periclitanti vobiscum.
+            Post haec indumentum regale quaerebatur et ministris fucandae purpurae tortis confessisque pectoralem tuniculam sine manicis textam, Maras nomine quidam inductus est ut appellant Christiani diaconus, cuius prolatae litterae scriptae Graeco sermone ad Tyrii textrini praepositum celerari speciem perurgebant quam autem non indicabant denique etiam idem ad usque discrimen vitae vexatus nihil fateri conpulsus est.
+            Omitto iuris dictionem in libera civitate contra leges senatusque consulta; caedes relinquo; libidines praetereo, quarum acerbissimum extat indicium et ad insignem memoriam turpitudinis et paene ad iustum odium imperii nostri, quod constat nobilissimas virgines se in puteos abiecisse et morte voluntaria necessariam turpitudinem depulisse. Nec haec idcirco omitto, quod non gravissima sint, sed quia nunc sine teste dico.
+            Quid enim tam absurdum quam delectari multis inanimis rebus, ut honore, ut gloria, ut aedificio, ut vestitu cultuque corporis, animante virtute praedito, eo qui vel amare vel, ut ita dicam, redamare possit, non admodum delectari? Nihil est enim remuneratione benevolentiae, nihil vicissitudine studiorum officiorumque iucundius.
+            Et est admodum mirum videre plebem innumeram mentibus ardore quodam infuso cum dimicationum curulium eventu pendentem. haec similiaque memorabile nihil vel serium agi Romae permittunt. ergo redeundum ad textum.
+            Cyprum itidem insulam procul a continenti discretam et portuosam inter municipia crebra urbes duae faciunt claram Salamis et Paphus, altera Iovis delubris altera Veneris templo insignis. tanta autem tamque multiplici fertilitate abundat rerum omnium eadem Cyprus ut nullius externi indigens adminiculi indigenis viribus a fundamento ipso carinae ad supremos usque carbasos aedificet onerariam navem omnibusque armamentis instructam mari committat.
+            Nunc vero inanes flatus quorundam vile esse quicquid extra urbis pomerium nascitur aestimant praeter orbos et caelibes, nec credi potest qua obsequiorum diversitate coluntur homines sine liberis Romae.
+        </p>
+    </md-sidenav>
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+    </agm-map>
+</md-sidenav-container>
+
+
+
+<!--- <h2><span jhiTranslate="pictripApp.trip.detail.title">Trip</span> {{trip.id}}</h2>
+<hr>
+<jhi-alert-error></jhi-alert-error>
+<dl class="row-md jh-entity-details">
+    <dt><span jhiTranslate="pictripApp.trip.name">Name</span></dt>
+    <dd>
+        <span>{{trip.name}}</span>
+    </dd>
+    <dt><span jhiTranslate="pictripApp.trip.description">Description</span></dt>
+    <dd>
+        <span>{{trip.description}}</span>
+    </dd>
+    <dt><span jhiTranslate="pictripApp.trip.dateFrom">Date From</span></dt>
+    <dd>
+        <span>{{trip.dateFrom | date:'mediumDate'}}</span>
+    </dd>
+    <dt><span jhiTranslate="pictripApp.trip.dateTo">Date To</span></dt>
+    <dd>
+        <span>{{trip.dateTo | date:'mediumDate'}}</span>
+    </dd>
+    <dt><span jhiTranslate="pictripApp.trip.privacy">Privacy</span></dt>
+    <dd>
+        <span jhiTranslate="{{'pictripApp.Privacy.' + trip.privacy}}">{{trip.privacy}}</span>
+    </dd>
+    <dt><span jhiTranslate="pictripApp.trip.color">Color</span></dt>
+    <dd>
+        <span jhiTranslate="{{'pictripApp.Color.' + trip.color}}">{{trip.color}}</span>
+    </dd>
+    <dt><span jhiTranslate="pictripApp.trip.cover">Cover</span></dt>
+    <dd>
+        <div *ngIf="trip.coverId">
+            <a [routerLink]="['/picture', trip.coverId]">{{trip.coverSrc}}</a>
+        </div>
+    </dd>
+    <dt><span jhiTranslate="pictripApp.trip.members">Members</span></dt>
+    <dd>
+        <span *ngFor="let members of trip.members; let last = last">
+            {{members.login}}{{last ? '' : ', '}}
+        </span>
+    </dd>
+    <dt><span jhiTranslate="pictripApp.trip.owner">Owner</span></dt>
+    <dd>
+        {{trip.ownerLogin}}
+    </dd>
+</dl>
+
+<button type="submit"
+        (click)="previousState()"
+        class="btn btn-info">
+    <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+</button>
+
+<button type="button"
+        [routerLink]="['/', { outlets: { popup: 'trip/'+ trip.id + '/edit'} }]"
+        replaceUrl="true"
+        class="btn btn-primary">
+    <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+</button>-->

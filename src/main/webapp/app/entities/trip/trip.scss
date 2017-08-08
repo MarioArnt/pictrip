@@ -96,4 +96,18 @@
     }
 }
 
+agm-map {
+    padding-top: 3px;
+    height: calc(100vh - 67px);
+}
 
+md-sidenav-container {
+    background-color: transparent;
+}
+
+md-sidenav.mat-sidenav-opened {
+    background-color: transparent;
+    min-width: 100px !important;
+    width: 85vw !important;
+    max-width: 175px !important;
+}
