@@ -43,6 +43,11 @@ export class StepService {
         });
     }
 
+    findByTripId(tripId: number): Observable<ResponseWrapper> {
+        return this.http.get(`api/trip/${tripId}/steps`)
+            .map((res: Response) => this.convertResponse(res));
+    }
+
     query(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
@@ -68,10 +73,8 @@ export class StepService {
     }
 
     private convertItemFromServer(entity: any) {
-        entity.dateFrom = this.dateUtils
-            .convertLocalDateFromServer(entity.dateFrom);
-        entity.dateTo = this.dateUtils
-            .convertLocalDateFromServer(entity.dateTo);
+        entity.dateFrom = moment(entity.dateFrom);
+        entity.dateTo = moment(entity.dateTo);
     }
 
     private convert(step: Step, place: Place): any {

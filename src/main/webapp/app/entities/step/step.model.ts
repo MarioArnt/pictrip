@@ -8,6 +8,8 @@ export class Step implements BaseEntity {
         public dateFrom?: any,
         public dateTo?: any,
         public placeId?: number,
+        public placeLat?: number,
+        public placeLng?: number,
         public pictures?: BaseEntity[],
         public tripId?: number,
     ) {

@@ -1,6 +1,9 @@
 package com.arnautou.pictrip.service.dto;
 
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
@@ -11,6 +14,7 @@ import java.util.Objects;
 /**
  * A DTO for the Step entity.
  */
+
 public class StepDTO implements Serializable {
 
     private Long id;
@@ -28,6 +32,10 @@ public class StepDTO implements Serializable {
     private Long placeId;
 
     private String placeName;
+
+    private Double placeLat;
+
+    private Double placeLng;
 
     private Long tripId;
 
@@ -87,6 +95,22 @@ public class StepDTO implements Serializable {
 
     public void setPlaceName(String placeName) {
         this.placeName = placeName;
+    }
+
+    public Double getPlaceLat() {
+        return placeLat;
+    }
+
+    public void setPlaceLat(Double placeLat) {
+        this.placeLat = placeLat;
+    }
+
+    public Double getPlaceLng() {
+        return placeLng;
+    }
+
+    public void setPlaceLng(Double placeLng) {
+        this.placeLng = placeLng;
     }
 
     public Long getTripId() {

@@ -150,6 +150,18 @@ public class StepResource {
     }
 
     /**
+     * GET  trip/:id/steps : get all the steps of a given trip.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of steps in body
+     */
+    @GetMapping("/trip/{id}/steps")
+    @Timed
+    public List<StepDTO> getTripSteps(@PathVariable Long id) {
+        log.debug("REST request to get Steps of trip : {}", id);
+        return stepService.findByTripId(id);
+    }
+
+    /**
      * GET  /steps/:id : get the "id" step.
      *
      * @param id the id of the stepDTO to retrieve

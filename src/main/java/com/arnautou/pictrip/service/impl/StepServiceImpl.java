@@ -75,6 +75,21 @@ public class StepServiceImpl implements StepService{
     }
 
     /**
+     *  Get all the steps of a given trip.
+     *  @param tripId : the ID of the trip
+     *  @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<StepDTO> findByTripId(Long tripId) {
+        log.debug("Request to get all Steps of a given trip");
+        return stepRepository.findByTripId(tripId).stream()
+            .map(stepMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+
+    /**
      *  Get one step by id.
      *
      *  @param id the id of the entity

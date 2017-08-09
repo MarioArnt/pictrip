@@ -24,6 +24,13 @@ public interface StepService {
     List<StepDTO> findAll();
 
     /**
+     *  Get all the steps of a given trip.
+     *
+     *  @return the list of entities
+     */
+    List<StepDTO> findByTripId(Long tripId);
+
+    /**
      *  Get the "id" step.
      *
      *  @param id the id of the entity
