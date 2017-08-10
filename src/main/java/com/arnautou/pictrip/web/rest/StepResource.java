@@ -185,7 +185,14 @@ public class StepResource {
     @Timed
     public ResponseEntity<Void> deleteStep(@PathVariable Long id) {
         log.debug("REST request to delete Step : {}", id);
+        StepDTO stepToDelete = stepService.findOne(id);
+        Long tripId = stepToDelete.getTripId();
+        Integer stepNumber = stepToDelete.getNumber();
         stepService.delete(id);
+        stepService.findByTripId(tripId).stream().filter(step -> step.getNumber() > stepNumber).forEach(step -> {
+            step.setNumber(step.getNumber() - 1);
+            stepService.save(step);
+        });
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 

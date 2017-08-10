@@ -14,7 +14,7 @@ import { ResponseWrapper } from '../../shared';
 import { ElementRef, NgZone, ViewChild } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import {} from '@types/googlemaps';
-
+import { Router } from '@angular/router';
 @Component({
     selector: 'jhi-step-dialog',
     templateUrl: './step-dialog.component.html',
@@ -41,6 +41,7 @@ export class StepDialogComponent implements OnInit {
         private stepService: StepService,
         private placeService: PlaceService,
         private route: ActivatedRoute,
+        private router: Router,
         private eventManager: JhiEventManager,
         private mapsAPILoader: MapsAPILoader,
         private ngZone: NgZone,
@@ -57,24 +58,13 @@ export class StepDialogComponent implements OnInit {
             const id = params['id'];
             if (id) {
                 this.stepService.find(id).subscribe((step) => {
-                    if (step.dateFrom) {
-                        step.dateFrom = {
-                            year: step.dateFrom.getFullYear(),
-                            month: step.dateFrom.getMonth() + 1,
-                            day: step.dateFrom.getDate()
-                        };
-                    }
-                    if (step.dateTo) {
-                        step.dateTo = {
-                            year: step.dateTo.getFullYear(),
-                            month: step.dateTo.getMonth() + 1,
-                            day: step.dateTo.getDate()
-                        };
-                    }
                     this.step = step;
-                });
-                this.placeService.find(id).subscribe((place) => {
-                    this.place = place;
+                    this.place = new Place();
+                    this.place.name = this.step.placeName;
+                    this.place.lat = this.step.placeLat;
+                    this.place.lon = this.step.placeLng;
+                    this.zoom = 12;
+                    this.addressResolved = true;
                 });
             }
         })
@@ -100,11 +90,12 @@ export class StepDialogComponent implements OnInit {
                     if (place.geometry === undefined || place.geometry === null) {
                         return;
                     }
-                    console.log('Place correct');
+                    console.log('Place correct', place);
                     console.log(this.place.lat, this.place.lon);
                     // set latitude, longitude and zoom
                     this.place.lat = place.geometry.location.lat();
                     this.place.lon = place.geometry.location.lng();
+                    this.place.name = place.formatted_address;
                     this.zoom = 12;
                     this.addressResolved = true;
                 });
@@ -138,6 +129,7 @@ export class StepDialogComponent implements OnInit {
     private onSaveSuccess(result: Step) {
         this.eventManager.broadcast({ name: 'stepListModification', content: 'OK'});
         this.isSaving = false;
+        this.router.navigate(['/trip/' + this.step.tripId]);
     }
 
     private onSaveError(error) {

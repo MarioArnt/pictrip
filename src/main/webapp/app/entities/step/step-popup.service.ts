@@ -22,7 +22,7 @@ export class StepPopupService {
 
         if (id) {
             this.stepService.find(id).subscribe((step) => {
-                if (step.dateFrom) {
+                /*if (step.dateFrom) {
                     step.dateFrom = {
                         year: step.dateFrom.getFullYear(),
                         month: step.dateFrom.getMonth() + 1,
@@ -35,7 +35,7 @@ export class StepPopupService {
                         month: step.dateTo.getMonth() + 1,
                         day: step.dateTo.getDate()
                     };
-                }
+                }*/
                 this.stepModalRef(component, step);
             });
         } else {

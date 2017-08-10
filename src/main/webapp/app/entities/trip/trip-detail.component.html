@@ -1,6 +1,6 @@
-<div class="fixed-action-btn">
+<div class="fixed-action-btn add-step-btn">
     <a class="btn-floating btn-large red accent-3" mdTooltip="Create new Step" mdTooltipPosition="above" [routerLink]="['./step-new']">
-        <i class="fa fa-plus"></i>
+        <i class="fa fa-pencil"></i>
     </a>
 </div>
 <md-sidenav-container>
@@ -8,6 +8,20 @@
         <md-list>
             <h3 md-subheader>Steps</h3>
             <md-list-item *ngFor="let step of steps">
+                <button md-icon-button [mdMenuTriggerFor]="menu">
+                    <i class="fa fa-ellipsis-v more-actions-button font-black"></i>
+                </button>
+                <md-menu #menu="mdMenu" xPosition="before">
+                    <button md-menu-item [routerLink]="['../../step/' + step.id + '/edit']">
+                        <i class="fa fa-pencil"></i>
+                        <span>Edit</span>
+                    </button>
+                    <button md-menu-item [routerLink]="['/', { outlets: { popup: 'step/'+ step.id + '/delete'} }]"
+                            replaceUrl="true">
+                        <i class="fa fa-trash"></i>
+                        <span>Delete</span>
+                    </button>
+                </md-menu>
                 <h5 md-list-icon>{{step.number}}</h5>
                 <p md-line>{{step.placeName}}</p>
             </md-list-item>
@@ -22,7 +36,7 @@
     </md-sidenav>
     <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [fitBounds]="bounds">
         <agm-marker *ngFor="let step of steps" [latitude]="step.placeLat" [longitude]="step.placeLng" [label]="step.number.toString()"></agm-marker>
-    </agm-map>-->
+    </agm-map>
 </md-sidenav-container>
 
 

@@ -8,6 +8,11 @@
         <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="javascript:void(0);">Explore</a></li>
             <li>
+                <a routerLink="/trip" id="my-trips">
+                    <span>My trips</span>
+                </a>
+            </li>
+            <li>
                 <a (click)="logout()" id="logout">
                     <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i>
                     <span jhiTranslate="global.menu.account.logout">Sign out</span>

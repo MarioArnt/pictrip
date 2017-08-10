@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { JhiDateUtils } from 'ng-jhipster';
-import * as moment from 'moment';
+import { PictripDateUtils } from '../../utils/date.utils';
 
 import { Step } from './step.model';
 import { Place } from '../place/place.model';
@@ -15,7 +14,7 @@ export class StepService {
     private resourceUrl = 'api/steps';
     private resourceSearchUrl = 'api/_search/steps';
 
-    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
+    constructor(private http: Http, private dateUtils: PictripDateUtils) { }
 
     create(step: Step, place: Place): Observable<Step> {
         const copy = this.convert(step, place);
@@ -73,15 +72,15 @@ export class StepService {
     }
 
     private convertItemFromServer(entity: any) {
-        entity.dateFrom = moment(entity.dateFrom);
-        entity.dateTo = moment(entity.dateTo);
+        entity.dateFrom = this.dateUtils.formatLocalDateFromServer(entity.dateFrom);
+        entity.dateTo = this.dateUtils.formatLocalDateFromServer(entity.dateTo);
     }
 
     private convert(step: Step, place: Place): any {
         const stepCopy: Step = Object.assign({}, step);
         const placeCopy: Place = Object.assign({}, place);
-        stepCopy.dateFrom = moment(step.dateFrom).format('YYYY-MM-DD');
-        stepCopy.dateTo = moment(step.dateTo).format('YYYY-MM-DD');
+        stepCopy.dateFrom = this.dateUtils.formatLocalDateToServer(stepCopy.dateFrom);
+        stepCopy.dateTo = this.dateUtils.formatLocalDateToServer(stepCopy.dateTo);
         return {
             stepDTO: stepCopy,
             placeDTO: placeCopy,

@@ -52,26 +52,6 @@ export const stepRoute: Routes = [
 
 export const stepPopupRoute: Routes = [
     {
-        path: 'step-new',
-        component: StepPopupComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'pictripApp.step.home.title'
-        },
-        canActivate: [UserRouteAccessService],
-        outlet: 'popup'
-    },
-    {
-        path: 'step/:id/edit',
-        component: StepPopupComponent,
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'pictripApp.step.home.title'
-        },
-        canActivate: [UserRouteAccessService],
-        outlet: 'popup'
-    },
-    {
         path: 'step/:id/delete',
         component: StepDeletePopupComponent,
         data: {

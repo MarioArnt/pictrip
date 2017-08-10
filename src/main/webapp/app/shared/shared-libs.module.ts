@@ -23,6 +23,7 @@ import { NgJhipsterModule } from 'ng-jhipster';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CookieModule } from 'ngx-cookie';
 import { AgmCoreModule } from '@agm/core';
+import { PictripUtilsModule } from '../utils/utils.module'
 
 @NgModule({
     exports: [
@@ -59,6 +60,7 @@ export class MaterialDesignModule {}
         CookieModule.forRoot(),
         MaterialDesignModule,
         BrowserAnimationsModule,
+        PictripUtilsModule,
     ],
     exports: [
         FormsModule,
@@ -70,7 +72,8 @@ export class MaterialDesignModule {}
         NgJhipsterModule,
         InfiniteScrollModule,
         MaterialDesignModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        PictripUtilsModule,
     ]
 })
 export class PictripSharedLibsModule {}

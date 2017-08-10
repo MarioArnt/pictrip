@@ -35,6 +35,9 @@
     color: white;
     font-size: 16pt;
 }
+.more-actions-button.font-black {
+    color: black;
+}
 
 .fill {
     flex-grow: 1;
@@ -115,4 +118,8 @@ md-sidenav.mat-sidenav-opened {
     min-width: 200px !important;
     width: 85vw !important;
     max-width: 250px !important;
+}
+
+.add-step-btn {
+    right: 50px;
 }
