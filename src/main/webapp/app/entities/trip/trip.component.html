@@ -34,7 +34,7 @@
     <br/>
     <div *ngIf="trips" class="trip-container flex flex-wrap">
         <md-card class="trip-card" *ngFor="let trip of trips ;trackBy: trackId">
-            <div md-card-image class="card-image darken-2" [ngClass]="trip.color.toLowerCase()">
+            <div md-card-image class="card-image darken-2" [ngClass]="trip.color.toLowerCase().replace('_', '-')">
                 <img *ngIf="trip.coverId" src="{{trip.coverSrc}}">
                 <a [routerLink]="['../trip', trip.id ]">
                     <h5 class="card-title truncate">{{trip.name}}</h5>

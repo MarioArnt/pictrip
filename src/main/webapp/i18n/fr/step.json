@@ -22,7 +22,9 @@
             "dateTo": "Date To",
             "place": "Place",
             "pictures": "Pictures",
-            "trip": "Trip"
+            "trip": "Trip",
+            "arrival": "Arrival",
+            "departure": "Departure"
         }
     }
 }

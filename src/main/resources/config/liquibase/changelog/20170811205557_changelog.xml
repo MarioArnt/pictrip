@@ -1,0 +1,274 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="mario (generated)" id="1502484964875-1">
+        <createSequence sequenceName="hibernate_sequence"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-2">
+        <createTable tableName="jhi_authority">
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-3">
+        <createTable tableName="jhi_persistent_audit_event">
+            <column autoIncrement="true" name="event_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="jhi_persistent_audit_eventPK"/>
+            </column>
+            <column name="event_date" type="BINARY(255)"/>
+            <column name="event_type" type="VARCHAR(255)"/>
+            <column name="principal" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-4">
+        <createTable tableName="jhi_persistent_audit_evt_data">
+            <column name="event_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-5">
+        <createTable tableName="jhi_social_user_connection">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="jhi_social_user_connectionPK"/>
+            </column>
+            <column name="access_token" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="display_name" type="VARCHAR(255)"/>
+            <column name="expire_time" type="BIGINT"/>
+            <column name="image_url" type="VARCHAR(255)"/>
+            <column name="profile_url" type="VARCHAR(255)"/>
+            <column name="provider_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="provider_user_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rank" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="refresh_token" type="VARCHAR(255)"/>
+            <column name="secret" type="VARCHAR(255)"/>
+            <column name="user_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-6">
+        <createTable tableName="jhi_user">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="jhi_userPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="BINARY(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_by" type="VARCHAR(50)"/>
+            <column name="last_modified_date" type="BINARY(255)"/>
+            <column name="activated" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activation_key" type="VARCHAR(20)"/>
+            <column name="email" type="VARCHAR(100)"/>
+            <column name="first_name" type="VARCHAR(50)"/>
+            <column name="image_url" type="VARCHAR(256)"/>
+            <column name="lang_key" type="VARCHAR(5)"/>
+            <column name="last_name" type="VARCHAR(50)"/>
+            <column name="login" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password_hash" type="VARCHAR(60)"/>
+            <column name="reset_date" type="BINARY(255)"/>
+            <column name="reset_key" type="VARCHAR(20)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-7">
+        <createTable tableName="jhi_user_authority">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="authority_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-8">
+        <createTable tableName="jhi_user_trips">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="trips_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-9">
+        <createTable tableName="journey">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="journeyPK"/>
+            </column>
+            <column name="duration" type="BIGINT"/>
+            <column name="transportation" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-10">
+        <createTable tableName="picture">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="picturePK"/>
+            </column>
+            <column name="caption" type="VARCHAR(255)"/>
+            <column name="jhi_size" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="src" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="views" type="BIGINT"/>
+            <column name="place_id" type="BIGINT"/>
+            <column name="step_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-11">
+        <createTable tableName="place">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="placePK"/>
+            </column>
+            <column name="lat" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lon" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-12">
+        <createTable tableName="step">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="stepPK"/>
+            </column>
+            <column name="date_from" type="BINARY(255)"/>
+            <column name="date_to" type="BINARY(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="jhi_number" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="place_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="trip_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-13">
+        <createTable tableName="trip">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="tripPK"/>
+            </column>
+            <column name="color" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_from" type="BINARY(255)"/>
+            <column name="date_to" type="BINARY(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(80)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="privacy" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cover_id" type="BIGINT"/>
+            <column name="owner_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-14">
+        <createTable tableName="trip_members">
+            <column name="trips_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="members_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-15">
+        <addPrimaryKey columnNames="event_id, name" tableName="jhi_persistent_audit_evt_data"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-16">
+        <addPrimaryKey columnNames="user_id, authority_name" tableName="jhi_user_authority"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-17">
+        <addPrimaryKey columnNames="user_id, trips_id" tableName="jhi_user_trips"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-18">
+        <addPrimaryKey columnNames="trips_id, members_id" tableName="trip_members"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-19">
+        <addPrimaryKey columnNames="name" constraintName="jhi_authorityPK" tableName="jhi_authority"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-20">
+        <addUniqueConstraint columnNames="email" constraintName="UC_JHI_USEREMAIL_COL" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-21">
+        <addUniqueConstraint columnNames="login" constraintName="UC_JHI_USERLOGIN_COL" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-22">
+        <addUniqueConstraint columnNames="cover_id" constraintName="UC_TRIPCOVER_ID_COL" tableName="trip"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-23">
+        <addUniqueConstraint columnNames="place_id" constraintName="UK_cosnj6vog6soed57jrrr56sjs" tableName="step"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-24">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="jhi_user_authority" constraintName="FK290okww5jujghp4el5i7mgwu0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-25">
+        <addForeignKeyConstraint baseColumnNames="event_id" baseTableName="jhi_persistent_audit_evt_data" constraintName="FK2ehnyx2si4tjd2nt4q7y40v8m" deferrable="false" initiallyDeferred="false" referencedColumnNames="event_id" referencedTableName="jhi_persistent_audit_event"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-26">
+        <addForeignKeyConstraint baseColumnNames="cover_id" baseTableName="trip" constraintName="FK3556bk2wa9gthfdxc6ji4fpic" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="picture"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-27">
+        <addForeignKeyConstraint baseColumnNames="authority_name" baseTableName="jhi_user_authority" constraintName="FK4psxl0jtx6nr7rhqbynr6itoc" deferrable="false" initiallyDeferred="false" referencedColumnNames="name" referencedTableName="jhi_authority"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-28">
+        <addForeignKeyConstraint baseColumnNames="place_id" baseTableName="picture" constraintName="FK6gsjjvycxotnen2evgplb0y8d" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="place"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-29">
+        <addForeignKeyConstraint baseColumnNames="trip_id" baseTableName="step" constraintName="FK6jfru03ew4kea3q2tuqhxvc27" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trip"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-30">
+        <addForeignKeyConstraint baseColumnNames="trips_id" baseTableName="trip_members" constraintName="FK8rnvwbyge7f5gxlkhjrgrus1m" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trip"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-31">
+        <addForeignKeyConstraint baseColumnNames="members_id" baseTableName="trip_members" constraintName="FKdfysiusqnnjfnitl92mamle1d" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-32">
+        <addForeignKeyConstraint baseColumnNames="owner_id" baseTableName="trip" constraintName="FKkwv5boh19m1qhmlwv90jd73jj" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-33">
+        <addForeignKeyConstraint baseColumnNames="place_id" baseTableName="step" constraintName="FKoi6w69rhuhlr2jb9vfylmey62" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="place"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-34">
+        <addForeignKeyConstraint baseColumnNames="trips_id" baseTableName="jhi_user_trips" constraintName="FKov77nfciub37pks6vqty2b495" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="trip"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-35">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="jhi_user_trips" constraintName="FKp8p5m8gstes6s8teifbny8tc4" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="mario (generated)" id="1502484964875-36">
+        <addForeignKeyConstraint baseColumnNames="step_id" baseTableName="picture" constraintName="FKq3g5rl78jiq1477q1jtbbeehx" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="step"/>
+    </changeSet>
+</databaseChangeLog>

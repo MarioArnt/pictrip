@@ -1,0 +1,25 @@
+{
+    "pictripApp": {
+        "journey" : {
+            "home": {
+                "title": "Journeys",
+                "createLabel": "Créer un nouveau Journey",
+                "createOrEditLabel": "Créer ou éditer un Journey",
+                "search": "Recherche pour Journey"
+            },
+            "created": "Un nouveau Journey a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Journey avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Journey avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Journey {{ id }} ?"
+            },
+            "detail": {
+                "title": "Journey"
+            },
+            "transportation": "Transportation",
+            "duration": "Duration",
+            "stepFrom": "Step From",
+            "stepTo": "Step To"
+        }
+    }
+}

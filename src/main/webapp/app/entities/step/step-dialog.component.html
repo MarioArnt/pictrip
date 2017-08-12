@@ -46,6 +46,44 @@
             </small>
         </div>
 
+        <div class="row" *ngIf="addressResolved">
+            <div class="col-md-12">
+                <p>How did you travel to {{place.name}} ?</p>
+                <div class="flex transportation-select">
+                    <md-card (click)="changeTransportation('PLANE')" [ngClass]="{'teal white-text': journey?.transportation=='PLANE'}">
+                        <i class="fa fa-plane"></i>
+                    </md-card>
+                    <md-card (click)="changeTransportation('TRAIN')" [ngClass]="{'teal white-text': journey?.transportation=='TRAIN'}">
+                        <i class="fa fa-train"></i>
+                    </md-card>
+                    <md-card (click)="changeTransportation('BOAT')" [ngClass]="{'teal white-text': journey?.transportation=='BOAT'}">
+                        <i class="fa fa-ship"></i>
+                    </md-card>
+                    <md-card (click)="changeTransportation('BUS')" [ngClass]="{'teal white-text': journey?.transportation=='BUS'}">
+                        <i class="fa fa-bus"></i>
+                    </md-card>
+                    <md-card (click)="changeTransportation('CAR')" [ngClass]="{'teal white-text': journey?.transportation=='CAR'}">
+                        <i class="fa fa-car"></i>
+                    </md-card>
+                    <md-card (click)="changeTransportation('TAXI')" [ngClass]="{'teal white-text': journey?.transportation=='TAXI'}">
+                        <i class="fa fa-taxi"></i>
+                    </md-card>
+                    <md-card (click)="changeTransportation('HITCH_HIKING')" [ngClass]="{'teal white-text': journey?.transportation=='HITCH_HIKING'}">
+                        <i class="fa fa-thumbs-up"></i>
+                    </md-card>
+                    <md-card (click)="changeTransportation('MOTORBIKE')" [ngClass]="{'teal white-text': journey?.transportation=='MOTORBIKE'}">
+                        <i class="fa fa-motorcycle"></i>
+                    </md-card>
+                    <md-card (click)="changeTransportation('BIKE')" [ngClass]="{'teal white-text': journey?.transportation=='BIKE'}">
+                        <i class="fa fa-bicycle"></i>
+                    </md-card>
+                    <md-card (click)="changeTransportation('FOOT')" [ngClass]="{'teal white-text': journey?.transportation=='FOOT'}">
+                        <i class="fa fa-male"></i>
+                    </md-card>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <md-input-container class="col-md-12">
                     <textarea mdInput mdTextareaAutosize name="description" id="field_description"

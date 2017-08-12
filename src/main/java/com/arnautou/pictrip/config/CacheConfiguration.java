@@ -49,6 +49,7 @@ public class CacheConfiguration {
             cm.createCache(com.arnautou.pictrip.domain.Step.class.getName() + ".pictures", jcacheConfiguration);
             cm.createCache(com.arnautou.pictrip.domain.Place.class.getName(), jcacheConfiguration);
             cm.createCache(com.arnautou.pictrip.domain.Picture.class.getName(), jcacheConfiguration);
+            cm.createCache(com.arnautou.pictrip.domain.Journey.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

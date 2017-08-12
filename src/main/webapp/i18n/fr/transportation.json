@@ -1,0 +1,14 @@
+{
+    "pictripApp": {
+        "Transportation" : {
+            "null": "",
+            "PLANE": "PLANE",
+            "TRAIN": "TRAIN",
+            "CAR": "CAR",
+            "TAXI": "TAXI",
+            "BOAT": "BOAT",
+            "BIKE": "BIKE",
+            "FOOT": "FOOT"
+        }
+    }
+}

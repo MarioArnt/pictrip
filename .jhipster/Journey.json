@@ -1,0 +1,20 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "transportation",
+            "fieldType": "Transportation",
+            "fieldValues": "PLANE, TRAIN, CAR, TAXI, BOAT, BIKE, FOOT"
+        },
+        {
+            "fieldName": "duration",
+            "fieldType": "Long"
+        }
+    ],
+    "changelogDate": "20170810221149",
+    "dto": "mapstruct",
+    "service": "serviceImpl",
+    "entityTableName": "journey",
+    "pagination": "no"
+}

@@ -11,6 +11,8 @@ public class CreateStepDTO implements Serializable {
 
     private StepDTO stepDTO;
 
+    private JourneyDTO journeyDTO;
+
     public PlaceDTO getPlaceDTO() {
         return placeDTO;
     }
@@ -27,4 +29,7 @@ public class CreateStepDTO implements Serializable {
         this.stepDTO = stepDTO;
     }
 
+    public JourneyDTO journeyDTO() {
+        return journeyDTO;
+    }
 }

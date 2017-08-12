@@ -9,6 +9,7 @@ import { Step } from './step.model';
 import { StepPopupService } from './step-popup.service';
 import { StepService } from './step.service';
 import { Place, PlaceService } from '../place';
+import { Journey } from '../journey';
 import { Trip, TripService } from '../trip';
 import { ResponseWrapper } from '../../shared';
 import { ElementRef, NgZone, ViewChild } from '@angular/core';
@@ -26,6 +27,7 @@ export class StepDialogComponent implements OnInit {
 
     step: Step;
     place: Place;
+    journey: Journey;
     authorities: any[];
     isSaving: boolean;
     routeSub: any;
@@ -52,6 +54,7 @@ export class StepDialogComponent implements OnInit {
         this.zoom = 2;
         this.stepNumber = 1;
         this.step = new Step();
+        this.journey = new Journey();
 
         this.routeSub = this.route.params.subscribe((params) => {
             this.step.tripId = params['tripId'];
@@ -106,14 +109,18 @@ export class StepDialogComponent implements OnInit {
     clear() {
     }
 
+    changeTransportation(transportation: any) {
+        this.journey.transportation = transportation;
+    }
+
     save() {
         this.isSaving = true;
         if (this.step.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.stepService.update(this.step, this.place));
+                this.stepService.update(this.step, this.place, this.journey));
         } else {
             this.subscribeToSaveResponse(
-                this.stepService.create(this.step, this.place));
+                this.stepService.create(this.step, this.place, this.journey));
         }
     }
 

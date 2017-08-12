@@ -5,6 +5,7 @@ import { PictripDateUtils } from '../../utils/date.utils';
 
 import { Step } from './step.model';
 import { Place } from '../place/place.model';
+import { Journey } from '../journey/journey.model';
 
 import { ResponseWrapper, createRequestOption } from '../../shared';
 
@@ -16,8 +17,8 @@ export class StepService {
 
     constructor(private http: Http, private dateUtils: PictripDateUtils) { }
 
-    create(step: Step, place: Place): Observable<Step> {
-        const copy = this.convert(step, place);
+    create(step: Step, place: Place, journey: Journey): Observable<Step> {
+        const copy = this.convert(step, place, journey);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
             this.convertItemFromServer(jsonResponse);
@@ -25,8 +26,8 @@ export class StepService {
         });
     }
 
-    update(step: Step, place: Place): Observable<Step> {
-        const copy = this.convert(step, place);
+    update(step: Step, place: Place, journey: Journey): Observable<Step> {
+        const copy = this.convert(step, place, journey);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
             this.convertItemFromServer(jsonResponse);
@@ -76,14 +77,16 @@ export class StepService {
         entity.dateTo = this.dateUtils.formatLocalDateFromServer(entity.dateTo);
     }
 
-    private convert(step: Step, place: Place): any {
+    private convert(step: Step, place: Place, journey: Journey): any {
         const stepCopy: Step = Object.assign({}, step);
         const placeCopy: Place = Object.assign({}, place);
+        const journeyCopy: Place = Object.assign({}, journey);
         stepCopy.dateFrom = this.dateUtils.formatLocalDateToServer(stepCopy.dateFrom);
         stepCopy.dateTo = this.dateUtils.formatLocalDateToServer(stepCopy.dateTo);
         return {
             stepDTO: stepCopy,
             placeDTO: placeCopy,
+            journeyDTO: journeyCopy
         };
     }
 }
