@@ -23,7 +23,7 @@
                     </button>
                 </md-menu>
                 <h5 md-list-icon>{{step.number}}</h5>
-                <p md-line>{{step.placeName}}</p>
+                <p md-line (click)="zoomOnStep(step)">{{step.placeName}}</p>
             </md-list-item>
             <md-divider></md-divider>
             <h3 md-subheader>Contributors</h3>

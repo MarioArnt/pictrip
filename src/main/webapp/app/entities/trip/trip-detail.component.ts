@@ -97,6 +97,12 @@ export class TripDetailComponent implements OnInit, OnDestroy {
         return new google.maps.LatLngBounds(southWest, northEast);
     }
 
+    zoomOnStep(step: Step) {
+        this.lat = step.placeLat;
+        this.lng = step.placeLng;
+        this.zoom = 12;
+    }
+
     ngOnDestroy() {
         this.subscription.unsubscribe();
         this.eventManager.destroy(this.eventSubscriber);
