@@ -39,10 +39,17 @@ public interface JourneyService {
     void delete(Long id);
 
     /**
+     * Update the journey that arrives to a given step
+     * @param stepToId : the ID of arrival step
+     * @param journey : the updated journey information DTO
+     */
+    void updateByStepTo(Long stepToId, JourneyDTO journey);
+
+    /**
      * Search for the journey corresponding to the query.
      *
      *  @param query the query of the search
-     *  
+     *
      *  @return the list of entities
      */
     List<JourneyDTO> search(String query);

@@ -36,6 +36,10 @@
     </md-sidenav>
     <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [fitBounds]="bounds">
         <agm-marker *ngFor="let step of steps" [latitude]="step.placeLat" [longitude]="step.placeLng" [label]="step.number.toString()"></agm-marker>
+        <agm-polyline *ngFor="let journey of journeys" clickable="true" geodesic="true" [strokeColor]="this.transportationColors[journey.transportation]">
+            <agm-polyline-point [latitude]="journey.stepFromLat" [longitude]="journey.stepFromLng"></agm-polyline-point>
+            <agm-polyline-point [latitude]="journey.stepToLat" [longitude]="journey.stepToLng"></agm-polyline-point>
+        </agm-polyline>
     </agm-map>
 </md-sidenav-container>
 

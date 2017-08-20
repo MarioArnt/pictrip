@@ -22,7 +22,9 @@ export class JourneyDialogComponent implements OnInit {
     authorities: any[];
     isSaving: boolean;
 
-    steps: Step[];
+    stepfroms: Step[];
+
+    steptos: Step[];
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -36,8 +38,32 @@ export class JourneyDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
-        this.stepService.query()
-            .subscribe((res: ResponseWrapper) => { this.steps = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.stepService
+            .query({filter: 'departure-is-null'})
+            .subscribe((res: ResponseWrapper) => {
+                if (!this.journey.stepFromId) {
+                    this.stepfroms = res.json;
+                } else {
+                    this.stepService
+                        .find(this.journey.stepFromId)
+                        .subscribe((subRes: Step) => {
+                            this.stepfroms = [subRes].concat(res.json);
+                        }, (subRes: ResponseWrapper) => this.onError(subRes.json));
+                }
+            }, (res: ResponseWrapper) => this.onError(res.json));
+        this.stepService
+            .query({filter: 'arrival-is-null'})
+            .subscribe((res: ResponseWrapper) => {
+                if (!this.journey.stepToId) {
+                    this.steptos = res.json;
+                } else {
+                    this.stepService
+                        .find(this.journey.stepToId)
+                        .subscribe((subRes: Step) => {
+                            this.steptos = [subRes].concat(res.json);
+                        }, (subRes: ResponseWrapper) => this.onError(subRes.json));
+                }
+            }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {

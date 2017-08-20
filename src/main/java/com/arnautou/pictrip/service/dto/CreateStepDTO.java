@@ -29,7 +29,7 @@ public class CreateStepDTO implements Serializable {
         this.stepDTO = stepDTO;
     }
 
-    public JourneyDTO journeyDTO() {
+    public JourneyDTO getJourneyDTO() {
         return journeyDTO;
     }
 }

@@ -110,4 +110,16 @@ public class JourneyServiceImpl implements JourneyService{
             .map(journeyMapper::toDto)
             .collect(Collectors.toList());
     }
+
+    /**
+     * Update the journey that arrives to a given step
+     * @param stepToId : the ID of arrival step
+     * @param journey : the updated journey information DTO
+     */
+    @Override
+    public void updateByStepTo(Long stepToId, JourneyDTO journey) {
+        Journey arrival = this.journeyRepository.findOneByStepToId(stepToId).get();
+        arrival.setTransportation(journey.getTransportation());
+        this.journeyRepository.save(arrival);
+    }
 }

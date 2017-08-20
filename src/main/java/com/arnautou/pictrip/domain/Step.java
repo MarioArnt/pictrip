@@ -57,6 +57,14 @@ public class Step implements Serializable {
     @NotNull
     private Trip trip;
 
+    @OneToOne(mappedBy = "stepFrom")
+    @JsonIgnore
+    private Journey departure;
+
+    @OneToOne(mappedBy = "stepTo")
+    @JsonIgnore
+    private Journey arrival;
+
     public Long getId() {
         return id;
     }
@@ -166,6 +174,32 @@ public class Step implements Serializable {
 
     public void setTrip(Trip trip) {
         this.trip = trip;
+    }
+
+    public Journey getDeparture() {
+        return departure;
+    }
+
+    public Step departure(Journey journey) {
+        this.departure = journey;
+        return this;
+    }
+
+    public void setDeparture(Journey journey) {
+        this.departure = journey;
+    }
+
+    public Journey getArrival() {
+        return arrival;
+    }
+
+    public Step arrival(Journey journey) {
+        this.arrival = journey;
+        return this;
+    }
+
+    public void setArrival(Journey journey) {
+        this.arrival = journey;
     }
 
     @Override

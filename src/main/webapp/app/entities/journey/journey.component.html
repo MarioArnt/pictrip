@@ -32,6 +32,8 @@
             <th><span jhiTranslate="global.field.id">ID</span></th>
             <th><span jhiTranslate="pictripApp.journey.transportation">Transportation</span></th>
             <th><span jhiTranslate="pictripApp.journey.duration">Duration</span></th>
+            <th><span jhiTranslate="pictripApp.journey.stepFrom">Step From</span></th>
+            <th><span jhiTranslate="pictripApp.journey.stepTo">Step To</span></th>
             <th></th>
             </tr>
             </thead>
@@ -40,6 +42,16 @@
                 <td><a [routerLink]="['../journey', journey.id ]">{{journey.id}}</a></td>
                 <td jhiTranslate="{{'pictripApp.Transportation.' + journey.transportation}}">{{journey.transportation}}</td>
                 <td>{{journey.duration}}</td>
+                <td>
+                    <div *ngIf="journey.stepFromId">
+                        <a [routerLink]="['../step', journey.stepFromId  ]" >{{journey.stepFromId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="journey.stepToId">
+                        <a [routerLink]="['../step', journey.stepToId  ]" >{{journey.stepToId}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

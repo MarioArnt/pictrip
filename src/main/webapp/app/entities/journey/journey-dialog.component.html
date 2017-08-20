@@ -30,6 +30,30 @@
                 [(ngModel)]="journey.duration"  />
         </div>
 
+        <div class="form-group">
+            <label jhiTranslate="pictripApp.journey.stepFrom" for="field_stepFrom">Step From</label>
+            <select class="form-control" id="field_stepFrom" name="stepFrom" [(ngModel)]="journey.stepFromId" required>
+                <option [ngValue]="stepOption.id" *ngFor="let stepOption of stepfroms; trackBy: trackStepById">{{stepOption.id}}</option>
+            </select>
+        </div>
+        <div [hidden]="!(editForm.controls.stepFrom?.dirty && editForm.controls.stepFrom?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.stepFrom?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
+        </div>
+        <div class="form-group">
+            <label jhiTranslate="pictripApp.journey.stepTo" for="field_stepTo">Step To</label>
+            <select class="form-control" id="field_stepTo" name="stepTo" [(ngModel)]="journey.stepToId" required>
+                <option [ngValue]="stepOption.id" *ngFor="let stepOption of steptos; trackBy: trackStepById">{{stepOption.id}}</option>
+            </select>
+        </div>
+        <div [hidden]="!(editForm.controls.stepTo?.dirty && editForm.controls.stepTo?.invalid)">
+            <small class="form-text text-danger"
+                [hidden]="!editForm.controls.stepTo?.errors?.required" jhiTranslate="entity.validation.required">
+                This field is required.
+            </small>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">

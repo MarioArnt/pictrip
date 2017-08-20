@@ -3,12 +3,14 @@ package com.arnautou.pictrip.web.rest;
 import com.arnautou.pictrip.service.TripService;
 import com.arnautou.pictrip.service.PlaceService;
 import com.arnautou.pictrip.service.UserService;
+import com.arnautou.pictrip.service.JourneyService;
 import com.codahale.metrics.annotation.Timed;
 import com.arnautou.pictrip.service.StepService;
 import com.arnautou.pictrip.web.rest.util.HeaderUtil;
 import com.arnautou.pictrip.service.dto.StepDTO;
 import com.arnautou.pictrip.service.dto.PlaceDTO;
 import com.arnautou.pictrip.service.dto.CreateStepDTO;
+import com.arnautou.pictrip.service.dto.JourneyDTO;
 import com.arnautou.pictrip.domain.Trip;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -46,11 +48,14 @@ public class StepResource {
 
     private final UserService userService;
 
-    public StepResource(StepService stepService, TripService tripService, UserService userService, PlaceService placeService) {
+    private final JourneyService journeyService;
+
+    public StepResource(StepService stepService, TripService tripService, UserService userService, PlaceService placeService, JourneyService journeyService) {
         this.stepService = stepService;
         this.tripService = tripService;
         this.userService = userService;
         this.placeService = placeService;
+        this.journeyService = journeyService;
     }
 
     /**
@@ -86,11 +91,28 @@ public class StepResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new step cannot already have an ID")).body(null);
         }
 
+        // Save the place of the step
         PlaceDTO place = placeService.save(createStepDTO.getPlaceDTO());
+
+        // Determine the step number
+        Long tripId = createStepDTO.getStepDTO().getTripId();
+        Integer stepNumber = this.stepService.countStepsByTripId(tripId) + 1;
+
+        // Save the new step
         StepDTO stepDTO = createStepDTO.getStepDTO();
         stepDTO.setPlaceId(place.getId());
-        stepDTO.setNumber(this.stepService.countStepsByTripId(stepDTO.getTripId()) + 1);
+        stepDTO.setNumber(stepNumber);
         StepDTO result = stepService.save(stepDTO);
+
+        // Save the journey
+        if(stepNumber > 1) {
+            JourneyDTO journeyDTO = new JourneyDTO();
+            journeyDTO.setTransportation(createStepDTO.getJourneyDTO().getTransportation());
+            journeyDTO.setStepToId(result.getId());
+            journeyDTO.setStepFromId(this.stepService.findByTripIdAndNumber(tripId, stepNumber - 1).getId());
+            JourneyDTO arrival = this.journeyService.save(journeyDTO);
+        }
+
         return ResponseEntity.created(new URI("/api/steps/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -131,6 +153,11 @@ public class StepResource {
         PlaceDTO place = placeService.save(createStepDTO.getPlaceDTO());
         StepDTO stepDTO = createStepDTO.getStepDTO();
         stepDTO.setPlaceId(place.getId());
+
+        // Update the journey
+        if(stepDTO.getNumber() > 1) {
+            this.journeyService.updateByStepTo(stepDTO.getId(), createStepDTO.getJourneyDTO());
+        }
         StepDTO result = stepService.save(stepDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, createStepDTO.getStepDTO().getId().toString()))

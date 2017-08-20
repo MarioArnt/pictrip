@@ -5,6 +5,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -32,6 +33,16 @@ public class Journey implements Serializable {
 
     @Column(name = "duration")
     private Long duration;
+
+    @OneToOne(optional = false)
+    @NotNull
+    @JoinColumn(unique = true)
+    private Step stepFrom;
+
+    @OneToOne(optional = false)
+    @NotNull
+    @JoinColumn(unique = true)
+    private Step stepTo;
 
     public Long getId() {
         return id;
@@ -65,6 +76,32 @@ public class Journey implements Serializable {
 
     public void setDuration(Long duration) {
         this.duration = duration;
+    }
+
+    public Step getStepFrom() {
+        return stepFrom;
+    }
+
+    public Journey stepFrom(Step step) {
+        this.stepFrom = step;
+        return this;
+    }
+
+    public void setStepFrom(Step step) {
+        this.stepFrom = step;
+    }
+
+    public Step getStepTo() {
+        return stepTo;
+    }
+
+    public Journey stepTo(Step step) {
+        this.stepTo = step;
+        return this;
+    }
+
+    public void setStepTo(Step step) {
+        this.stepTo = step;
     }
 
     @Override

@@ -1,6 +1,29 @@
 {
     "fluentMethods": true,
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipName": "stepFrom",
+            "otherEntityName": "step",
+            "relationshipType": "one-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "departure"
+        },
+        {
+            "relationshipName": "stepTo",
+            "otherEntityName": "step",
+            "relationshipType": "one-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "arrival"
+        }
+    ],
     "fields": [
         {
             "fieldName": "transportation",

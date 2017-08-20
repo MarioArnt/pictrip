@@ -1,7 +1,10 @@
 package com.arnautou.pictrip.service.dto;
 
 
+import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 import com.arnautou.pictrip.domain.enumeration.Transportation;
 
@@ -15,6 +18,15 @@ public class JourneyDTO implements Serializable {
     private Transportation transportation;
 
     private Long duration;
+
+    private Long stepFromId;
+    private Double stepFromLat;
+    private Double stepFromLng;
+
+
+    private Long stepToId;
+    private Double stepToLat;
+    private Double stepToLng;
 
     public Long getId() {
         return id;
@@ -38,6 +50,54 @@ public class JourneyDTO implements Serializable {
 
     public void setDuration(Long duration) {
         this.duration = duration;
+    }
+
+    public Long getStepFromId() {
+        return stepFromId;
+    }
+
+    public void setStepFromId(Long stepId) {
+        this.stepFromId = stepId;
+    }
+
+    public Double getStepFromLat() {
+        return stepFromLat;
+    }
+
+    public void setStepFromLat(Double stepLat) {
+        this.stepFromLat = stepLat;
+    }
+
+    public Double getStepFromLng() {
+        return stepFromLng;
+    }
+
+    public void setStepFromLng(Double stepLng) {
+        this.stepFromLng = stepLng;
+    }
+
+    public Long getStepToId() {
+        return stepToId;
+    }
+
+    public void setStepToId(Long stepId) {
+        this.stepToId = stepId;
+    }
+
+    public Double getStepToLat() {
+        return stepToLat;
+    }
+
+    public void setStepToLat(Double stepLat) {
+        this.stepToLat = stepLat;
+    }
+
+    public Double getStepToLng() {
+        return stepToLng;
+    }
+
+    public void setStepToLng(Double stepLng) {
+        this.stepToLng = stepLng;
     }
 
     @Override

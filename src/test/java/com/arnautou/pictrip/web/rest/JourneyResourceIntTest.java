@@ -3,6 +3,8 @@ package com.arnautou.pictrip.web.rest;
 import com.arnautou.pictrip.PictripApp;
 
 import com.arnautou.pictrip.domain.Journey;
+import com.arnautou.pictrip.domain.Step;
+import com.arnautou.pictrip.domain.Step;
 import com.arnautou.pictrip.repository.JourneyRepository;
 import com.arnautou.pictrip.service.JourneyService;
 import com.arnautou.pictrip.repository.search.JourneySearchRepository;
@@ -96,6 +98,16 @@ public class JourneyResourceIntTest {
         Journey journey = new Journey()
             .transportation(DEFAULT_TRANSPORTATION)
             .duration(DEFAULT_DURATION);
+        // Add required entity
+        Step stepFrom = StepResourceIntTest.createEntity(em);
+        em.persist(stepFrom);
+        em.flush();
+        journey.setStepFrom(stepFrom);
+        // Add required entity
+        Step stepTo = StepResourceIntTest.createEntity(em);
+        em.persist(stepTo);
+        em.flush();
+        journey.setStepTo(stepTo);
         return journey;
     }
 

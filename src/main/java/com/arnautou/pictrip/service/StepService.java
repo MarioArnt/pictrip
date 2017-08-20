@@ -2,6 +2,7 @@ package com.arnautou.pictrip.service;
 
 import com.arnautou.pictrip.service.dto.StepDTO;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service Interface for managing Step.
@@ -29,6 +30,8 @@ public interface StepService {
      *  @return the list of entities
      */
     List<StepDTO> findByTripId(Long tripId);
+
+    StepDTO findByTripIdAndNumber(Long tripId, Integer stepNumber);
 
     /**
      *  Get the "id" step.

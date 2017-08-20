@@ -26,6 +26,20 @@
                 "required"
             ],
             "otherEntityField": "name"
+        },
+        {
+            "relationshipName": "departure",
+            "otherEntityName": "journey",
+            "relationshipType": "one-to-one",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "stepFrom"
+        },
+        {
+            "relationshipName": "arrival",
+            "otherEntityName": "journey",
+            "relationshipType": "one-to-one",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "stepTo"
         }
     ],
     "fields": [

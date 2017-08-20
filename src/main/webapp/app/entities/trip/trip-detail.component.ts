@@ -9,6 +9,8 @@ import { TripService } from './trip.service';
 
 import { Step } from '../step/step.model';
 import { StepService } from '../step/step.service';
+import { Journey, TransportationColors } from '../journey/journey.model';
+import { JourneyService } from '../journey/journey.service';
 
 @Component({
     selector: 'jhi-trip-detail',
@@ -22,6 +24,7 @@ export class TripDetailComponent implements OnInit, OnDestroy {
     public trip: Trip;
     public bounds: google.maps.LatLngBounds;
     public contributors: any[];
+    public journeys: Journey[];
     public steps: Step[];
     public lat: number;
     public lng: number;
@@ -29,16 +32,20 @@ export class TripDetailComponent implements OnInit, OnDestroy {
 
     private subscription: Subscription;
     private eventSubscriber: Subscription;
+    public transportationColors: any;
 
     constructor(
         private eventManager: JhiEventManager,
         private tripService: TripService,
         private stepService: StepService,
+        private journeyService: JourneyService,
         private route: ActivatedRoute,
     ) {
         this.steps = [];
         this.contributors = [];
+        this.journeys = [];
         this.lat = 43.604652;
+        this.transportationColors = TransportationColors;
         this.lng = 1.444209;
         this.zoom = 2;
     }
@@ -51,6 +58,12 @@ export class TripDetailComponent implements OnInit, OnDestroy {
         this.eventManager.subscribe('stepListModification', () => {
             this.fetchSteps(this.trip.id);
         });
+        this.journeyService.query().subscribe(
+            (res: ResponseWrapper) => {
+                this.journeys = res.json;
+            },
+            (res: ResponseWrapper) => console.log('Error fetching journeys')
+        );
     }
 
     load(id) {

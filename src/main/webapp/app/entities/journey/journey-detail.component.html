@@ -12,6 +12,18 @@
         <dd>
             <span>{{journey.duration}}</span>
         </dd>
+        <dt><span jhiTranslate="pictripApp.journey.stepFrom">Step From</span></dt>
+        <dd>
+            <div *ngIf="journey.stepFromId">
+                <a [routerLink]="['/step', journey.stepFromId]">{{journey.stepFromId}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="pictripApp.journey.stepTo">Step To</span></dt>
+        <dd>
+            <div *ngIf="journey.stepToId">
+                <a [routerLink]="['/step', journey.stepToId]">{{journey.stepToId}}</a>
+            </div>
+        </dd>
     </dl>
 
     <button type="submit"

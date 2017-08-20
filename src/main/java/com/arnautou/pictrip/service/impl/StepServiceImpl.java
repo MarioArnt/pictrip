@@ -11,8 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -88,6 +90,21 @@ public class StepServiceImpl implements StepService{
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
+    /**
+     *  Get all the steps of a given trip.
+     *  @param tripId : the ID of the trip
+     *  @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public StepDTO findByTripIdAndNumber(Long tripId, Integer stepNumber) {
+        log.debug("Request to get Step number # of a given trip");
+        Optional<Step> result = stepRepository.findOneByTripIdAndNumber(tripId, stepNumber);
+        if(result.isPresent()) {
+            return stepMapper.toDto(result.get());
+        }
+        return null;
+    }
 
     /**
      *  Get one step by id.
