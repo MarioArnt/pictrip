@@ -104,7 +104,7 @@ public class StepResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        StepResource stepResource = new StepResource(stepService, tripService, userService, placeService, journeyService);
+        StepResource stepResource = new StepResource(stepService);
         this.restStepMockMvc = MockMvcBuilders.standaloneSetup(stepResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

@@ -45,15 +45,55 @@ public class JourneyServiceImpl implements JourneyService{
      * @param journeyDTO the entity to save
      * @return the persisted entity
      */
-    @Override
-    public JourneyDTO save(JourneyDTO journeyDTO) {
+    private Journey save(JourneyDTO journeyDTO) {
         log.debug("Request to save Journey : {}", journeyDTO);
         Journey journey = journeyMapper.toEntity(journeyDTO);
         journey = journeyRepository.save(journey);
-        JourneyDTO result = journeyMapper.toDto(journey);
         journeySearchRepository.save(journey);
-        return result;
+        return journey;
     }
+
+    /**
+     * Create a journey between two steps
+     *
+     * @param journeyDTO the entity to save
+     * @param stepFrom the departure step
+     * @param stepTo the arrival step
+     */
+    @Override
+    public Journey create(JourneyDTO journeyDTO, Long stepFrom, Long stepTo) {
+        journeyDTO.setStepFromId(stepFrom);
+        journeyDTO.setStepToId(stepTo);
+        return save(journeyDTO);
+    }
+
+    /**
+     * Remove a journey between two steps
+     *
+     * @param stepFrom the departure step
+     * @param stepTo the arrival step
+     * @return a copy of the removed step
+     */
+    @Override
+    public JourneyDTO remove(Long stepFrom, Long stepTo) {
+        Journey journeyToDelete = this.journeyRepository.findOneByStepFromIdAndStepToId(stepFrom, stepTo).get();
+        JourneyDTO journeyBackup = journeyMapper.toDto(journeyToDelete);
+        this.journeyRepository.delete(journeyToDelete);
+        return journeyBackup;
+    }
+
+    /**
+    * Update the journey that arrives to a given step
+    * @param stepToId : the ID of arrival step
+    * @param journey : the updated journey information DTO
+    */
+    @Override
+    public void updateByStepTo(Long stepToId, JourneyDTO journey) {
+        Journey arrival = this.journeyRepository.findOneByStepToId(stepToId).get();
+        arrival.setTransportation(journey.getTransportation());
+        this.journeyRepository.save(arrival);
+    }
+
 
     /**
      *  Get all the journeys.
@@ -111,15 +151,4 @@ public class JourneyServiceImpl implements JourneyService{
             .collect(Collectors.toList());
     }
 
-    /**
-     * Update the journey that arrives to a given step
-     * @param stepToId : the ID of arrival step
-     * @param journey : the updated journey information DTO
-     */
-    @Override
-    public void updateByStepTo(Long stepToId, JourneyDTO journey) {
-        Journey arrival = this.journeyRepository.findOneByStepToId(stepToId).get();
-        arrival.setTransportation(journey.getTransportation());
-        this.journeyRepository.save(arrival);
-    }
 }

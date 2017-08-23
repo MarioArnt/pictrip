@@ -17,6 +17,8 @@ public interface StepMapper extends EntityMapper <StepDTO, Step> {
     @Mapping(source = "place.lon", target = "placeLng")
     @Mapping(source = "trip.id", target = "tripId")
     @Mapping(source = "trip.name", target = "tripName")
+    @Mapping(source = "arrival.id", target = "arrivalId")
+    @Mapping(source = "arrival.transportation", target = "arrivalTransportation")
     StepDTO toDto(Step step);
 
     @Mapping(source = "placeId", target = "place")

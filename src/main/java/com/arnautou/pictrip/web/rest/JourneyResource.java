@@ -37,47 +37,6 @@ public class JourneyResource {
         this.journeyService = journeyService;
     }
 
-    /**
-     * POST  /journeys : Create a new journey.
-     *
-     * @param journeyDTO the journeyDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new journeyDTO, or with status 400 (Bad Request) if the journey has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
-    @PostMapping("/journeys")
-    @Timed
-    public ResponseEntity<JourneyDTO> createJourney(@Valid @RequestBody JourneyDTO journeyDTO) throws URISyntaxException {
-        log.debug("REST request to save Journey : {}", journeyDTO);
-        if (journeyDTO.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new journey cannot already have an ID")).body(null);
-        }
-        JourneyDTO result = journeyService.save(journeyDTO);
-        return ResponseEntity.created(new URI("/api/journeys/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
-    }
-
-    /**
-     * PUT  /journeys : Updates an existing journey.
-     *
-     * @param journeyDTO the journeyDTO to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated journeyDTO,
-     * or with status 400 (Bad Request) if the journeyDTO is not valid,
-     * or with status 500 (Internal Server Error) if the journeyDTO couldn't be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
-    @PutMapping("/journeys")
-    @Timed
-    public ResponseEntity<JourneyDTO> updateJourney(@Valid @RequestBody JourneyDTO journeyDTO) throws URISyntaxException {
-        log.debug("REST request to update Journey : {}", journeyDTO);
-        if (journeyDTO.getId() == null) {
-            return createJourney(journeyDTO);
-        }
-        JourneyDTO result = journeyService.save(journeyDTO);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, journeyDTO.getId().toString()))
-            .body(result);
-    }
 
     /**
      * GET  /journeys : get all the journeys.

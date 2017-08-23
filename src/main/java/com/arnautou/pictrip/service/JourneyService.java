@@ -1,5 +1,6 @@
 package com.arnautou.pictrip.service;
 
+import com.arnautou.pictrip.domain.Journey;
 import com.arnautou.pictrip.service.dto.JourneyDTO;
 import java.util.List;
 
@@ -9,12 +10,30 @@ import java.util.List;
 public interface JourneyService {
 
     /**
-     * Save a journey.
+     * Create a journey between two steps
      *
      * @param journeyDTO the entity to save
-     * @return the persisted entity
+     * @param stepFrom the departure step
+     * @param stepTo the arrival step
      */
-    JourneyDTO save(JourneyDTO journeyDTO);
+    Journey create(JourneyDTO journeyDTO, Long stepFrom, Long stepTo);
+
+    /**
+     * Remove a journey between two steps
+     *
+     * @param stepFrom the departure step
+     * @param stepTo the arrival step
+     * @return a copy of the removed step
+     */
+    JourneyDTO remove(Long stepFrom, Long stepTo);
+
+   /**
+    * Update the journey that arrives to a given step
+    * @param stepToId : the ID of arrival step
+    * @param journey : the updated journey information DTO
+    */
+    void updateByStepTo(Long stepToId, JourneyDTO journey);
+
 
     /**
      *  Get all the journeys.
@@ -37,13 +56,6 @@ public interface JourneyService {
      *  @param id the id of the entity
      */
     void delete(Long id);
-
-    /**
-     * Update the journey that arrives to a given step
-     * @param stepToId : the ID of arrival step
-     * @param journey : the updated journey information DTO
-     */
-    void updateByStepTo(Long stepToId, JourneyDTO journey);
 
     /**
      * Search for the journey corresponding to the query.

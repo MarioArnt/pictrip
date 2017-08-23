@@ -1,6 +1,7 @@
 package com.arnautou.pictrip.service.dto;
 
 
+import com.arnautou.pictrip.domain.enumeration.Transportation;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,6 +41,10 @@ public class StepDTO implements Serializable {
     private Long tripId;
 
     private String tripName;
+
+    private Long arrivalId;
+
+    private Transportation arrivalTransportation;
 
     public Long getId() {
         return id;
@@ -127,6 +132,22 @@ public class StepDTO implements Serializable {
 
     public void setTripName(String tripName) {
         this.tripName = tripName;
+    }
+
+    public Long getArrivalId() {
+        return arrivalId;
+    }
+
+    public void setArrivalId(Long arrivalId) {
+        this.arrivalId = arrivalId;
+    }
+
+    public Transportation getArrivalTransportation() {
+        return arrivalTransportation;
+    }
+
+    public void setArrivalTransportation(Transportation arrivalTransportation) {
+        this.arrivalTransportation = arrivalTransportation;
     }
 
     @Override

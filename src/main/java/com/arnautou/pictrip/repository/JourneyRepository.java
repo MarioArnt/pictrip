@@ -14,5 +14,6 @@ import java.util.Optional;
 @SuppressWarnings("unused")
 @Repository
 public interface JourneyRepository extends JpaRepository<Journey,Long> {
+    Optional<Journey> findOneByStepFromIdAndStepToId(Long stepFromId, Long stepToId);
     Optional<Journey> findOneByStepToId(Long stepId);
 }

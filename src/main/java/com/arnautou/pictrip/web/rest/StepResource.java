@@ -1,21 +1,13 @@
 package com.arnautou.pictrip.web.rest;
 
-import com.arnautou.pictrip.service.TripService;
-import com.arnautou.pictrip.service.PlaceService;
-import com.arnautou.pictrip.service.UserService;
-import com.arnautou.pictrip.service.JourneyService;
+import com.arnautou.pictrip.web.rest.errors.ErrorDetails;
 import com.codahale.metrics.annotation.Timed;
 import com.arnautou.pictrip.service.StepService;
 import com.arnautou.pictrip.web.rest.util.HeaderUtil;
 import com.arnautou.pictrip.service.dto.StepDTO;
-import com.arnautou.pictrip.service.dto.PlaceDTO;
-import com.arnautou.pictrip.service.dto.CreateStepDTO;
-import com.arnautou.pictrip.service.dto.JourneyDTO;
-import com.arnautou.pictrip.domain.Trip;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,77 +34,32 @@ public class StepResource {
 
     private final StepService stepService;
 
-    private final TripService tripService;
-
-    private final PlaceService placeService;
-
-    private final UserService userService;
-
-    private final JourneyService journeyService;
-
-    public StepResource(StepService stepService, TripService tripService, UserService userService, PlaceService placeService, JourneyService journeyService) {
+    public StepResource(StepService stepService) {
         this.stepService = stepService;
-        this.tripService = tripService;
-        this.userService = userService;
-        this.placeService = placeService;
-        this.journeyService = journeyService;
     }
 
     /**
      * POST  /steps : Create a new step.
      *
-     * @param createStepDTO the stepDTO to create
+     * @param step the stepDTO to create
      * @return the ResponseEntity with status 201 (Created) and with body the new stepDTO, or with status 400 (Bad Request) if the step has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/steps")
     @Timed
-    public ResponseEntity<StepDTO> createStep(@Valid @RequestBody CreateStepDTO createStepDTO) throws URISyntaxException {
-        log.debug("REST request to save Step : {}", createStepDTO);
-        // Fetch trip
-        if(createStepDTO.getStepDTO().getTripId() == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "notripid", "The step you're trying to create is not linked to a Trip")).body(null);
-        }
-        Trip trip = this.tripService.findTripById(createStepDTO.getStepDTO().getTripId());
-        if(trip == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "tripnotfound", "The Trip linked to this step does not exists")).body(null);
-        }
+    public ResponseEntity<StepDTO> createStep(@Valid @RequestBody StepDTO step) throws URISyntaxException {
+        log.debug("REST request to save Step : {}", step);
 
+        ErrorDetails createStepErrors = this.stepService.checkStepCreationPrerequisites(step);
         // Check if user has right to post the step
-        if(!trip.getOwner().getId().equals(this.userService.getCurrentLoggedUserId())) {
+        if(createStepErrors != null) {
             return ResponseEntity
-                .status(HttpStatus.FORBIDDEN)
-                .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "You are not allowed to create a step for this Trip"))
+                .status(createStepErrors.getStatus())
+                .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, createStepErrors.getErrorKey(), createStepErrors.getErrorMessage()))
                 .body(null);
         }
 
-        // Check that a Step with the same ID does not exist
-        if (createStepDTO.getStepDTO().getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new step cannot already have an ID")).body(null);
-        }
-
-        // Save the place of the step
-        PlaceDTO place = placeService.save(createStepDTO.getPlaceDTO());
-
-        // Determine the step number
-        Long tripId = createStepDTO.getStepDTO().getTripId();
-        Integer stepNumber = this.stepService.countStepsByTripId(tripId) + 1;
-
-        // Save the new step
-        StepDTO stepDTO = createStepDTO.getStepDTO();
-        stepDTO.setPlaceId(place.getId());
-        stepDTO.setNumber(stepNumber);
-        StepDTO result = stepService.save(stepDTO);
-
-        // Save the journey
-        if(stepNumber > 1) {
-            JourneyDTO journeyDTO = new JourneyDTO();
-            journeyDTO.setTransportation(createStepDTO.getJourneyDTO().getTransportation());
-            journeyDTO.setStepToId(result.getId());
-            journeyDTO.setStepFromId(this.stepService.findByTripIdAndNumber(tripId, stepNumber - 1).getId());
-            JourneyDTO arrival = this.journeyService.save(journeyDTO);
-        }
-
+        StepDTO result = stepService.createStep(step);
         return ResponseEntity.created(new URI("/api/steps/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -121,7 +68,7 @@ public class StepResource {
     /**
      * PUT  /steps : Updates an existing step.
      *
-     * @param createStepDTO the stepDTO to update
+     * @param step the stepDTO to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated stepDTO,
      * or with status 400 (Bad Request) if the stepDTO is not valid,
      * or with status 500 (Internal Server Error) if the stepDTO couldn't be updated
@@ -129,39 +76,37 @@ public class StepResource {
      */
     @PutMapping("/steps")
     @Timed
-    public ResponseEntity<StepDTO> updateStep(@Valid @RequestBody CreateStepDTO createStepDTO) throws URISyntaxException {
-        log.debug("REST request to update Step : {}", createStepDTO);
+    public ResponseEntity<StepDTO> updateStep(@Valid @RequestBody StepDTO step) throws URISyntaxException {
+        log.debug("REST request to update Step : {}", step);
 
-        if (createStepDTO.getStepDTO().getId() == null) {
-            return createStep(createStepDTO);
+        if (step.getId() == null) {
+            return createStep(step);
         }
 
-        // Fetch trip
-        Trip trip = this.tripService.findTripById(createStepDTO.getStepDTO().getTripId());
-        if(trip == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "tripnotfound", "The Trip linked to this step does not exists")).body(null);
-        }
-
-        // Check if user has right to post the step
-        if(!trip.getOwner().getId().equals(this.userService.getCurrentLoggedUserId())) {
+        ErrorDetails updateStepErrors = this.stepService.checkStepCreationPrerequisites(step);
+        if(updateStepErrors != null) {
             return ResponseEntity
-                .status(HttpStatus.FORBIDDEN)
-                .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "forbidden", "You are not allowed to update a step for this Trip"))
+                .status(updateStepErrors.getStatus())
+                .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, updateStepErrors.getErrorKey(), updateStepErrors.getErrorMessage()))
                 .body(null);
         }
 
-        PlaceDTO place = placeService.save(createStepDTO.getPlaceDTO());
-        StepDTO stepDTO = createStepDTO.getStepDTO();
-        stepDTO.setPlaceId(place.getId());
-
-        // Update the journey
-        if(stepDTO.getNumber() > 1) {
-            this.journeyService.updateByStepTo(stepDTO.getId(), createStepDTO.getJourneyDTO());
-        }
-        StepDTO result = stepService.save(stepDTO);
+        StepDTO result = stepService.updateStep(step);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, createStepDTO.getStepDTO().getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    /**
+     * GET  trip/:id/steps/count : count the steps of a given trip.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of steps in body
+     */
+    @GetMapping("/trip/{id}/steps/count")
+    @Timed
+    public Integer countTripSteps(@PathVariable Long id) {
+        log.debug("REST request to get all Steps");
+        return stepService.countStepsByTripId(id);
     }
 
     /**
@@ -212,14 +157,7 @@ public class StepResource {
     @Timed
     public ResponseEntity<Void> deleteStep(@PathVariable Long id) {
         log.debug("REST request to delete Step : {}", id);
-        StepDTO stepToDelete = stepService.findOne(id);
-        Long tripId = stepToDelete.getTripId();
-        Integer stepNumber = stepToDelete.getNumber();
-        stepService.delete(id);
-        stepService.findByTripId(tripId).stream().filter(step -> step.getNumber() > stepNumber).forEach(step -> {
-            step.setNumber(step.getNumber() - 1);
-            stepService.save(step);
-        });
+        stepService.deleteStep(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
