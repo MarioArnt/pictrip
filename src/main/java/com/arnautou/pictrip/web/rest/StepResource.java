@@ -83,7 +83,7 @@ public class StepResource {
             return createStep(step);
         }
 
-        ErrorDetails updateStepErrors = this.stepService.checkStepCreationPrerequisites(step);
+        ErrorDetails updateStepErrors = this.stepService.checkStepUpdatePrerequisites(step);
         if(updateStepErrors != null) {
             return ResponseEntity
                 .status(updateStepErrors.getStatus())

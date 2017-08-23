@@ -17,8 +17,8 @@ export class StepService {
 
     constructor(private http: Http, private dateUtils: PictripDateUtils) { }
 
-    create(step: Step, place: Place, journey: Journey): Observable<Step> {
-        const copy = this.convert(step, place, journey);
+    create(step: Step): Observable<Step> {
+        const copy = this.convert(step);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
             this.convertItemFromServer(jsonResponse);
@@ -26,8 +26,8 @@ export class StepService {
         });
     }
 
-    update(step: Step, place: Place, journey: Journey): Observable<Step> {
-        const copy = this.convert(step, place, journey);
+    update(step: Step): Observable<Step> {
+        const copy = this.convert(step);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
             this.convertItemFromServer(jsonResponse);
@@ -64,6 +64,10 @@ export class StepService {
             .map((res: any) => this.convertResponse(res));
     }
 
+    count(tripId: number): Observable<Response> {
+        return this.http.get(`api/trip/${tripId}/steps/count`);
+    }
+
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         for (let i = 0; i < jsonResponse.length; i++) {
@@ -77,16 +81,10 @@ export class StepService {
         entity.dateTo = this.dateUtils.formatLocalDateFromServer(entity.dateTo);
     }
 
-    private convert(step: Step, place: Place, journey: Journey): any {
+    private convert(step: Step): any {
         const stepCopy: Step = Object.assign({}, step);
-        const placeCopy: Place = Object.assign({}, place);
-        const journeyCopy: Place = Object.assign({}, journey);
         stepCopy.dateFrom = this.dateUtils.formatLocalDateToServer(stepCopy.dateFrom);
         stepCopy.dateTo = this.dateUtils.formatLocalDateToServer(stepCopy.dateTo);
-        return {
-            stepDTO: stepCopy,
-            placeDTO: placeCopy,
-            journeyDTO: journeyCopy
-        };
+        return stepCopy;
     }
 }

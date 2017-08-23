@@ -1,4 +1,5 @@
 import { BaseEntity } from './../../shared';
+import { Transportation } from '../journey';
 
 export class Step implements BaseEntity {
     constructor(
@@ -13,6 +14,8 @@ export class Step implements BaseEntity {
         public placeLng?: number,
         public pictures?: BaseEntity[],
         public tripId?: number,
+        public arrivalId?: number,
+        public arrivalTransportation?: Transportation,
     ) {
     }
 }

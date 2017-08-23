@@ -29,6 +29,15 @@ public interface StepService {
     ErrorDetails checkStepCreationPrerequisites(StepDTO step);
 
     /**
+     * Check if the step update is possible (i.e. valid trip ID and step number
+     * and user has the right to update steps)
+     *
+     * @param step : the step DTO to create
+     * @return an error details object if there is any error or null
+     */
+    ErrorDetails checkStepUpdatePrerequisites(StepDTO step);
+
+    /**
      * Create a new step for a given trip. The step can be
      * inserted anywhere in the trip, the creation of the journeys
      * will be handled.

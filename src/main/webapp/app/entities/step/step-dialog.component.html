@@ -1,5 +1,5 @@
-<agm-map [latitude]="place.lat" [longitude]="place.lon" [zoom]="zoom">
-    <agm-marker *ngIf="addressResolved" [latitude]="place.lat" [longitude]="place.lon" [label]="stepNumber.toString()"></agm-marker>
+<agm-map [latitude]="step?.placeLat" [longitude]="step?.placeLng" [zoom]="zoom">
+    <agm-marker *ngIf="addressResolved" [latitude]="step?.placeLat" [longitude]="step?.placeLng" [label]="step.number?.toString()"></agm-marker>
 </agm-map>
 <form class="main-content" name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
 
@@ -33,9 +33,16 @@
         </div>-->
 
         <div class="row">
+            <div class="col-sm-2">
+                <md-input-container>
+                    <input id="field_number" name="number" type="number" [(ngModel)]="step.number" (ngModelChange)="stepNumberChanged()" mdInput placeholder="Place"/>
+                </md-input-container>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-sm-6">
                 <md-input-container>
-                    <input #placeAutocomplete id="field_place" name="place" [(ngModel)]="place.name" (ngModelChange)="placeChanged()" mdInput placeholder="Place"/>
+                    <input #placeAutocomplete id="field_place" name="place" [(ngModel)]="step.placeName" (ngModelChange)="placeChanged()" mdInput placeholder="Place"/>
                 </md-input-container>
             </div>
         </div>
@@ -46,38 +53,38 @@
             </small>
         </div>
 
-        <div class="row" *ngIf="addressResolved">
+        <div class="row" *ngIf="addressResolved && step.number > 1">
             <div class="col-md-12">
-                <p>How did you travel to {{place.name}} ?</p>
+                <p>How did you travel to {{step.placeName}} ?</p>
                 <div class="flex transportation-select">
-                    <md-card (click)="changeTransportation('PLANE')" [ngClass]="{'teal white-text': journey?.transportation=='PLANE'}">
+                    <md-card (click)="changeTransportation('PLANE')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='PLANE'}">
                         <i class="fa fa-plane"></i>
                     </md-card>
-                    <md-card (click)="changeTransportation('TRAIN')" [ngClass]="{'teal white-text': journey?.transportation=='TRAIN'}">
+                    <md-card (click)="changeTransportation('TRAIN')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='TRAIN'}">
                         <i class="fa fa-train"></i>
                     </md-card>
-                    <md-card (click)="changeTransportation('BOAT')" [ngClass]="{'teal white-text': journey?.transportation=='BOAT'}">
+                    <md-card (click)="changeTransportation('BOAT')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='BOAT'}">
                         <i class="fa fa-ship"></i>
                     </md-card>
-                    <md-card (click)="changeTransportation('BUS')" [ngClass]="{'teal white-text': journey?.transportation=='BUS'}">
+                    <md-card (click)="changeTransportation('BUS')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='BUS'}">
                         <i class="fa fa-bus"></i>
                     </md-card>
-                    <md-card (click)="changeTransportation('CAR')" [ngClass]="{'teal white-text': journey?.transportation=='CAR'}">
+                    <md-card (click)="changeTransportation('CAR')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='CAR'}">
                         <i class="fa fa-car"></i>
                     </md-card>
-                    <md-card (click)="changeTransportation('TAXI')" [ngClass]="{'teal white-text': journey?.transportation=='TAXI'}">
+                    <md-card (click)="changeTransportation('TAXI')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='TAXI'}">
                         <i class="fa fa-taxi"></i>
                     </md-card>
-                    <md-card (click)="changeTransportation('HITCH_HIKING')" [ngClass]="{'teal white-text': journey?.transportation=='HITCH_HIKING'}">
+                    <md-card (click)="changeTransportation('HITCH_HIKING')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='HITCH_HIKING'}">
                         <i class="fa fa-thumbs-up"></i>
                     </md-card>
-                    <md-card (click)="changeTransportation('MOTORBIKE')" [ngClass]="{'teal white-text': journey?.transportation=='MOTORBIKE'}">
+                    <md-card (click)="changeTransportation('MOTORBIKE')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='MOTORBIKE'}">
                         <i class="fa fa-motorcycle"></i>
                     </md-card>
-                    <md-card (click)="changeTransportation('BIKE')" [ngClass]="{'teal white-text': journey?.transportation=='BIKE'}">
+                    <md-card (click)="changeTransportation('BIKE')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='BIKE'}">
                         <i class="fa fa-bicycle"></i>
                     </md-card>
-                    <md-card (click)="changeTransportation('FOOT')" [ngClass]="{'teal white-text': journey?.transportation=='FOOT'}">
+                    <md-card (click)="changeTransportation('FOOT')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='FOOT'}">
                         <i class="fa fa-male"></i>
                     </md-card>
                 </div>

@@ -40,7 +40,7 @@ export const stepRoute: Routes = [
         canActivate: [UserRouteAccessService],
     },
     {
-        path: 'step/:id/edit',
+        path: 'trip/:tripId/step/:id/edit',
         component: StepDialogComponent,
         data: {
             authorities: ['ROLE_USER'],

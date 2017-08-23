@@ -8,9 +8,6 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Step } from './step.model';
 import { StepPopupService } from './step-popup.service';
 import { StepService } from './step.service';
-import { Place, PlaceService } from '../place';
-import { Journey } from '../journey';
-import { Trip, TripService } from '../trip';
 import { ResponseWrapper } from '../../shared';
 import { ElementRef, NgZone, ViewChild } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
@@ -26,14 +23,13 @@ import { Router } from '@angular/router';
 export class StepDialogComponent implements OnInit {
 
     step: Step;
-    place: Place;
-    journey: Journey;
     authorities: any[];
     isSaving: boolean;
     routeSub: any;
     zoom: number;
     addressResolved: boolean;
-    stepNumber: number;
+    numberSteps: number;
+    update: boolean;
 
     @ViewChild('placeAutocomplete')
     public placeAutocompleteElementRef: ElementRef;
@@ -41,35 +37,34 @@ export class StepDialogComponent implements OnInit {
     constructor(
         private alertService: JhiAlertService,
         private stepService: StepService,
-        private placeService: PlaceService,
         private route: ActivatedRoute,
         private router: Router,
         private eventManager: JhiEventManager,
         private mapsAPILoader: MapsAPILoader,
         private ngZone: NgZone,
     ) {
-        this.place = new Place();
-        this.place.lat = 43.604652;
-        this.place.lon = 1.444209;
         this.zoom = 2;
-        this.stepNumber = 1;
         this.step = new Step();
-        this.journey = new Journey();
+        this.step.placeLat = 43.604652;
+        this.step.placeLng = 1.444209;
+        this.update = false;
 
         this.routeSub = this.route.params.subscribe((params) => {
             this.step.tripId = params['tripId'];
             const id = params['id'];
-            if (id) {
-                this.stepService.find(id).subscribe((step) => {
-                    this.step = step;
-                    this.place = new Place();
-                    this.place.name = this.step.placeName;
-                    this.place.lat = this.step.placeLat;
-                    this.place.lon = this.step.placeLng;
-                    this.zoom = 12;
-                    this.addressResolved = true;
-                });
-            }
+            this.stepService.count(this.step.tripId).subscribe((numberSteps) => {
+                this.numberSteps = parseInt(numberSteps.text(), 10);
+                if (id) {
+                    this.stepService.find(id).subscribe((step) => {
+                        this.step = step;
+                        this.update = true;
+                        this.zoom = 12;
+                        this.addressResolved = true;
+                    });
+                } else {
+                    this.step.number = this.numberSteps + 1;
+                }
+            });
         })
     }
 
@@ -94,11 +89,11 @@ export class StepDialogComponent implements OnInit {
                         return;
                     }
                     console.log('Place correct', place);
-                    console.log(this.place.lat, this.place.lon);
+                    console.log(this.step.placeLat, this.step.placeLng);
                     // set latitude, longitude and zoom
-                    this.place.lat = place.geometry.location.lat();
-                    this.place.lon = place.geometry.location.lng();
-                    this.place.name = place.formatted_address;
+                    this.step.placeLat = place.geometry.location.lat();
+                    this.step.placeLng = place.geometry.location.lng();
+                    this.step.placeName = place.formatted_address;
                     this.zoom = 12;
                     this.addressResolved = true;
                 });
@@ -110,22 +105,29 @@ export class StepDialogComponent implements OnInit {
     }
 
     changeTransportation(transportation: any) {
-        this.journey.transportation = transportation;
+        this.step.arrivalTransportation = transportation;
     }
 
     save() {
         this.isSaving = true;
         if (this.step.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.stepService.update(this.step, this.place, this.journey));
+                this.stepService.update(this.step));
         } else {
             this.subscribeToSaveResponse(
-                this.stepService.create(this.step, this.place, this.journey));
+                this.stepService.create(this.step));
         }
     }
 
     placeChanged() {
         this.addressResolved = false;
+    }
+
+    stepNumberChanged() {
+        const maxStepNumber: number = this.numberSteps + (this.update ? 0 : 1);
+        if (this.step.number > maxStepNumber) {
+            this.step.number = maxStepNumber;
+        }
     }
 
     private subscribeToSaveResponse(result: Observable<Step>) {

@@ -1,6 +1,6 @@
 import { BaseEntity } from './../../shared';
 
-const enum Transportation {
+export const enum Transportation {
     PLANE,  TRAIN,  CAR,  TAXI,  BOAT, BUS, HITCH_HIKING, MOTORBIKE, BIKE, FOOT
 }
 

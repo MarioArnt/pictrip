@@ -77,7 +77,7 @@ export class TripDetailComponent implements OnInit, OnDestroy {
         this.steps = [];
         this.stepService.findByTripId(tripId).subscribe(
             (res: ResponseWrapper) => {
-                this.steps = res.json;
+                this.steps = res.json.sort((a, b) => a.number > b.number);
                 if (this.steps.length > 1) {
                     this.bounds = this.calculateBounds();
                 } else if (this.steps.length === 1) {

@@ -113,6 +113,27 @@ public class StepServiceImpl implements StepService{
     @Override
     public ErrorDetails checkStepCreationPrerequisites(StepDTO step) {
 
+        ErrorDetails cantUpdate = checkStepUpdatePrerequisites(step);
+        if(cantUpdate != null) {
+            return cantUpdate;
+        }
+        // Check that a Step with the same ID does not exist
+        if (step.getId() != null) {
+            return new ErrorDetails(HttpStatus.CONFLICT, "idexists", "A new step cannot already have an ID");
+        }
+
+        return null;
+    }
+
+    /**
+     * Check if the step update is possible (i.e. valid trip ID and step number
+     * and user has the right to update steps)
+     *
+     * @param step : the step DTO to create
+     * @return an error details object if there is any error or null
+     */
+    @Override
+    public ErrorDetails checkStepUpdatePrerequisites(StepDTO step) {
         // Fetch trip
         if(step.getTripId() == null) {
             return new ErrorDetails(HttpStatus.BAD_REQUEST, "notripid", "The step you're trying to create is not linked to a Trip");
@@ -126,11 +147,6 @@ public class StepServiceImpl implements StepService{
         // Check if user has right to post the step
         if(!trip.getOwner().getId().equals(this.userService.getCurrentLoggedUserId())) {
             return new ErrorDetails(HttpStatus.FORBIDDEN, "stepcreationforbidden", "You are not allowed to create a step for this Trip");
-        }
-
-        // Check that a Step with the same ID does not exist
-        if (step.getId() != null) {
-            return new ErrorDetails(HttpStatus.CONFLICT, "idexists", "A new step cannot already have an ID");
         }
 
         Integer numberSteps = this.countStepsByTripId(step.getTripId());
