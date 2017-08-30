@@ -1,8 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChildren, QueryList } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { JhiEventManager  } from 'ng-jhipster';
 import { ResponseWrapper } from '../../shared';
+import { PictripDateUtils } from '../../utils/date.utils';
+import { AgmInfoWindow } from '@agm/core';
 
 import { Trip } from './trip.model';
 import { TripService } from './trip.service';
@@ -24,30 +26,41 @@ export class TripDetailComponent implements OnInit, OnDestroy {
     public trip: Trip;
     public bounds: google.maps.LatLngBounds;
     public contributors: any[];
-    public journeys: Journey[];
+    public journeys: any[];
     public steps: Step[];
+    public selectedStep: Step;
     public lat: number;
     public lng: number;
     public zoom: number;
+    public showDeleteWindow: boolean;
 
     private subscription: Subscription;
     private eventSubscriber: Subscription;
+    private journeyStrokeOpacity: number;
+    private journeyHoveredStrokeOpacity: number;
     public transportationColors: any;
+
+    @ViewChildren('stepInfoWindow')
+    public stepInfoWindows: QueryList<AgmInfoWindow>;
 
     constructor(
         private eventManager: JhiEventManager,
         private tripService: TripService,
         private stepService: StepService,
         private journeyService: JourneyService,
+        private dateUtils: PictripDateUtils,
         private route: ActivatedRoute,
     ) {
         this.steps = [];
+        this.selectedStep = null;
+        this.showDeleteWindow = false;
         this.contributors = [];
         this.journeys = [];
         this.lat = 43.604652;
-        this.transportationColors = TransportationColors;
         this.lng = 1.444209;
-        this.zoom = 2;
+        this.transportationColors = TransportationColors;
+        this.journeyStrokeOpacity = 0.6;
+        this.journeyHoveredStrokeOpacity = 1;
     }
 
     ngOnInit() {
@@ -61,6 +74,7 @@ export class TripDetailComponent implements OnInit, OnDestroy {
         this.journeyService.query().subscribe(
             (res: ResponseWrapper) => {
                 this.journeys = res.json;
+                this.journeys.forEach((j) => j.strokeOpacity = this.journeyStrokeOpacity);
             },
             (res: ResponseWrapper) => console.log('Error fetching journeys')
         );
@@ -78,36 +92,86 @@ export class TripDetailComponent implements OnInit, OnDestroy {
         this.stepService.findByTripId(tripId).subscribe(
             (res: ResponseWrapper) => {
                 this.steps = res.json.sort((a, b) => a.number > b.number);
-                if (this.steps.length > 1) {
-                    this.bounds = this.calculateBounds();
-                } else if (this.steps.length === 1) {
-                    this.lat = this.steps[0].placeLat;
-                    this.lng = this.steps[0].placeLng;
-                    this.zoom = 12;
-                }
+                this.centerMapOnStep(1);
             },
             (res: ResponseWrapper) => console.log('Error:', res.json)
         );
+    }
+
+    /**
+     * Select a step by number. The map will smoothly translate to new bounds, with the step in center
+     * and the journey to this step visible. The step will also be highlighted in step list.
+     * @param stepNumber : the number of the step to select
+     */
+    public selectStep(stepNumber: number): void {
+        this.stepInfoWindows.forEach((infoWindow) => infoWindow.close());
+        this.stepInfoWindows.find((infoWindow) => parseInt(infoWindow.hostMarker.label, 10) === stepNumber).open();
+        this.centerMapOnStep(stepNumber);
+    }
+
+    private centerMapOnStep(stepNumber: number) {
+        this.selectedStep = this.steps.find((s) => s.number === stepNumber);
+        // Set center
+        this.lat = this.selectedStep.placeLat;
+        this.lng = this.selectedStep.placeLng;
+    }
+
+    public closeInfoWindow(infoWindow: AgmInfoWindow) {
+        infoWindow.close();
+    }
+
+    public formatDate(date: Date): string {
+        return this.dateUtils.formatDateToHumans(date);
+    }
+
+    public summarizeText(text: string): string {
+        if (text == null) {
+            return '';
+        }
+        return text.length > 255 ? text.substr(0, 255) + '...' : text;
+    }
+
+    /**
+     * Display the info window to confirm step delete. Will also focus the step to delete.
+     * @param step : the step to delete
+     */
+    public deleteStep(step: Step): void {
+        this.selectStep(step.number);
+        this.showDeleteWindow = true;
+    }
+
+    public confirmStepDeletion(): void {
+        this.showDeleteWindow = false;
+        this.stepService.delete(this.selectedStep.id);
+    }
+
+    public cancelStepDeletion(): void {
+        this.showDeleteWindow = false;
     }
 
     previousState() {
         window.history.back();
     }
 
-    private calculateBounds() {
-        const mostSouthern: number = Math.min(...this.steps.map((step) => step.placeLat));
-        const mostNorthern: number = Math.max(...this.steps.map((step) => step.placeLat));
-        const mostEaster: number = Math.max(...this.steps.map((step) => step.placeLng));
-        const mostWestern: number = Math.min(...this.steps.map((step) => step.placeLng));
-        const southWest = {
-            lat: mostSouthern,
-            lng: mostWestern,
-        }
-        const northEast = {
-            lat: mostNorthern,
-            lng: mostEaster,
-        }
-        return new google.maps.LatLngBounds(southWest, northEast);
+    boundsChanged($event) {
+        console.log('Bounds changed:', $event);
+    }
+
+    centerChanged($event) {
+        console.log('Center changed:', $event);
+    }
+
+    journeyMouseOver(journey) {
+        journey.strokeOpacity = this.journeyHoveredStrokeOpacity;
+    }
+
+    journeyMouseOut(journey) {
+        journey.strokeOpacity = this.journeyStrokeOpacity;
+    }
+
+    journeyClicked(journey) {
+        this.journeys.forEach((j) => j.strokeOpacity = this.journeyStrokeOpacity);
+        journey.strokeOpacity = this.journeyHoveredStrokeOpacity;
     }
 
     zoomOnStep(step: Step) {

@@ -4,8 +4,6 @@ import { Observable } from 'rxjs/Rx';
 import { PictripDateUtils } from '../../utils/date.utils';
 
 import { Step } from './step.model';
-import { Place } from '../place/place.model';
-import { Journey } from '../journey/journey.model';
 
 import { ResponseWrapper, createRequestOption } from '../../shared';
 

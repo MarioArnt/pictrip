@@ -5,16 +5,16 @@ export const enum Transportation {
 }
 
 export const TransportationColors = Object.freeze({
-    PLANE: 'cyan',
-    TRAIN: 'red',
-    CAR: 'brown',
-    TAXI: 'yellow',
-    BOAT: 'blue',
-    BUS: 'darkred',
-    HITCH_HIKING: 'purple',
-    MOTORBIKE: 'darkgreen',
-    BIKE: 'green',
-    FOOT: 'lightgreen'
+    PLANE: '#0277BD',
+    TRAIN: '#D84315',
+    CAR: '#4E342E',
+    TAXI: '#F9A825',
+    BOAT: '#283593',
+    BUS: '#6A1B9A',
+    HITCH_HIKING: '#AD1457',
+    MOTORBIKE: '#9E9D24',
+    BIKE: '#2E7D32',
+    FOOT: '#558B2F'
 });
 
 export class Journey implements BaseEntity {

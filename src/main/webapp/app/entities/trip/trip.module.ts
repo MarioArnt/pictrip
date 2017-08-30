@@ -15,6 +15,7 @@ import {
     tripRoute,
     tripPopupRoute,
 } from './';
+import {StepSortPipe} from '../step/step.pipes';
 
 const ENTITY_STATES = [
     ...tripRoute,
@@ -34,6 +35,7 @@ const ENTITY_STATES = [
         TripDeleteDialogComponent,
         TripPopupComponent,
         TripDeletePopupComponent,
+        StepSortPipe,
     ],
     entryComponents: [
         TripComponent,

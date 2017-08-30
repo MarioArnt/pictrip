@@ -7,7 +7,7 @@
     <md-sidenav #sidenav mode="side" opened="true">
         <md-list>
             <h3 md-subheader>Steps</h3>
-            <md-list-item *ngFor="let step of steps">
+            <md-list-item class="step-list-item" *ngFor="let step of steps | sortStepByNumber" [ngClass]="{'selected': selectedStep.id === step.id}">
                 <button md-icon-button [mdMenuTriggerFor]="menu">
                     <i class="fa fa-ellipsis-v more-actions-button font-black"></i>
                 </button>
@@ -16,14 +16,14 @@
                         <i class="fa fa-pencil"></i>
                         <span>Edit</span>
                     </button>
-                    <button md-menu-item [routerLink]="['/', { outlets: { popup: 'step/'+ step.id + '/delete'} }]"
+                    <button md-menu-item (click)="deleteStep(step)"
                             replaceUrl="true">
                         <i class="fa fa-trash"></i>
                         <span>Delete</span>
                     </button>
                 </md-menu>
                 <h5 md-list-icon>{{step.number}}</h5>
-                <p md-line (click)="zoomOnStep(step)">{{step.placeName}}</p>
+                <p class="step-name" md-line (click)="selectStep(step.number)">{{step?.placeName}}</p>
             </md-list-item>
             <md-divider></md-divider>
             <h3 md-subheader>Contributors</h3>
@@ -34,72 +34,45 @@
             </md-list-item>
         </md-list>
     </md-sidenav>
-    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [fitBounds]="bounds">
-        <agm-marker *ngFor="let step of steps" [latitude]="step.placeLat" [longitude]="step.placeLng" [label]="step.number.toString()"></agm-marker>
-        <agm-polyline *ngFor="let journey of journeys" clickable="true" geodesic="true" [strokeColor]="this.transportationColors[journey.transportation]">
+    <agm-map
+        [latitude]="lat"
+        [longitude]="lng"
+        [fitBounds]="bounds"
+        usePanning="true"
+        zoomControlOptions="{position: BOTTOM_LEFT}"
+        streetViewControlOptions="{position: BOTTOM_LEFT}">
+        <agm-marker *ngFor="let step of steps"
+                    [latitude]="step.placeLat"
+                    [longitude]="step.placeLng"
+                    [label]="step.number.toString()"
+                    openInfoWindow = "false"
+                    (markerClick)="selectStep(step.number)">
+            <agm-info-window #stepInfoWindow maxWidth="400">
+                <h4>#{{step?.number}} - {{step?.placeName}}</h4>
+                <p *ngIf="step.dateFrom && step.dateTo"><i class="fa fa-calendar margin-r-1"></i>{{formatDate(step.dateFrom)}} - {{formatDate(step.dateTo)}}</p>
+                <p><i class="fa fa-camera margin-r-1"></i>24 photos</p>
+                <p>{{summarizeText(step.description)}}</p>
+                <a class="waves-effect waves-light btn teal white-text">See details</a>
+                <a class="waves-effect waves-teal btn-flat"(click)="closeInfoWindow(stepInfoWindow)">Close</a>
+            </agm-info-window>
+        </agm-marker>
+        <agm-polyline *ngFor="let journey of journeys"
+                      clickable="true"
+                      geodesic="true"
+                      [strokeOpacity] = "journey.strokeOpacity"
+                      (lineClick) = "journeyClicked(journey)"
+                      (lineMouseOver) = "journeyMouseOver(journey)"
+                      (lineMouseOut) = "journeyMouseOut(journey)"
+                      [strokeColor]="this.transportationColors[journey.transportation]">
             <agm-polyline-point [latitude]="journey.stepFromLat" [longitude]="journey.stepFromLng"></agm-polyline-point>
             <agm-polyline-point [latitude]="journey.stepToLat" [longitude]="journey.stepToLng"></agm-polyline-point>
         </agm-polyline>
+        <agm-info-window [isOpen]="showDeleteWindow" [latitude]="selectedStep?.placeLat" [longitude]="selectedStep?.placeLng">
+            <h4>Delete step ?</h4>
+            <p>Are you sure you want to delete step #{{selectedStep?.number}} - {{selectedStep?.placeName}}.</p>
+            <p>All the related pictures will be lost !</p>
+            <a class="waves-effect waves-light btn red accent-3 white-text" (click)="confirmStepDeletion()">Delete</a>
+            <a class="waves-effect waves-teal btn-flat" (click)="cancelStepDeletion()">Cancel</a>
+        </agm-info-window>
     </agm-map>
 </md-sidenav-container>
-
-
-
-<!--- <h2><span jhiTranslate="pictripApp.trip.detail.title">Trip</span> {{trip.id}}</h2>
-<hr>
-<jhi-alert-error></jhi-alert-error>
-<dl class="row-md jh-entity-details">
-    <dt><span jhiTranslate="pictripApp.trip.name">Name</span></dt>
-    <dd>
-        <span>{{trip.name}}</span>
-    </dd>
-    <dt><span jhiTranslate="pictripApp.trip.description">Description</span></dt>
-    <dd>
-        <span>{{trip.description}}</span>
-    </dd>
-    <dt><span jhiTranslate="pictripApp.trip.dateFrom">Date From</span></dt>
-    <dd>
-        <span>{{trip.dateFrom | date:'mediumDate'}}</span>
-    </dd>
-    <dt><span jhiTranslate="pictripApp.trip.dateTo">Date To</span></dt>
-    <dd>
-        <span>{{trip.dateTo | date:'mediumDate'}}</span>
-    </dd>
-    <dt><span jhiTranslate="pictripApp.trip.privacy">Privacy</span></dt>
-    <dd>
-        <span jhiTranslate="{{'pictripApp.Privacy.' + trip.privacy}}">{{trip.privacy}}</span>
-    </dd>
-    <dt><span jhiTranslate="pictripApp.trip.color">Color</span></dt>
-    <dd>
-        <span jhiTranslate="{{'pictripApp.Color.' + trip.color}}">{{trip.color}}</span>
-    </dd>
-    <dt><span jhiTranslate="pictripApp.trip.cover">Cover</span></dt>
-    <dd>
-        <div *ngIf="trip.coverId">
-            <a [routerLink]="['/picture', trip.coverId]">{{trip.coverSrc}}</a>
-        </div>
-    </dd>
-    <dt><span jhiTranslate="pictripApp.trip.members">Members</span></dt>
-    <dd>
-        <span *ngFor="let members of trip.members; let last = last">
-            {{members.login}}{{last ? '' : ', '}}
-        </span>
-    </dd>
-    <dt><span jhiTranslate="pictripApp.trip.owner">Owner</span></dt>
-    <dd>
-        {{trip.ownerLogin}}
-    </dd>
-</dl>
-
-<button type="submit"
-        (click)="previousState()"
-        class="btn btn-info">
-    <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
-</button>
-
-<button type="button"
-        [routerLink]="['/', { outlets: { popup: 'trip/'+ trip.id + '/edit'} }]"
-        replaceUrl="true"
-        class="btn btn-primary">
-    <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
-</button>-->

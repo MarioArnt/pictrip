@@ -123,3 +123,11 @@ md-sidenav.mat-sidenav-opened {
 .add-step-btn {
     right: 50px;
 }
+
+.step-list-item.selected {
+    background-color: #B2DFDB;
+}
+
+.step-name {
+    cursor: pointer;
+}

@@ -20,4 +20,8 @@ export class PictripDateUtils {
         return date.isValid() ? date : null;
     }
 
+    public formatDateToHumans(date: Date): string {
+        return moment(date).format('DD/MM/YYYY');
+    }
+
 }

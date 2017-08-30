@@ -1,4 +1,4 @@
-<agm-map [latitude]="step?.placeLat" [longitude]="step?.placeLng" [zoom]="zoom">
+<agm-map [latitude]="step?.placeLat" [longitude]="step?.placeLng" [zoom]="zoom" zoomControl="false" streetViewControl="false">
     <agm-marker *ngIf="addressResolved" [latitude]="step?.placeLat" [longitude]="step?.placeLng" [label]="step.number?.toString()"></agm-marker>
 </agm-map>
 <form class="main-content" name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
