@@ -151,4 +151,11 @@ public class JourneyServiceImpl implements JourneyService{
             .collect(Collectors.toList());
     }
 
+    @Override
+    public List<JourneyDTO> findByTripId(Long tripId) {
+        return this.journeyRepository.findByStepToTripId(tripId).stream()
+            .map(journeyMapper::toDto)
+            .collect(Collectors.toList());
+    }
+
 }

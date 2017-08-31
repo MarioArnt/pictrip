@@ -24,7 +24,6 @@ import { JourneyService } from '../journey/journey.service';
 export class TripDetailComponent implements OnInit, OnDestroy {
 
     public trip: Trip;
-    public bounds: google.maps.LatLngBounds;
     public contributors: any[];
     public journeys: any[];
     public steps: Step[];
@@ -58,6 +57,7 @@ export class TripDetailComponent implements OnInit, OnDestroy {
         this.journeys = [];
         this.lat = 43.604652;
         this.lng = 1.444209;
+        this.zoom = 2;
         this.transportationColors = TransportationColors;
         this.journeyStrokeOpacity = 0.6;
         this.journeyHoveredStrokeOpacity = 1;
@@ -70,31 +70,41 @@ export class TripDetailComponent implements OnInit, OnDestroy {
         this.registerChangeInTrips();
         this.eventManager.subscribe('stepListModification', () => {
             this.fetchSteps(this.trip.id);
+            this.fetchJourneys(this.trip.id);
         });
-        this.journeyService.query().subscribe(
-            (res: ResponseWrapper) => {
-                this.journeys = res.json;
-                this.journeys.forEach((j) => j.strokeOpacity = this.journeyStrokeOpacity);
-            },
-            (res: ResponseWrapper) => console.log('Error fetching journeys')
-        );
     }
 
     load(id) {
         this.tripService.find(id).subscribe((trip) => {
             this.trip = trip;
+            this.fetchSteps(id);
+            this.fetchJourneys(id);
         });
-        this.fetchSteps(id);
     }
 
-    private fetchSteps(tripId) {
+    private fetchSteps(tripId: number) {
+        console.log('Clearing steps');
         this.steps = [];
         this.stepService.findByTripId(tripId).subscribe(
             (res: ResponseWrapper) => {
                 this.steps = res.json.sort((a, b) => a.number > b.number);
-                this.centerMapOnStep(1);
+                if (this.steps.length > 0) {
+                    this.zoom = 8;
+                    this.centerMapOnStep(1);
+                }
             },
             (res: ResponseWrapper) => console.log('Error:', res.json)
+        );
+    }
+
+    private fetchJourneys(tripId: number) {
+        this.journeys = [];
+        this.journeyService.findByTripId(tripId).subscribe(
+            (res: ResponseWrapper) => {
+                this.journeys = res.json;
+                this.journeys.forEach((j) => j.strokeOpacity = this.journeyStrokeOpacity);
+            },
+            (res: ResponseWrapper) => console.log('Error fetching journeys')
         );
     }
 
@@ -152,8 +162,14 @@ export class TripDetailComponent implements OnInit, OnDestroy {
 
     public confirmStepDeletion(): void {
         this.showDeleteWindow = false;
-        console.log('Call step service to delete step');
-        this.stepService.delete(this.selectedStep.id);
+        this.stepService.delete(this.selectedStep.id).subscribe(() => {
+            this.eventManager.broadcast({
+                name: 'stepListModification',
+                content: 'Deleted an step'
+            });
+            console.log('Step deleted, fetching updated step list !');
+            this.fetchSteps(this.trip.id);
+        });
     }
 
     public cancelStepDeletion(): void {

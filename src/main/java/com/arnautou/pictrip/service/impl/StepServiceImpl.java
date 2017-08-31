@@ -380,7 +380,7 @@ public class StepServiceImpl implements StepService{
 
         // Remove step
         this.stepRepository.delete(stepId);
-
+        tripSteps.removeIf(step -> step.getId().equals(stepId));
         // Reindex other steps
         tripSteps.stream().filter(step -> step.getNumber() > stepNumber).forEach(step -> {
             step.setNumber(step.getNumber() - 1);

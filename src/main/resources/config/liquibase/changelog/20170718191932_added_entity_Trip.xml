@@ -25,7 +25,7 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="description" type="varchar(255)">
+            <column name="description" type="text">
                 <constraints nullable="true" />
             </column>
 
@@ -53,7 +53,7 @@
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        
+
         <createTable tableName="trip_members">
             <column name="members_id" type="bigint">
                 <constraints nullable="false"/>
@@ -64,6 +64,6 @@
         </createTable>
 
         <addPrimaryKey columnNames="trips_id, members_id" tableName="trip_members"/>
-        
+
     </changeSet>
 </databaseChangeLog>

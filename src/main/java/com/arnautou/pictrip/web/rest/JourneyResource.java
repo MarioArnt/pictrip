@@ -39,15 +39,15 @@ public class JourneyResource {
 
 
     /**
-     * GET  /journeys : get all the journeys.
+     * GET  /journeys/trip/:tripId : get all the journeys.
      *
      * @return the ResponseEntity with status 200 (OK) and the list of journeys in body
      */
-    @GetMapping("/journeys")
+    @GetMapping("/journeys/trip/{tripId}")
     @Timed
-    public List<JourneyDTO> getAllJourneys() {
+    public List<JourneyDTO> getJourneysByTrip(@PathVariable Long tripId) {
         log.debug("REST request to get all Journeys");
-        return journeyService.findAll();
+        return journeyService.findByTripId(tripId);
     }
 
     /**

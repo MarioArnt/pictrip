@@ -160,7 +160,7 @@
             </column>
             <column name="date_from" type="BYTEA"/>
             <column name="date_to" type="BYTEA"/>
-            <column name="description" type="VARCHAR(255)"/>
+            <column name="description" type="TEXT"/>
             <column name="jhi_number" type="INT">
                 <constraints nullable="false"/>
             </column>
@@ -182,7 +182,7 @@
             </column>
             <column name="date_from" type="BYTEA"/>
             <column name="date_to" type="BYTEA"/>
-            <column name="description" type="VARCHAR(255)"/>
+            <column name="description" type="TEXT"/>
             <column name="name" type="VARCHAR(80)">
                 <constraints nullable="false"/>
             </column>

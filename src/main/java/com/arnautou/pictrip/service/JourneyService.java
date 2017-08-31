@@ -65,4 +65,12 @@ public interface JourneyService {
      *  @return the list of entities
      */
     List<JourneyDTO> search(String query);
+
+    /**
+     * Find journeys for a given trip
+     *
+     * @param tripId : the given trip ID
+     * @return the list of journeys for this trip
+     */
+    List<JourneyDTO> findByTripId(Long tripId);
 }

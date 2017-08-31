@@ -53,7 +53,6 @@ export class StepService {
     }
 
     delete(id: number): Observable<Response> {
-        console.log('Send request to delete step');
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 

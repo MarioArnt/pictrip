@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import org.springframework.data.jpa.repository.*;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -16,4 +17,5 @@ import java.util.Optional;
 public interface JourneyRepository extends JpaRepository<Journey,Long> {
     Optional<Journey> findOneByStepFromIdAndStepToId(Long stepFromId, Long stepToId);
     Optional<Journey> findOneByStepToId(Long stepId);
+    List<Journey> findByStepToTripId(Long tripId);
 }
