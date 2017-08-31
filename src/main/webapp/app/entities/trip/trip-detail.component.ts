@@ -104,9 +104,18 @@ export class TripDetailComponent implements OnInit, OnDestroy {
      * @param stepNumber : the number of the step to select
      */
     public selectStep(stepNumber: number): void {
-        this.stepInfoWindows.forEach((infoWindow) => infoWindow.close());
-        this.stepInfoWindows.find((infoWindow) => parseInt(infoWindow.hostMarker.label, 10) === stepNumber).open();
+        this.closeAllInfoWindows();
         this.centerMapOnStep(stepNumber);
+        this.openInfoWindow(stepNumber);
+    }
+
+    private openInfoWindow(stepNumber: number) {
+        this.stepInfoWindows.find((infoWindow) => parseInt(infoWindow.hostMarker.label, 10) === stepNumber).open();
+    }
+
+    private closeAllInfoWindows() {
+        this.showDeleteWindow = false;
+        this.stepInfoWindows.forEach((infoWindow) => infoWindow.close());
     }
 
     private centerMapOnStep(stepNumber: number) {
@@ -136,12 +145,14 @@ export class TripDetailComponent implements OnInit, OnDestroy {
      * @param step : the step to delete
      */
     public deleteStep(step: Step): void {
-        this.selectStep(step.number);
+        this.closeAllInfoWindows();
+        this.centerMapOnStep(step.number);
         this.showDeleteWindow = true;
     }
 
     public confirmStepDeletion(): void {
         this.showDeleteWindow = false;
+        console.log('Call step service to delete step');
         this.stepService.delete(this.selectedStep.id);
     }
 
