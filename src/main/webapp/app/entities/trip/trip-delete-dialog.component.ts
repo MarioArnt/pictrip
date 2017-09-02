@@ -1,11 +1,9 @@
-import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core';
 
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { Trip } from './trip.model';
-import { TripPopupService } from './trip-popup.service';
 import { TripService } from './trip.service';
 
 @Component({
@@ -35,33 +33,5 @@ export class TripDeleteDialogComponent {
             });
             this.activeModal.closeAll();
         });
-    }
-}
-
-@Component({
-    selector: 'jhi-trip-delete-popup',
-    template: ''
-})
-export class TripDeletePopupComponent implements OnInit, OnDestroy {
-
-    modalRef: MdDialogRef<TripDeleteDialogComponent>;
-    routeSub: any;
-    tripPopupService: TripPopupService;
-
-    constructor(
-        private route: ActivatedRoute,
-        private injector: Injector
-    ) {
-        setTimeout(() => this.tripPopupService = injector.get(TripPopupService));
-    }
-
-    ngOnInit() {
-        this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.tripPopupService.open(params['id']);
-        });
-    }
-
-    ngOnDestroy() {
-        this.routeSub.unsubscribe();
     }
 }

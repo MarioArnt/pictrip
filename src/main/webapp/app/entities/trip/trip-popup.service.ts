@@ -15,15 +15,13 @@ export class TripPopupService {
         private tripService: TripService
     ) {}
 
-    open(id?: number | any): MdDialogRef<TripDeleteDialogComponent> {
+    open(trip: Trip): MdDialogRef<TripDeleteDialogComponent> {
         if (this.isOpen) {
             return;
         }
         this.isOpen = true;
-        if (id) {
-            this.tripService.find(id).subscribe((trip) => {
-                return this.tripModalRef(trip);
-            });
+        if (trip) {
+            return this.tripModalRef(trip);
         } else {
             return this.tripModalRef(new Trip());
         }

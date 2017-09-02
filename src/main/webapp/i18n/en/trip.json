@@ -7,11 +7,13 @@
                 "createOrEditLabel": "Create or edit a Trip",
                 "search": "Search for Trip"
             },
-            "created": "A new Trip is created with identifier {{ param }}",
-            "updated": "A Trip is updated with identifier {{ param }}",
-            "deleted": "A Trip is deleted with identifier {{ param }}",
+            "created": "A new Trip has been created !",
+            "updated": "Your Trip has been updated !",
+            "deleted": "Your Trip has been deleted !",
             "delete": {
-                "question": "Are you sure you want to delete Trip {{ id }}?"
+                "title": "Confirm trip deletion",
+                "question": "Are you sure you want to delete Trip {{ name }}?",
+                "button": "Delete"
             },
             "detail": {
                 "title": "Trip"

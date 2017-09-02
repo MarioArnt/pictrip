@@ -9,16 +9,13 @@ import {
     TripComponent,
     TripDetailComponent,
     TripDialogComponent,
-    TripDeletePopupComponent,
     TripDeleteDialogComponent,
     tripRoute,
-    tripPopupRoute,
 } from './';
-import {StepSortPipe} from '../step/step.pipes';
+import { StepSortPipe } from '../step/step.pipes';
 
 const ENTITY_STATES = [
     ...tripRoute,
-    ...tripPopupRoute,
 ];
 
 @NgModule({
@@ -32,14 +29,12 @@ const ENTITY_STATES = [
         TripDetailComponent,
         TripDialogComponent,
         TripDeleteDialogComponent,
-        TripDeletePopupComponent,
         StepSortPipe,
     ],
     entryComponents: [
         TripComponent,
         TripDialogComponent,
         TripDeleteDialogComponent,
-        TripDeletePopupComponent,
     ],
     providers: [
         TripService,

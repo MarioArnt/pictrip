@@ -8,6 +8,7 @@ import { TripService } from './trip.service';
 import { Principal, ResponseWrapper } from '../../shared';
 import { PictripDateUtils } from '../../utils/date.utils';
 import { PictripAlertUtils } from '../../utils/alert.utils';
+import { TripPopupService } from './trip-popup.service';
 
 @Component({
     selector: 'jhi-trip',
@@ -24,6 +25,7 @@ trips: Trip[];
 
     constructor(
         private tripService: TripService,
+        private tripDeleteDialogService: TripPopupService,
         private eventManager: JhiEventManager,
         private dateUtils: PictripDateUtils,
         private activatedRoute: ActivatedRoute,
@@ -74,6 +76,10 @@ trips: Trip[];
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
+    }
+
+    public showDeleteModal(trip: Trip) {
+        this.tripDeleteDialogService.open(trip);
     }
 
     public summarizeText(text: string): string {

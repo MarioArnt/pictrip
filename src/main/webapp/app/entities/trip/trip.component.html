@@ -44,7 +44,7 @@
                         <i class="fa fa-pencil"></i>
                         <span>Edit</span>
                     </button>
-                    <button md-menu-item [routerLink]="['/', { outlets: { popup: 'trip/'+ trip.id + '/delete'} }]"
+                    <button md-menu-item (click)="showDeleteModal(trip)"
                             replaceUrl="true">
                         <i class="fa fa-trash"></i>
                         <span>Delete</span>
