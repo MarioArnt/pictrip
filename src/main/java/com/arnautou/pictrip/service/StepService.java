@@ -95,4 +95,6 @@ public interface StepService {
      *  @return the list of entities
      */
     List<StepDTO> search(String query);
+
+    void deleteByTripId(Long id);
 }

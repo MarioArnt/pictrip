@@ -24,4 +24,9 @@ export class ErrorComponent implements OnInit {
             }
         });
     }
+
+    previousState() {
+        window.history.back();
+    }
+
 }

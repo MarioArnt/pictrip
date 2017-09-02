@@ -8,11 +8,12 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Step } from './step.model';
 import { StepPopupService } from './step-popup.service';
 import { StepService } from './step.service';
-import { ResponseWrapper } from '../../shared';
 import { ElementRef, NgZone, ViewChild } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import {} from '@types/googlemaps';
 import { Router } from '@angular/router';
+import {PictripAlertUtils} from '../../utils/alert.utils';
+
 @Component({
     selector: 'jhi-step-dialog',
     templateUrl: './step-dialog.component.html',
@@ -41,6 +42,7 @@ export class StepDialogComponent implements OnInit {
         private router: Router,
         private eventManager: JhiEventManager,
         private mapsAPILoader: MapsAPILoader,
+        private alertUtils: PictripAlertUtils,
         private ngZone: NgZone,
     ) {
         this.zoom = 2;
@@ -152,7 +154,8 @@ export class StepDialogComponent implements OnInit {
     }
 
     private onError(error) {
-        this.alertService.error(error.message, null, null);
+        console.log('Error happened');
+        this.alertUtils.error(error.message);
     }
 }
 

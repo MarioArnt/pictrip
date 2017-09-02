@@ -6,7 +6,7 @@ import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { TripComponent } from './trip.component';
 import { TripDetailComponent } from './trip-detail.component';
-import { TripPopupComponent, TripDialogComponent } from './trip-dialog.component';
+import { TripDialogComponent } from './trip-dialog.component';
 import { TripDeletePopupComponent } from './trip-delete-dialog.component';
 
 import { Principal } from '../../shared';

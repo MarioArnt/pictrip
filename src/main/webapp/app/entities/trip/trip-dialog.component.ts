@@ -1,19 +1,18 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
-import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import {FormControl, Validators} from '@angular/forms';
 
 import { Trip} from './trip.model';
-import { TripPopupService } from './trip-popup.service';
 import { TripService } from './trip.service';
 import { Picture, PictureService } from '../picture';
 import { User, UserService } from '../../shared';
 import { ResponseWrapper } from '../../shared';
 import { Privacy, Color } from './trip.model';
+import { PictripAlertUtils } from '../../utils/alert.utils';
 
 @Component({
     selector: 'jhi-trip-dialog',
@@ -27,9 +26,7 @@ export class TripDialogComponent implements OnInit {
     trip: Trip;
     authorities: any[];
     isSaving: boolean;
-
     covers: Picture[];
-
     users: User[];
     dateFromDp: any;
     dateToDp: any;
@@ -46,7 +43,8 @@ export class TripDialogComponent implements OnInit {
         private tripService: TripService,
         private pictureService: PictureService,
         private userService: UserService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private alertUtils: PictripAlertUtils
     ) {
         this.routeSub = this.route.params.subscribe((params) => {
             const id = params['id'];
@@ -55,20 +53,6 @@ export class TripDialogComponent implements OnInit {
             this.trip.color = this.getRandomColor();
             if (id) {
                 this.tripService.find(id).subscribe((trip) => {
-                    if (trip.dateFrom) {
-                        trip.dateFrom = {
-                            year: trip.dateFrom.getFullYear(),
-                            month: trip.dateFrom.getMonth() + 1,
-                            day: trip.dateFrom.getDate()
-                        };
-                    }
-                    if (trip.dateTo) {
-                        trip.dateTo = {
-                            year: trip.dateTo.getFullYear(),
-                            month: trip.dateTo.getMonth() + 1,
-                            day: trip.dateTo.getDate()
-                        };
-                    }
                     this.trip = trip;
                 });
             }
@@ -122,7 +106,7 @@ export class TripDialogComponent implements OnInit {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min)) + min; // The maximum is exclusive and the minimum is inclusive
-}
+    }
 
     private subscribeToSaveResponse(result: Observable<Trip>) {
         result.subscribe((res: Trip) =>
@@ -150,7 +134,7 @@ export class TripDialogComponent implements OnInit {
     }
 
     private onError(error) {
-        this.alertService.error(error.message, null, null);
+        this.alertUtils.error(error.message);
     }
 
     trackPictureById(index: number, item: Picture) {
@@ -170,36 +154,5 @@ export class TripDialogComponent implements OnInit {
             }
         }
         return option;
-    }
-}
-
-@Component({
-    selector: 'jhi-trip-popup',
-    template: ''
-})
-export class TripPopupComponent implements OnInit, OnDestroy {
-
-    modalRef: NgbModalRef;
-    routeSub: any;
-
-    constructor(
-        private route: ActivatedRoute,
-        private tripPopupService: TripPopupService
-    ) {}
-
-    ngOnInit() {
-        this.routeSub = this.route.params.subscribe((params) => {
-            if ( params['id'] ) {
-                this.modalRef = this.tripPopupService
-                    .open(TripDialogComponent, params['id']);
-            } else {
-                this.modalRef = this.tripPopupService
-                    .open(TripDialogComponent);
-            }
-        });
-    }
-
-    ngOnDestroy() {
-        this.routeSub.unsubscribe();
     }
 }

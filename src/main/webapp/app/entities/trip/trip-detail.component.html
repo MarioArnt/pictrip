@@ -5,7 +5,7 @@
 </div>
 <md-sidenav-container>
     <md-sidenav #sidenav mode="side" opened="true">
-        <md-list>
+        <md-list [sortablejs]="steps" [sortablejsOptions]="{ animation: 120 }">
             <h3 md-subheader>Steps</h3>
             <md-list-item class="step-list-item" *ngFor="let step of steps | sortStepByNumber" [ngClass]="{'selected': selectedStep.id === step.id}">
                 <button md-icon-button [mdMenuTriggerFor]="menu">

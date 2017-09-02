@@ -1,58 +1,44 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { MdDialog, MdDialogRef } from '@angular/material';
 import { Trip } from './trip.model';
 import { TripService } from './trip.service';
+import { TripDeleteDialogComponent } from './trip-delete-dialog.component';
 
 @Injectable()
 export class TripPopupService {
+    private loginModalRef: MdDialogRef<TripDeleteDialogComponent>;
     private isOpen = false;
     constructor(
-        private modalService: NgbModal,
+        public dialog: MdDialog,
         private router: Router,
         private tripService: TripService
-
     ) {}
 
-    open(component: Component, id?: number | any): NgbModalRef {
+    open(id?: number | any): MdDialogRef<TripDeleteDialogComponent> {
         if (this.isOpen) {
             return;
         }
         this.isOpen = true;
-
         if (id) {
             this.tripService.find(id).subscribe((trip) => {
-                if (trip.dateFrom) {
-                    trip.dateFrom = {
-                        year: trip.dateFrom.getFullYear(),
-                        month: trip.dateFrom.getMonth() + 1,
-                        day: trip.dateFrom.getDate()
-                    };
-                }
-                if (trip.dateTo) {
-                    trip.dateTo = {
-                        year: trip.dateTo.getFullYear(),
-                        month: trip.dateTo.getMonth() + 1,
-                        day: trip.dateTo.getDate()
-                    };
-                }
-                this.tripModalRef(component, trip);
+                return this.tripModalRef(trip);
             });
         } else {
-            return this.tripModalRef(component, new Trip());
+            return this.tripModalRef(new Trip());
         }
     }
 
-    tripModalRef(component: Component, trip: Trip): NgbModalRef {
-        const modalRef = this.modalService.open(component, { size: 'lg', backdrop: 'static'});
-        modalRef.componentInstance.trip = trip;
-        modalRef.result.then((result) => {
+    tripModalRef(trip: Trip): MdDialogRef<TripDeleteDialogComponent> {
+        this.loginModalRef = this.dialog.open(TripDeleteDialogComponent);
+        this.loginModalRef.componentInstance.trip = trip;
+        this.loginModalRef.afterClosed().subscribe((result) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
             this.isOpen = false;
         }, (reason) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
             this.isOpen = false;
         });
-        return modalRef;
+        return this.loginModalRef;
     }
 }

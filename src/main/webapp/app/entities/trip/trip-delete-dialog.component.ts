@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Injector } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { MdDialog, MdDialogRef } from '@angular/material';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { Trip } from './trip.model';
@@ -18,13 +18,13 @@ export class TripDeleteDialogComponent {
 
     constructor(
         private tripService: TripService,
-        public activeModal: NgbActiveModal,
+        public activeModal: MdDialog,
         private eventManager: JhiEventManager
     ) {
     }
 
     clear() {
-        this.activeModal.dismiss('cancel');
+        this.activeModal.closeAll();
     }
 
     confirmDelete(id: number) {
@@ -33,7 +33,7 @@ export class TripDeleteDialogComponent {
                 name: 'tripListModification',
                 content: 'Deleted an trip'
             });
-            this.activeModal.dismiss(true);
+            this.activeModal.closeAll();
         });
     }
 }
@@ -44,18 +44,20 @@ export class TripDeleteDialogComponent {
 })
 export class TripDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
+    modalRef: MdDialogRef<TripDeleteDialogComponent>;
     routeSub: any;
+    tripPopupService: TripPopupService;
 
     constructor(
         private route: ActivatedRoute,
-        private tripPopupService: TripPopupService
-    ) {}
+        private injector: Injector
+    ) {
+        setTimeout(() => this.tripPopupService = injector.get(TripPopupService));
+    }
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.tripPopupService
-                .open(TripDeleteDialogComponent, params['id']);
+            this.modalRef = this.tripPopupService.open(params['id']);
         });
     }
 

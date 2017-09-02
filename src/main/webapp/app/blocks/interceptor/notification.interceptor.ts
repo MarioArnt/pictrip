@@ -1,15 +1,16 @@
-import { JhiAlertService, JhiHttpInterceptor } from 'ng-jhipster';
+import { JhiHttpInterceptor } from 'ng-jhipster';
 import { RequestOptionsArgs, Response } from '@angular/http';
 import { Injector } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { PictripAlertUtils } from '../../utils/alert.utils';
 
 export class NotificationInterceptor extends JhiHttpInterceptor {
 
-    private alertService: JhiAlertService;
+    private alertUtils: PictripAlertUtils;
 
     constructor(private injector: Injector) {
         super();
-        setTimeout(() => this.alertService = injector.get(JhiAlertService));
+        setTimeout(() => this.alertUtils = injector.get(PictripAlertUtils));
     }
 
     requestIntercept(options?: RequestOptionsArgs): RequestOptionsArgs {
@@ -27,10 +28,13 @@ export class NotificationInterceptor extends JhiHttpInterceptor {
             if (headers.length > 1) {
                 headers.sort();
                 const alertKey = response.headers.get(headers[ 0 ]);
+                console.log('Haders', headers);
+                console.log('Alertt key', alertKey);
                 if (typeof alertKey === 'string') {
-                    if (this.alertService) {
+                    if (this.alertUtils) {
                         const alertParam = headers.length >= 2 ? response.headers.get(headers[ 1 ]) : null;
-                        this.alertService.success(alertKey, { param : alertParam }, null);
+                        console.log('Alertt key', alertParam);
+                        this.alertUtils.success(alertKey, { param : alertParam }, null);
                     }
                 }
             }

@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-import { JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiLanguageService, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager} from 'ng-jhipster';
 
 import { Trip } from './trip.model';
 import { TripService } from './trip.service';
-import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
-import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
+import { Principal, ResponseWrapper } from '../../shared';
+import { PictripDateUtils } from '../../utils/date.utils';
+import { PictripAlertUtils } from '../../utils/alert.utils';
 
 @Component({
     selector: 'jhi-trip',
@@ -23,10 +24,11 @@ trips: Trip[];
 
     constructor(
         private tripService: TripService,
-        private alertService: JhiAlertService,
         private eventManager: JhiEventManager,
+        private dateUtils: PictripDateUtils,
         private activatedRoute: ActivatedRoute,
-        private principal: Principal
+        private principal: Principal,
+        private alertUtils: PictripAlertUtils,
     ) {
         this.currentSearch = activatedRoute.snapshot.params['search'] ? activatedRoute.snapshot.params['search'] : '';
     }
@@ -74,6 +76,17 @@ trips: Trip[];
         this.eventManager.destroy(this.eventSubscriber);
     }
 
+    public summarizeText(text: string): string {
+        if (text == null) {
+            return '';
+        }
+        return text.length > 255 ? text.substr(0, 255) + '...' : text;
+    }
+
+    public formatDate(date: Date): string {
+        return this.dateUtils.formatDateToHumans(date);
+    }
+
     trackId(index: number, item: Trip) {
         return item.id;
     }
@@ -82,6 +95,6 @@ trips: Trip[];
     }
 
     private onError(error) {
-        this.alertService.error(error.message, null, null);
+        this.alertUtils.error(error.message);
     }
 }

@@ -5,8 +5,8 @@ import { MaterializeAction } from 'angular2-materialize';
 import { LoginService } from './login.service';
 import { StateStorageService } from '../auth/state-storage.service';
 import { SocialService } from '../social/social.service';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { MdDialogRef } from '@angular/material';
+import {PictripAlertUtils} from '../../utils/alert.utils';
 
 @Component({
     selector: 'jhi-login-modal',
@@ -31,7 +31,7 @@ export class JhiLoginModalComponent {
         private renderer: Renderer,
         private socialService: SocialService,
         private router: Router,
-        private toastr: ToastsManager) {
+        private alertUtils: PictripAlertUtils) {
         this.modalActions = new EventEmitter<string|MaterializeAction>();
         this.credentials = {};
     }
@@ -77,7 +77,7 @@ export class JhiLoginModalComponent {
             }
         }).catch(() => {
             this.authenticationError = true;
-            this.toastr.error('<strong>Failed to sign in!</strong> Please check your credentials and try again.', '');
+            this.alertUtils.error('<strong>Failed to sign in!</strong> Please check your credentials and try again.');
         });
     }
 

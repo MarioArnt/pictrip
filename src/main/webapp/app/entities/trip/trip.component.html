@@ -1,34 +1,30 @@
 <div class="main-content">
     <h2>
         <span jhiTranslate="pictripApp.trip.home.title">Trips</span>
-
         <div class="fixed-action-btn">
             <a class="btn-floating btn-large red accent-3" mdTooltip="Create new Trip" mdTooltipPosition="above" [routerLink]="['../trip-new']">
                 <i class="fa fa-plus"></i>
             </a>
         </div>
-
-        <!--<button class="btn btn-primary float-right create-trip" [routerLink]="['/', { outlets: { popup: ['trip-new'] } }]">
-            <span class="fa fa-plus"></span>
-            <span class="hidden-sm-down"  jhiTranslate="pictripApp.trip.home.createLabel">
-            Create new Trip
-            </span>
-        </button>-->
     </h2>
     <jhi-alert></jhi-alert>
     <div class="row">
         <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'pictripApp.trip.home.search' | translate }}">
-                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
-                        <span class="fa fa-search"></span>
-                    </button>
-                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
-                        <span class="fa fa-trash-o"></span>
-                    </button>
-                </div>
-            </form>
+            <md-input-container class="col-md-12">
+                <input
+                    type="text"
+                    mdInput
+                    [(ngModel)]="currentSearch"
+                    id="currentSearch"
+                    name="currentSearch"
+                    placeholder="{{ 'pictripApp.trip.home.search' | translate }}">
+                <button class="btn" mdSuffix (click)="search(currentSearch)">
+                    <span class="fa fa-search"></span>
+                </button>
+                <button class="btn" mdSuffix (click)="clear()" *ngIf="currentSearch">
+                    <span class="fa fa-trash-o"></span>
+                </button>
+            </md-input-container>
         </div>
     </div>
     <br/>
@@ -59,8 +55,11 @@
                 <md-card-title></md-card-title>
             </md-card-header>
             <md-card-content>
-                <p>{{trip.description}}</p>
-                <p>From 12/01/2017 to 18/08/2107</p>
+                <p *ngIf="trip.dateFrom && trip.dateTo">
+                    <i class="fa fa-calendar margin-r-1"></i>
+                    {{formatDate(trip.dateFrom)}} - {{formatDate(trip.dateTo)}}
+                </p>
+                <p>{{summarizeText(trip.description)}}</p>
             </md-card-content>
             <md-card-footer>
                     <button [routerLink]="['../trip', trip.id ]" md-button>SEE</button>
@@ -68,71 +67,4 @@
         </md-card>
     </div>
     </div>
-    <!--<div class="table-responsive" *ngIf="trips">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-            <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="pictripApp.trip.name">Name</span></th>
-            <th><span jhiTranslate="pictripApp.trip.description">Description</span></th>
-            <th><span jhiTranslate="pictripApp.trip.dateFrom">Date From</span></th>
-            <th><span jhiTranslate="pictripApp.trip.dateTo">Date To</span></th>
-            <th><span jhiTranslate="pictripApp.trip.privacy">Privacy</span></th>
-            <th><span jhiTranslate="pictripApp.trip.color">Color</span></th>
-            <th><span jhiTranslate="pictripApp.trip.cover">Cover</span></th>
-            <th><span jhiTranslate="pictripApp.trip.members">Members</span></th>
-            <th><span jhiTranslate="pictripApp.trip.owner">Owner</span></th>
-            <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let trip of trips ;trackBy: trackId">
-                <td><a [routerLink]="['../trip', trip.id ]">{{trip.id}}</a></td>
-                <td>{{trip.name}}</td>
-                <td>{{trip.description}}</td>
-                <td>{{trip.dateFrom | date:'mediumDate'}}</td>
-                <td>{{trip.dateTo | date:'mediumDate'}}</td>
-                <td jhiTranslate="{{'pictripApp.Privacy.' + trip.privacy}}">{{trip.privacy}}</td>
-                <td jhiTranslate="{{'pictripApp.Color.' + trip.color}}">{{trip.color}}</td>
-                <td>
-                    <div *ngIf="trip.coverId">
-                        <a [routerLink]="['../picture', trip.coverId  ]" >{{trip.coverSrc}}</a>
-                    </div>
-                </td>
-                <td>
-                    <span *ngFor="let members of trip.members; let last = last">
-                            {{members.login}}{{last ? '' : ', '}}
-                        </span>
-                </td>
-                <td>
-                    {{trip.ownerLogin}}
-                </td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['../trip', trip.id ]"
-                                class="btn btn-info btn-sm">
-                            <span class="fa fa-eye"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'trip/'+ trip.id + '/edit'} }]"
-                                replaceUrl="true"
-                                class="btn btn-primary btn-sm">
-                            <span class="fa fa-pencil"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'trip/'+ trip.id + '/delete'} }]"
-                                replaceUrl="true"
-                                class="btn btn-danger btn-sm">
-                            <span class="fa fa-remove"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>-->
 </div>

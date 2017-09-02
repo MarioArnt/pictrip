@@ -3,8 +3,7 @@
 </agm-map>
 <form class="main-content" name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
 
-        <h4 class="modal-title" id="myStepLabel" jhiTranslate="pictripApp.step.home.createOrEditLabel">Create or edit a Step</h4>
-        <jhi-alert-error></jhi-alert-error>
+        <h4>{{update ? 'Edit' : 'Create'}} a Step</h4>
 
         <!-- <div class="form-group" [hidden]="!step.id">
             <label for="id" jhiTranslate="global.field.id">ID</label>
@@ -39,121 +38,122 @@
                 </md-input-container>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <md-input-container>
-                    <input #placeAutocomplete id="field_place" name="place" [(ngModel)]="step.placeName" (ngModelChange)="placeChanged()" mdInput placeholder="Place"/>
-                </md-input-container>
-            </div>
-        </div>
-        <div [hidden]="!(editForm.controls.place?.dirty && editForm.controls.place?.invalid)">
-            <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.place?.errors?.required" jhiTranslate="entity.validation.required">
-                This field is required.
-            </small>
-        </div>
 
-        <div class="row" *ngIf="addressResolved && step.number > 1">
-            <div class="col-md-12">
-                <p>How did you travel to {{step.placeName}} ?</p>
-                <div class="flex transportation-select">
-                    <md-card (click)="changeTransportation('PLANE')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='PLANE'}">
-                        <i class="fa fa-plane"></i>
-                    </md-card>
-                    <md-card (click)="changeTransportation('TRAIN')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='TRAIN'}">
-                        <i class="fa fa-train"></i>
-                    </md-card>
-                    <md-card (click)="changeTransportation('BOAT')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='BOAT'}">
-                        <i class="fa fa-ship"></i>
-                    </md-card>
-                    <md-card (click)="changeTransportation('BUS')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='BUS'}">
-                        <i class="fa fa-bus"></i>
-                    </md-card>
-                    <md-card (click)="changeTransportation('CAR')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='CAR'}">
-                        <i class="fa fa-car"></i>
-                    </md-card>
-                    <md-card (click)="changeTransportation('TAXI')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='TAXI'}">
-                        <i class="fa fa-taxi"></i>
-                    </md-card>
-                    <md-card (click)="changeTransportation('HITCH_HIKING')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='HITCH_HIKING'}">
-                        <i class="fa fa-thumbs-up"></i>
-                    </md-card>
-                    <md-card (click)="changeTransportation('MOTORBIKE')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='MOTORBIKE'}">
-                        <i class="fa fa-motorcycle"></i>
-                    </md-card>
-                    <md-card (click)="changeTransportation('BIKE')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='BIKE'}">
-                        <i class="fa fa-bicycle"></i>
-                    </md-card>
-                    <md-card (click)="changeTransportation('FOOT')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='FOOT'}">
-                        <i class="fa fa-male"></i>
-                    </md-card>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <md-input-container class="col-md-12">
-                    <textarea mdInput mdTextareaAutosize name="description" id="field_description"
-                              [(ngModel)]="step.description" placeholder="Description"></textarea>
-                <md-hint align="end">{{!step.description ? 0 : step.description.length}} / 255</md-hint>
+<div class="row">
+        <div class="col-sm-6">
+            <md-input-container>
+                <input #placeAutocomplete id="field_place" name="place" [(ngModel)]="step.placeName" (ngModelChange)="placeChanged()" mdInput placeholder="Place"/>
             </md-input-container>
         </div>
+    </div>
+    <div [hidden]="!(editForm.controls.place?.dirty && editForm.controls.place?.invalid)">
+        <small class="form-text text-danger"
+               [hidden]="!editForm.controls.place?.errors?.required" jhiTranslate="entity.validation.required">
+            This field is required.
+        </small>
+    </div>
 
-        <div class="row">
-            <div class="col-sm-6">
-                <md-input-container>
-                    <input id="field_dateFrom" mdInput name="dateFrom" type="text" [(ngModel)]="step.dateFrom" [mdDatepicker]="dateFromPicker" placeholder="Date from"/>
-                    <button mdSuffix [mdDatepickerToggle]="dateFromPicker"></button>
-                </md-input-container>
-                <md-datepicker touchUi="true" #dateFromPicker></md-datepicker>
-            </div>
-
-            <div class="col-sm-6">
-                <md-input-container>
-                    <input id="field_dateTo" mdInput name="dateTo" type="text" [(ngModel)]="step.dateTo" [mdDatepicker]="dateToPicker" placeholder="Date to"/>
-                    <button mdSuffix [mdDatepickerToggle]="dateToPicker"></button>
-                </md-input-container>
-                <md-datepicker touchUi="true" #dateToPicker></md-datepicker>
+    <div class="row" *ngIf="addressResolved && step.number > 1">
+        <div class="col-md-12">
+            <p>How did you travel to {{step.placeName}} ?</p>
+            <div class="flex transportation-select">
+                <md-card (click)="changeTransportation('PLANE')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='PLANE'}">
+                    <i class="fa fa-plane"></i>
+                </md-card>
+                <md-card (click)="changeTransportation('TRAIN')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='TRAIN'}">
+                    <i class="fa fa-train"></i>
+                </md-card>
+                <md-card (click)="changeTransportation('BOAT')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='BOAT'}">
+                    <i class="fa fa-ship"></i>
+                </md-card>
+                <md-card (click)="changeTransportation('BUS')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='BUS'}">
+                    <i class="fa fa-bus"></i>
+                </md-card>
+                <md-card (click)="changeTransportation('CAR')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='CAR'}">
+                    <i class="fa fa-car"></i>
+                </md-card>
+                <md-card (click)="changeTransportation('TAXI')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='TAXI'}">
+                    <i class="fa fa-taxi"></i>
+                </md-card>
+                <md-card (click)="changeTransportation('HITCH_HIKING')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='HITCH_HIKING'}">
+                    <i class="fa fa-thumbs-up"></i>
+                </md-card>
+                <md-card (click)="changeTransportation('MOTORBIKE')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='MOTORBIKE'}">
+                    <i class="fa fa-motorcycle"></i>
+                </md-card>
+                <md-card (click)="changeTransportation('BIKE')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='BIKE'}">
+                    <i class="fa fa-bicycle"></i>
+                </md-card>
+                <md-card (click)="changeTransportation('FOOT')" [ngClass]="{'teal white-text': step?.arrivalTransportation=='FOOT'}">
+                    <i class="fa fa-male"></i>
+                </md-card>
             </div>
         </div>
+    </div>
 
-        <!-- <div class="form-group">
-            <label class="form-control-label" jhiTranslate="pictripApp.step.dateFrom" for="field_dateFrom">Date From</label>
-            <div class="input-group">
-                <input id="field_dateFrom" type="text" class="form-control" name="dateFrom" ngbDatepicker  #dateFromDp="ngbDatepicker" [(ngModel)]="step.dateFrom"
-                />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="dateFromDp.toggle()"><i class="fa fa-calendar"></i></button>
-                </span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="pictripApp.step.dateTo" for="field_dateTo">Date To</label>
-            <div class="input-group">
-                <input id="field_dateTo" type="text" class="form-control" name="dateTo" ngbDatepicker  #dateToDp="ngbDatepicker" [(ngModel)]="step.dateTo"
-                />
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="dateToDp.toggle()"><i class="fa fa-calendar"></i></button>
-                </span>
-            </div>
-        </div>-->
+    <div class="row">
+        <md-input-container class="col-md-12">
+                <textarea mdInput mdTextareaAutosize name="description" id="field_description"
+                          [(ngModel)]="step.description" placeholder="Description"></textarea>
+            <md-hint align="end">{{!step.description ? 0 : step.description.length}} / 255</md-hint>
+        </md-input-container>
+    </div>
 
-        <!--<div class="form-group">
-            <label jhiTranslate="pictripApp.step.trip" for="field_trip">Trip</label>
-            <select class="form-control" id="field_trip" name="trip" [(ngModel)]="step.tripId"  required>
-                <option [ngValue]="tripOption.id" *ngFor="let tripOption of trips; trackBy: trackTripById">{{tripOption.name}}</option>
-            </select>
+    <div class="row">
+        <div class="col-sm-6">
+            <md-input-container>
+                <input id="field_dateFrom" mdInput name="dateFrom" type="text" [(ngModel)]="step.dateFrom" [mdDatepicker]="dateFromPicker" placeholder="Date from"/>
+                <button mdSuffix [mdDatepickerToggle]="dateFromPicker"></button>
+            </md-input-container>
+            <md-datepicker touchUi="true" #dateFromPicker></md-datepicker>
         </div>
-        <div [hidden]="!(editForm.controls.trip?.dirty && editForm.controls.trip?.invalid)">
-            <small class="form-text text-danger"
-                [hidden]="!editForm.controls.trip?.errors?.required" jhiTranslate="entity.validation.required">
-                This field is required.
-            </small>
-        </div>-->
-        <button type="button" class="btn btn-default" data-dismiss="modal"  [routerLink]="['/trip/' + step.tripId]">
-            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
-        </button>
-        <button type="submit" [disabled]="!addressResolved || isSaving" class="btn btn-primary">
-            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-        </button>
+
+        <div class="col-sm-6">
+            <md-input-container>
+                <input id="field_dateTo" mdInput name="dateTo" type="text" [(ngModel)]="step.dateTo" [mdDatepicker]="dateToPicker" placeholder="Date to"/>
+                <button mdSuffix [mdDatepickerToggle]="dateToPicker"></button>
+            </md-input-container>
+            <md-datepicker touchUi="true" #dateToPicker></md-datepicker>
+        </div>
+    </div>
+
+    <!-- <div class="form-group">
+        <label class="form-control-label" jhiTranslate="pictripApp.step.dateFrom" for="field_dateFrom">Date From</label>
+        <div class="input-group">
+            <input id="field_dateFrom" type="text" class="form-control" name="dateFrom" ngbDatepicker  #dateFromDp="ngbDatepicker" [(ngModel)]="step.dateFrom"
+            />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" (click)="dateFromDp.toggle()"><i class="fa fa-calendar"></i></button>
+            </span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-control-label" jhiTranslate="pictripApp.step.dateTo" for="field_dateTo">Date To</label>
+        <div class="input-group">
+            <input id="field_dateTo" type="text" class="form-control" name="dateTo" ngbDatepicker  #dateToDp="ngbDatepicker" [(ngModel)]="step.dateTo"
+            />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" (click)="dateToDp.toggle()"><i class="fa fa-calendar"></i></button>
+            </span>
+        </div>
+    </div>-->
+
+    <!--<div class="form-group">
+        <label jhiTranslate="pictripApp.step.trip" for="field_trip">Trip</label>
+        <select class="form-control" id="field_trip" name="trip" [(ngModel)]="step.tripId"  required>
+            <option [ngValue]="tripOption.id" *ngFor="let tripOption of trips; trackBy: trackTripById">{{tripOption.name}}</option>
+        </select>
+    </div>
+    <div [hidden]="!(editForm.controls.trip?.dirty && editForm.controls.trip?.invalid)">
+        <small class="form-text text-danger"
+            [hidden]="!editForm.controls.trip?.errors?.required" jhiTranslate="entity.validation.required">
+            This field is required.
+        </small>
+    </div>-->
+    <button type="button" class="btn btn-default" data-dismiss="modal"  [routerLink]="['/trip/' + step.tripId]">
+        <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+    </button>
+    <button type="submit" [disabled]="!addressResolved || isSaving" class="btn btn-primary">
+        <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+    </button>
 </form>

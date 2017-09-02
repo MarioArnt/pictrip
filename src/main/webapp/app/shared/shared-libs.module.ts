@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -13,6 +14,7 @@ import {
     MdTooltipModule,
     MdSidenavModule,
     MdInputModule,
+    MdSliderModule,
     MdIconModule,
     MdNativeDateModule,
     MdDatepickerModule
@@ -24,6 +26,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CookieModule } from 'ngx-cookie';
 import { AgmCoreModule } from '@agm/core';
 import { PictripUtilsModule } from '../utils/utils.module'
+import { ToastyModule } from 'ng2-toasty';
 
 @NgModule({
     exports: [
@@ -32,6 +35,7 @@ import { PictripUtilsModule } from '../utils/utils.module'
         MdCheckboxModule,
         MdTooltipModule,
         MdInputModule,
+        MdSliderModule,
         MdNativeDateModule,
         MdSidenavModule,
         MdIconModule,
@@ -56,13 +60,16 @@ export class MaterialDesignModule {}
             apiKey: 'AIzaSyD3P5eSwSKPg79q1gDRofEtv4aQYDvqcT0',
             libraries: ['places']
         }),
+        BrowserModule,
         InfiniteScrollModule,
         CookieModule.forRoot(),
+        ToastyModule.forRoot(),
         MaterialDesignModule,
         BrowserAnimationsModule,
         PictripUtilsModule,
     ],
     exports: [
+        BrowserModule,
         FormsModule,
         ReactiveFormsModule,
         HttpModule,
@@ -71,6 +78,7 @@ export class MaterialDesignModule {}
         AgmCoreModule,
         NgJhipsterModule,
         InfiniteScrollModule,
+        ToastyModule,
         MaterialDesignModule,
         BrowserAnimationsModule,
         PictripUtilsModule,

@@ -1,5 +1,6 @@
 package com.arnautou.pictrip.service.impl;
 
+import com.arnautou.pictrip.service.StepService;
 import com.arnautou.pictrip.service.TripService;
 import com.arnautou.pictrip.service.UserService;
 import com.arnautou.pictrip.domain.Trip;
@@ -30,15 +31,18 @@ public class TripServiceImpl implements TripService{
 
     private final TripRepository tripRepository;
 
+    private final StepService stepService;
+
     private final TripMapper tripMapper;
 
     private final TripSearchRepository tripSearchRepository;
 
     private final UserService userService;
 
-    public TripServiceImpl(TripRepository tripRepository, TripMapper tripMapper, TripSearchRepository tripSearchRepository, UserService userService) {
+    public TripServiceImpl(TripRepository tripRepository, TripMapper tripMapper, TripSearchRepository tripSearchRepository, UserService userService, StepService stepService) {
         this.tripRepository = tripRepository;
         this.tripMapper = tripMapper;
+        this.stepService = stepService;
         this.tripSearchRepository = tripSearchRepository;
         this.userService = userService;
     }
@@ -116,6 +120,7 @@ public class TripServiceImpl implements TripService{
     @Override
     public void delete(Long id) {
         log.debug("Request to delete Trip : {}", id);
+        stepService.deleteByTripId(id);
         tripRepository.delete(id);
         tripSearchRepository.delete(id);
     }

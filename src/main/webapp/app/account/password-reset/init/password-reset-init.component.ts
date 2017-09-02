@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, Renderer, ElementRef } from '@angular/core';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { PasswordResetInitService } from './password-reset-init.service';
+import {PictripAlertUtils} from '../../../utils/alert.utils';
 
 @Component({
     selector: 'jhi-password-reset-init',
@@ -14,7 +14,7 @@ export class PasswordResetInitComponent implements OnInit, AfterViewInit {
     success: string;
 
     constructor(
-        private toastr: ToastsManager,
+        private alertUtils: PictripAlertUtils,
         private passwordResetInitService: PasswordResetInitService,
         private elementRef: ElementRef,
         private renderer: Renderer
@@ -38,7 +38,7 @@ export class PasswordResetInitComponent implements OnInit, AfterViewInit {
         }, (response) => {
             this.success = null;
             if (response.status === 400) {
-                this.toastr.error('<strong>Email address isn\'t registered!</strong> Please check and try again.', '');
+                this.alertUtils.error('<strong>Email address isn\'t registered!</strong> Please check and try again.');
                 this.errorEmailNotExists = 'ERROR';
             } else {
                 this.error = 'ERROR';

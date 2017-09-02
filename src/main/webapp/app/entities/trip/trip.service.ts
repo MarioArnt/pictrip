@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { JhiDateUtils } from 'ng-jhipster';
 
 import { Trip } from './trip.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
-import * as moment from 'moment';
+import { PictripDateUtils } from '../../utils/date.utils';
 
 @Injectable()
 export class TripService {
@@ -13,7 +12,7 @@ export class TripService {
     private resourceUrl = 'api/trips';
     private resourceSearchUrl = 'api/_search/trips';
 
-    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
+    constructor(private http: Http, private dateUtils: PictripDateUtils) { }
 
     create(trip: Trip): Observable<Trip> {
         const copy = this.convert(trip);
@@ -66,16 +65,14 @@ export class TripService {
     }
 
     private convertItemFromServer(entity: any) {
-        entity.dateFrom = this.dateUtils
-            .convertLocalDateFromServer(entity.dateFrom);
-        entity.dateTo = this.dateUtils
-            .convertLocalDateFromServer(entity.dateTo);
+        entity.dateFrom = this.dateUtils.formatLocalDateFromServer(entity.dateFrom);
+        entity.dateTo = this.dateUtils.formatLocalDateFromServer(entity.dateTo);
     }
 
     private convert(trip: Trip): Trip {
         const copy: Trip = Object.assign({}, trip);
-        copy.dateFrom = moment(trip.dateFrom).format('YYYY-MM-DD');
-        copy.dateTo = moment(trip.dateTo).format('YYYY-MM-DD');
+        copy.dateFrom = this.dateUtils.formatLocalDateToServer(trip.dateFrom);
+        copy.dateTo = this.dateUtils.formatLocalDateToServer(trip.dateTo);
         return copy;
     }
 }

@@ -14,6 +14,7 @@ import com.arnautou.pictrip.web.rest.errors.ErrorDetails;
 import com.arnautou.pictrip.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -37,29 +38,26 @@ public class StepServiceImpl implements StepService{
 
     private final Logger log = LoggerFactory.getLogger(StepServiceImpl.class);
 
-    private final StepRepository stepRepository;
+    @Autowired
+    private StepRepository stepRepository;
 
-    private final StepMapper stepMapper;
+    @Autowired
+    private StepMapper stepMapper;
 
-    private final StepSearchRepository stepSearchRepository;
+    @Autowired
+    private StepSearchRepository stepSearchRepository;
 
-    private final PlaceService placeService;
+    @Autowired
+    private PlaceService placeService;
 
-    private final JourneyService journeyService;
+    @Autowired
+    private TripService tripService;
 
-    private final TripService tripService;
+    @Autowired
+    private UserService userService;
 
-    private final UserService userService;
-
-    public StepServiceImpl(StepRepository stepRepository, StepMapper stepMapper, StepSearchRepository stepSearchRepository, PlaceService placeService, JourneyService journeyService, TripService tripService, UserService userService) {
-        this.stepRepository = stepRepository;
-        this.stepMapper = stepMapper;
-        this.stepSearchRepository = stepSearchRepository;
-        this.placeService = placeService;
-        this.journeyService = journeyService;
-        this.tripService = tripService;
-        this.userService = userService;
-    }
+    @Autowired
+    private JourneyService journeyService;
 
     /**
      * Save a step.
@@ -510,5 +508,11 @@ public class StepServiceImpl implements StepService{
             .stream(stepSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .map(stepMapper::toDto)
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteByTripId(Long id) {
+        List<Step> stepToDelete = this.stepRepository.findByTripId(id);
+        stepToDelete.stream().forEach(step -> deleteStep(step.getId()));
     }
 }

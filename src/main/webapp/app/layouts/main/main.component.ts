@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, NavigationEnd, RoutesRecognized } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { JhiLanguageHelper, StateStorageService } from '../../shared';
 
@@ -14,9 +13,7 @@ export class JhiMainComponent implements OnInit {
         private jhiLanguageHelper: JhiLanguageHelper,
         private router: Router,
         private $storageService: StateStorageService,
-        public toastr: ToastsManager, vRef: ViewContainerRef
     ) {
-        this.toastr.setRootViewContainerRef(vRef);
     }
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {

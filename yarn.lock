@@ -310,6 +310,10 @@ amdefine@>=0.0.4, amdefine@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
+angular-sortablejs@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/angular-sortablejs/-/angular-sortablejs-2.0.6.tgz#2cb41ff35e3e39e309d0e8a291413a52a9a29960"
+
 angular2-materialize@^15.0.4:
   version "15.0.4"
   resolved "https://registry.yarnpkg.com/angular2-materialize/-/angular2-materialize-15.0.4.tgz#d3bab50972e1751c52e76ffe8d63245d4b852c88"
@@ -4647,6 +4651,10 @@ ng2-toastr@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/ng2-toastr/-/ng2-toastr-4.1.2.tgz#1b452f07139961c38f866c6e24a06247efa21b11"
 
+ng2-toasty@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/ng2-toasty/-/ng2-toasty-4.0.3.tgz#ea78ef8d18757d41ebaba11bd9f90a543f58fd7a"
+
 ng2-webstorage@1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/ng2-webstorage/-/ng2-webstorage-1.8.0.tgz#02bac5f29cecc2b7a4dfea17d9cebc720edf6b49"
@@ -6553,6 +6561,10 @@ sort-keys@^1.0.0:
   resolved "https://registry.yarnpkg.com/sort-keys/-/sort-keys-1.1.2.tgz#441b6d4d346798f1b4e49e8920adfba0e543f9ad"
   dependencies:
     is-plain-obj "^1.0.0"
+
+sortablejs@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/sortablejs/-/sortablejs-1.6.1.tgz#d120d103fbb9f60c7db27814a1384072e6c6e083"
 
 source-list-map@^0.1.7, source-list-map@~0.1.7:
   version "0.1.8"
