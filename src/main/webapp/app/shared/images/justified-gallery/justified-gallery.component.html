@@ -1,0 +1,13 @@
+<div id="justified-gallery-container">
+    <div class="justified-gallery-box"
+         *ngFor="let box of boxes; index as i"
+         [style.width.px]="box.width"
+         [style.height.px]="box.height"
+         [style.top.px]="box.top"
+         [style.left.px]="box.left">
+        <!--<img
+            [style.width.px]="box.width"
+            [style.height.px]="box.height"
+            [src]="pictures[i].url" />--->
+    </div>
+</div>

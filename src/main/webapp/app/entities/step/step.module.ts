@@ -14,6 +14,7 @@ import {
     stepRoute,
     stepPopupRoute,
 } from './';
+import { PictripPictureModule } from '../picture/picture.module';
 
 const ENTITY_STATES = [
     ...stepRoute,
@@ -23,6 +24,7 @@ const ENTITY_STATES = [
 @NgModule({
     imports: [
         PictripSharedModule,
+        PictripPictureModule,
         RouterModule.forRoot(ENTITY_STATES, { useHash: true })
     ],
     declarations: [

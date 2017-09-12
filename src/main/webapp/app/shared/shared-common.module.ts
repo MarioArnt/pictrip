@@ -9,10 +9,12 @@ import {
     JhiAlertComponent,
     JhiAlertErrorComponent
 } from './';
+import {PictripImagesModule} from './images/images.module';
 
 @NgModule({
     imports: [
-        PictripSharedLibsModule
+        PictripSharedLibsModule,
+        PictripImagesModule,
     ],
     declarations: [
         FindLanguageFromKeyPipe,
@@ -26,6 +28,7 @@ import {
     ],
     exports: [
         PictripSharedLibsModule,
+        PictripImagesModule,
         FindLanguageFromKeyPipe,
         JhiAlertComponent,
         JhiAlertErrorComponent,

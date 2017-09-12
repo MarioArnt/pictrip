@@ -27,6 +27,8 @@ import { CookieModule } from 'ngx-cookie';
 import { AgmCoreModule } from '@agm/core';
 import { PictripUtilsModule } from '../utils/utils.module'
 import { ToastyModule } from 'ng2-toasty';
+import { Ng2FileInputModule } from 'ng2-file-input';
+import { Ng2ImgToolsModule } from 'ng2-img-tools';
 
 @NgModule({
     exports: [
@@ -62,8 +64,10 @@ export class MaterialDesignModule {}
         }),
         BrowserModule,
         InfiniteScrollModule,
+        Ng2ImgToolsModule,
         CookieModule.forRoot(),
         ToastyModule.forRoot(),
+        Ng2FileInputModule.forRoot(),
         MaterialDesignModule,
         BrowserAnimationsModule,
         PictripUtilsModule,
@@ -79,6 +83,8 @@ export class MaterialDesignModule {}
         NgJhipsterModule,
         InfiniteScrollModule,
         ToastyModule,
+        Ng2ImgToolsModule,
+        Ng2FileInputModule,
         MaterialDesignModule,
         BrowserAnimationsModule,
         PictripUtilsModule,

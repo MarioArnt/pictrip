@@ -1,0 +1,9 @@
+#justified-gallery-container {
+    width: 100%;
+    position: relative;
+    background-color: lightpink;
+    .justified-gallery-box{
+        position: absolute;
+        background-color: lightcoral;
+    }
+}

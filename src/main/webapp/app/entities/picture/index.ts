@@ -6,3 +6,4 @@ export * from './picture-delete-dialog.component';
 export * from './picture-detail.component';
 export * from './picture.component';
 export * from './picture.route';
+export * from './picture-uploader.component';

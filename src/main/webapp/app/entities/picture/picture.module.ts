@@ -6,6 +6,7 @@ import {
     PictureService,
     PicturePopupService,
     PictureComponent,
+    PictureUploaderComponent,
     PictureDetailComponent,
     PictureDialogComponent,
     PicturePopupComponent,
@@ -25,6 +26,9 @@ const ENTITY_STATES = [
         PictripSharedModule,
         RouterModule.forRoot(ENTITY_STATES, { useHash: true })
     ],
+    exports: [
+        PictureUploaderComponent,
+    ],
     declarations: [
         PictureComponent,
         PictureDetailComponent,
@@ -32,6 +36,7 @@ const ENTITY_STATES = [
         PictureDeleteDialogComponent,
         PicturePopupComponent,
         PictureDeletePopupComponent,
+        PictureUploaderComponent,
     ],
     entryComponents: [
         PictureComponent,
@@ -39,6 +44,7 @@ const ENTITY_STATES = [
         PicturePopupComponent,
         PictureDeleteDialogComponent,
         PictureDeletePopupComponent,
+        PictureUploaderComponent,
     ],
     providers: [
         PictureService,

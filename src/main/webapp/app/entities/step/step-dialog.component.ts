@@ -1,18 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ElementRef, NgZone, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
-
+import { MapsAPILoader } from '@agm/core';
+import {} from '@types/googlemaps';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
+import { PictripAlertUtils } from '../../utils/alert.utils';
 
 import { Step } from './step.model';
 import { StepPopupService } from './step-popup.service';
 import { StepService } from './step.service';
-import { ElementRef, NgZone, ViewChild } from '@angular/core';
-import { MapsAPILoader } from '@agm/core';
-import {} from '@types/googlemaps';
-import { Router } from '@angular/router';
-import {PictripAlertUtils} from '../../utils/alert.utils';
 
 @Component({
     selector: 'jhi-step-dialog',
@@ -29,14 +28,13 @@ export class StepDialogComponent implements OnInit {
     routeSub: any;
     zoom: number;
     addressResolved: boolean;
-    numberSteps: number;
+    maxNumberSteps: number;
     update: boolean;
 
     @ViewChild('placeAutocomplete')
     public placeAutocompleteElementRef: ElementRef;
 
     constructor(
-        private alertService: JhiAlertService,
         private stepService: StepService,
         private route: ActivatedRoute,
         private router: Router,
@@ -50,21 +48,24 @@ export class StepDialogComponent implements OnInit {
         this.step.placeLat = 43.604652;
         this.step.placeLng = 1.444209;
         this.update = false;
+        this.maxNumberSteps = 1;
 
         this.routeSub = this.route.params.subscribe((params) => {
             this.step.tripId = params['tripId'];
             const id = params['id'];
-            this.stepService.count(this.step.tripId).subscribe((numberSteps) => {
-                this.numberSteps = parseInt(numberSteps.text(), 10);
+            this.stepService.count(this.step.tripId).subscribe((response) => {
+                const numberSteps = parseInt(response.text(), 10);
                 if (id) {
                     this.stepService.find(id).subscribe((step) => {
                         this.step = step;
                         this.update = true;
                         this.zoom = 12;
                         this.addressResolved = true;
+                        this.maxNumberSteps = numberSteps;
                     });
                 } else {
-                    this.step.number = this.numberSteps + 1;
+                    this.maxNumberSteps = numberSteps;
+                    this.step.number = this.maxNumberSteps;
                 }
             });
         })
@@ -126,9 +127,8 @@ export class StepDialogComponent implements OnInit {
     }
 
     stepNumberChanged() {
-        const maxStepNumber: number = this.numberSteps + (this.update ? 0 : 1);
-        if (this.step.number > maxStepNumber) {
-            this.step.number = maxStepNumber;
+        if (this.step.number > this.maxNumberSteps) {
+            this.step.number = this.maxNumberSteps;
         }
     }
 
