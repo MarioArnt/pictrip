@@ -62,14 +62,14 @@ export class PictureUploaderComponent {
         for (let i = 0; i < files.length; i++) {
             const img = document.createElement("img");
             img.src = window.URL.createObjectURL(files[i]);
-            imageLoaded.push(this.loadImage(img));
+            imageLoaded.push(this.loadImage(img, files[i]));
         }
         Promise.all(imageLoaded).then(() => {
             this.calculateImagesDimension();
         });
     }
 
-    private loadImage(img: any) {
+    private loadImage(img: any, file: File) {
         const id = img.src.match(/([a-zA-Z0-9-]+)$/);
         return new Promise((resolve) => {
             img.onload = () => {
@@ -77,6 +77,8 @@ export class PictureUploaderComponent {
                 this.pictures.push({
                     id: id[0],
                     imgElement: img,
+                    uploaded: false,
+                    file: file,
                 });
                 resolve();
             }

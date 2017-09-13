@@ -1,10 +1,44 @@
 @import 'helpers.scss';
 @import 'materialize.scss';
 @import '~@angular/material/theming';
+
+$mat-white: (
+    50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white,
+    contrast: (
+        50: $black-87-opacity,
+        100: $black-87-opacity,
+        200: $black-87-opacity,
+        300: $black-87-opacity,
+        400: $black-87-opacity,
+        500: $black-87-opacity,
+        600: $black-87-opacity,
+        700: $black-87-opacity,
+        800: $black-87-opacity,
+        900: $black-87-opacity,
+        A100: $black-87-opacity,
+        A200: $black-87-opacity,
+        A400: $black-87-opacity,
+        A700: $black-87-opacity,
+    )
+);
+
 @include mat-core();
 $app-primary: mat-palette($mat-teal);
 $app-accent:  mat-palette($mat-red, A200, A100, A400);
-$app-warn:    mat-palette($mat-red);
+$app-warn:    mat-palette($mat-white);
 $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 @include angular-material-theme($app-theme);
 

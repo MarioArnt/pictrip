@@ -8,5 +8,8 @@
          [style.height.px]="box.height"
          [style.top.px]="box.top"
          [style.left.px]="box.left">
+        <div class="overlay" *ngIf="!pictures[i].uploaded">
+            <md-spinner mode="indeterminate" color="warn"></md-spinner>
+        </div>
     </div>
 </div>
