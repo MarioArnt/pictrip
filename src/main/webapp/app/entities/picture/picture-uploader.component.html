@@ -1,6 +1,10 @@
 <input #fileInput type="file" multiple [accept]="extensions" style="display:none" (change)="handleFiles($event)">
 <button class="btn teal white-text" (click)="selectFiles()">Select some files</button>
-<div id="justified-gallery-container" class="margin-v-2" [style.height.px]="galleryHeight">
+<md-spinner *ngIf="loadingPictures"
+            mode="indeterminate"
+            color="primary">
+</md-spinner>
+<div id="justified-gallery-container" class="margin-v-2" [style.height.px]="!!galleryHeight ? galleryHeight : 0">
     <div #boxes class="justified-gallery-box"
          *ngFor="let box of boxes; index as i"
          [id]="pictures[i].id"
@@ -8,8 +12,15 @@
          [style.height.px]="box.height"
          [style.top.px]="box.top"
          [style.left.px]="box.left">
-        <div class="overlay" *ngIf="!pictures[i].uploaded">
-            <md-spinner mode="indeterminate" color="warn"></md-spinner>
+        <div class="overlay" *ngIf="pictures[i].state != 'UPLOADED'">
+            <md-spinner *ngIf="pictures[i].state == 'RESIZING'"
+                        mode="indeterminate"
+                        color="warn">
+            </md-spinner>
+            <md-spinner *ngIf="pictures[i].state == 'UPLOADING'"
+                        mode="determinate"
+                        color="accent">
+            </md-spinner>
         </div>
     </div>
 </div>
