@@ -67,6 +67,10 @@ security:
     basic:
         enabled: false
 
+multipart:
+    maxFileSize: 3Mb
+    maxRequestSize: 4Mb
+
 server:
     session:
         cookie:

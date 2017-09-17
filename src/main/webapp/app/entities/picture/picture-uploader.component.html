@@ -5,7 +5,7 @@
             [value]="loadingPicturesProgress"
             color="primary">
 </md-spinner>
-<div id="justified-gallery-container" class="margin-v-2">
+<div id="justified-gallery-container" class="margin-v-2" [style.height.px]="galleryHeight">
     <div #boxes class="justified-gallery-box"
          *ngFor="let box of boxes; index as i"
          [id]="pictures[i].id"
@@ -13,7 +13,9 @@
          [style.height.px]="box.height"
          [style.top.px]="box.top"
          [style.left.px]="box.left">
-        <div class="overlay" *ngIf="pictures[i].state != pictureState.UPLOADED">
+        <div class="overlay"
+             *ngIf="pictures[i].state != pictureState.UPLOADED"
+             [ngClass]="{'overlay-error': pictures[i].state == pictureState.ABORTED}">
             <md-spinner *ngIf="pictures[i].state == pictureState.RESIZING"
                         mode="indeterminate"
                         color="warn">
@@ -22,6 +24,13 @@
                         mode="indeterminate"
                         color="accent">
             </md-spinner>
+            <div *ngIf="pictures[i].state == pictureState.ABORTED"
+                 class="text-center white-text retry"
+                 (click)="retry(pictures[i])">
+                <p *ngIf="">Upload failure</p>
+                <i class="fa fa-refresh"></i>
+                <p *ngIf="">Click to retry</p>
+            </div>
         </div>
     </div>
 </div>

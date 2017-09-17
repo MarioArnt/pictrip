@@ -30,6 +30,7 @@ export class StepDialogComponent implements OnInit {
     addressResolved: boolean;
     maxNumberSteps: number;
     update: boolean;
+    formData: any;
 
     @ViewChild('placeAutocomplete')
     public placeAutocompleteElementRef: ElementRef;
@@ -49,9 +50,11 @@ export class StepDialogComponent implements OnInit {
         this.step.placeLng = 1.444209;
         this.update = false;
         this.maxNumberSteps = 1;
+        this.formData = {};
 
         this.routeSub = this.route.params.subscribe((params) => {
             this.step.tripId = params['tripId'];
+            this.formData.tripId = params['tripId'];
             const id = params['id'];
             this.stepService.count(this.step.tripId).subscribe((response) => {
                 const numberSteps = parseInt(response.text(), 10);
@@ -62,6 +65,7 @@ export class StepDialogComponent implements OnInit {
                         this.zoom = 12;
                         this.addressResolved = true;
                         this.maxNumberSteps = numberSteps;
+                        this.formData.stepId = this.step.id;
                     });
                 } else {
                     this.maxNumberSteps = numberSteps;

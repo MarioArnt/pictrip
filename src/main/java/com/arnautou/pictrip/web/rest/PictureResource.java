@@ -1,5 +1,6 @@
 package com.arnautou.pictrip.web.rest;
 
+import com.arnautou.pictrip.service.UserService;
 import com.codahale.metrics.annotation.Timed;
 import com.arnautou.pictrip.service.PictureService;
 import com.arnautou.pictrip.web.rest.util.HeaderUtil;
@@ -7,13 +8,22 @@ import com.arnautou.pictrip.service.dto.PictureDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -26,6 +36,12 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 @RestController
 @RequestMapping("/api")
 public class PictureResource {
+
+    @Autowired
+    private HttpServletRequest request;
+
+    @Autowired
+    private UserService userService;
 
     private final Logger log = LoggerFactory.getLogger(PictureResource.class);
 
@@ -55,6 +71,83 @@ public class PictureResource {
         return ResponseEntity.created(new URI("/api/pictures/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    /**
+     * POST  /pictures/upload : Upload a new picture.
+     *
+     * @param file the multipart file of the picture to upload
+     * @return the ResponseEntity with status 201 (Created) and with body the new picture ID
+     */
+    @PostMapping("/pictures/upload")
+    @Timed
+    public ResponseEntity<Long> uploadPicture(
+        @RequestParam("image") MultipartFile file,
+        @RequestParam("tripId") Optional<Long> tripId,
+        @RequestParam("stepId") Optional<Long> stepId) throws URISyntaxException, IOException {
+        log.debug("REST request to upload Picture : {}", file.getSize());
+        Long userId = userService.getCurrentLoggedUserId();
+        if (userId == null) {
+            return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(null);
+        }
+        if (!file.isEmpty()) {
+            try {
+                StringBuilder uploadDirectory = new StringBuilder();
+                uploadDirectory.append(File.separator);
+                uploadDirectory.append("uploads");
+                uploadDirectory.append(File.separator);
+                uploadDirectory.append("user-");
+                uploadDirectory.append(userId);
+                uploadDirectory.append(File.separator);
+                if(tripId.isPresent()) {
+                    uploadDirectory.append("trip-");
+                    uploadDirectory.append(tripId.get());
+                    uploadDirectory.append(File.separator);
+                }
+                if(stepId.isPresent()) {
+                    uploadDirectory.append("step-");
+                    uploadDirectory.append(stepId.get());
+                    uploadDirectory.append(File.separator);
+                }
+                String realPathtoUploads = request.getServletContext().getRealPath(uploadDirectory.toString());
+                if (!new File(realPathtoUploads).exists()) {
+                    new File(realPathtoUploads).mkdirs();
+                }
+
+                LocalDateTime now = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss:n");
+                StringBuilder fileNameBuilder = new StringBuilder();
+                fileNameBuilder.append("IMG-");
+                fileNameBuilder.append(formatter.format(now));
+                if(file.getContentType().equals("image/jpeg")) {
+                    fileNameBuilder.append(".jpeg");
+                } else if(file.getContentType().equals("image/png")) {
+                    fileNameBuilder.append(".png");
+                } else {
+                    return ResponseEntity.unprocessableEntity().body(null);
+                }
+                String filePath = realPathtoUploads + File.separator + fileNameBuilder.toString();
+                log.info("Upload picture in = {}", filePath);
+                File dest = new File(filePath);
+                dest.createNewFile();
+                FileOutputStream fos = new FileOutputStream(dest);
+                fos.write(file.getBytes());
+                fos.close();
+                PictureDTO newPicture = new PictureDTO();
+                newPicture.setCaption("");
+                newPicture.setSize(file.getSize());
+                newPicture.setSrc(dest.getAbsolutePath());
+                newPicture.setViews(0l);
+                PictureDTO result = pictureService.save(newPicture);
+                return ResponseEntity.created(new URI("/api/pictures/" + result.getId())).body(result.getId());
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw e;
+            }
+        }
+        return ResponseEntity.unprocessableEntity().body(null);
     }
 
     /**

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import * as justifiedLayout from 'justified-layout';
 import { Ng2PicaService } from 'ng2-pica';
+import {Picture} from "./picture.model";
 
 enum PictureState {
     'QUEUED',
@@ -15,6 +16,8 @@ enum PictureState {
 
 class PictureToUpload {
     id: string;
+    originalHeight: number;
+    originalWidth: number;
     imgElement: any;
     state: PictureState;
     originalFile: File;
@@ -37,23 +40,30 @@ export class PictureUploaderComponent implements AfterViewInit {
     @Input() maxNumRows: number;
     @Input() forceAspectRatio: boolean;
     @Input() showWidows: boolean;
+    @Input() formData: any;
     @Input() fullWidthBreakoutRowCadence: boolean;
+    @Input() extensions: string[];
+    @Input() resizeWidth: number;
+    @Input() resizeHeight: number;
 
     @ViewChild('fileInput') fileInput: ElementRef;
     @ViewChildren('boxes') boxesElement: QueryList<any>;
 
+    // Inject picture state enum in template
+
     pictureState = PictureState;
-    extensions: string[];
     pictures: PictureToUpload[];
+    toResize: PictureToUpload[];
     boxes: any[];
     galleryHeight: number;
-    resizeWidth: number;
-    resizeHeight: number;
+
+
+    // Loading pictures progress spinner
     loadingPictures: boolean;
     loadingPicturesCurrentSize: number;
     loadingPicturesTotalSize: number;
     loadingPicturesProgress: number;
-    toResize: PictureToUpload[];
+
 
     constructor(
         private ng2PicaService: Ng2PicaService,
@@ -61,6 +71,7 @@ export class PictureUploaderComponent implements AfterViewInit {
     ) {
         this.extensions = ['jpg', 'jpeg', 'png'];
         this.pictures = [];
+        this.formData = {};
         this.boxes = [];
         this.targetRowHeight = 125;
         this.targetRowHeightTolerance = 0.25;
@@ -73,15 +84,14 @@ export class PictureUploaderComponent implements AfterViewInit {
         this.loadingPicturesProgress = 0;
         this.resizeWidth = 1920;
         this.resizeHeight = 1080;
-        this.loadingPictures = false;
     }
 
     ngAfterViewInit() {
         this.galleryHeight = 0;
+        this.loadingPictures = false;
         this.boxesElement.changes.subscribe(() => {
             console.log('Box rendered, displaying images');
             this.renderPreviews();
-            this.resizeImages();
         })
     }
 
@@ -115,15 +125,27 @@ export class PictureUploaderComponent implements AfterViewInit {
             (toUpload: PictureToUpload) => {
                 toUpload.state = PictureState.ABORTED;
                 console.log('Something wrong happened when loading picture');
-
             },
             () => {
                 this.loadingPictures = false;
-                console.log('All images loaded !')
+                console.log('All images loaded !');
                 this.calculateImagesDimension();
-                console.log('Box dimensions updated !')
+                console.log('Box dimensions updated !');
+                this.resizeImages();
             }
         );
+    }
+
+    retry(picture: PictureToUpload): void {
+        if(picture.resizedFile != null) {
+            this.uploadPicture(picture);
+        } else {
+            this.resizeImage(picture).then((picture: PictureToUpload) => {
+                this.uploadPicture(picture);
+            }, () => {
+                picture.state = PictureState.ABORTED;
+            });
+        }
     }
 
     private resizeImages() {
@@ -131,24 +153,32 @@ export class PictureUploaderComponent implements AfterViewInit {
         const resizeSequence = toResize.mergeMap(picture => this.resizeImage(picture), null, 2);
         resizeSequence.subscribe(
             (picture: PictureToUpload) => {
-                console.log('File resized', picture.resizedFile);
-                this.postImage('https://httpstat.us/201', picture.resizedFile).subscribe(
-                    () => {
-                    picture.state = PictureState.UPLOADED;
-                    },
-                    (toUpload: PictureToUpload) => {
-                        toUpload.state = PictureState.ABORTED;
-                        console.log('Something wrong happened when uploading picture');
-
-                    },
-                );
+                console.log('File resized', picture.resizedFile.size);
+                this.uploadPicture(picture);
             },
             (toUpload: PictureToUpload) => {
                 toUpload.state = PictureState.ABORTED;
                 console.log('Something wrong happened when resizing picture');
 
             },
-            () => console.log('ALL DONE')
+            () => {
+                this.toResize = [];
+                console.log('ALL DONE');
+            }
+        );
+    }
+
+    private uploadPicture(picture: PictureToUpload) {
+        picture.state = PictureState.UPLOADING;
+        this.postImage('api/pictures/uploszad', picture.resizedFile, this.formData).subscribe(
+            () => {
+                picture.state = PictureState.UPLOADED;
+            },
+            () => {
+                picture.state = PictureState.ABORTED;
+                console.log('Something wrong happened when uploading picture');
+            },
+            () => { console.log('All pics uploaded !'); },
         );
     }
 
@@ -161,7 +191,9 @@ export class PictureUploaderComponent implements AfterViewInit {
                 window.URL.revokeObjectURL(img.src);
                 const toUpload: PictureToUpload = {
                     id: id[0],
-                        imgElement: img,
+                    imgElement: img,
+                    originalHeight: img.height,
+                    originalWidth: img.width,
                     state: PictureState.QUEUED,
                     originalFile: file,
                     resizedFile: null
@@ -174,13 +206,12 @@ export class PictureUploaderComponent implements AfterViewInit {
     }
 
     private resizeImage(picture: PictureToUpload): Promise<PictureToUpload> {
-        const img = picture.imgElement;
-        const file = picture.originalFile;
         picture.state = PictureState.RESIZING;
         const resizedFile: Promise<PictureToUpload> = new Promise((resolve, reject) => {
-            console.log('Image size: ' + img.width + "x" + img.height);
-            let currentWidth = img.width;
-            let currentHeight = img.height;
+            console.log('Image size: ' + picture.originalWidth + "x" + picture.originalWidth);
+            console.log('File size:' + picture.originalFile.size);
+            let currentWidth = picture.originalWidth;
+            let currentHeight = picture.originalHeight;
             let newWidth = currentWidth;
             let newHeight = currentHeight;
             if (newWidth > this.resizeWidth) {
@@ -194,18 +225,18 @@ export class PictureUploaderComponent implements AfterViewInit {
                 let ratio = this.resizeHeight / currentHeight;
                 newWidth = newWidth * ratio;
             }
-            if(newHeight === img.height && newWidth === img.width){
+            if(newHeight === picture.originalHeight && newWidth === picture.originalWidth){
                 console.log('No need to resize');
-                picture.resizedFile = file;
+                picture.resizedFile = picture.originalFile;
                 resolve(picture);
             }
             else{
                 console.log('Image target size: ' + newWidth + "x" + newHeight);
                 const fromCanvas: HTMLCanvasElement = document.createElement('canvas');
                 const ctx = fromCanvas.getContext('2d');
-                fromCanvas.width = img.width;
-                fromCanvas.height = img.height;
-                ctx.drawImage(img, 0, 0);
+                fromCanvas.width = picture.originalWidth;
+                fromCanvas.height = picture.originalHeight;
+                ctx.drawImage(picture.imgElement, 0, 0);
 
                 const toCanvas: HTMLCanvasElement = document.createElement('canvas');
                 toCanvas.width = newWidth;
@@ -217,12 +248,12 @@ export class PictureUploaderComponent implements AfterViewInit {
                     unsharpThreshold: 2
                 }).then((resizedCanvas: HTMLCanvasElement) => {
                     resizedCanvas.toBlob((blob) => {
-                        let resultFile=new Blob([blob], {type: file.type});
-                        picture.state = PictureState.UPLOADING;
-                        const resizedFile = this.blobToFile(resultFile, file.name, new Date().getTime());
+                        let resultFile = new Blob([blob], {type: picture.originalFile.type});
+                        const resizedFile = this.blobToFile(resultFile, picture.originalFile.name, new Date().getTime());
+                        console.log('Resized File size:' + resizedFile.size);
                         picture.resizedFile = resizedFile;
                         resolve(picture);
-                    }, file.type);
+                    }, picture.originalFile.type);
                 }, (error) => reject(error));
             }
         });
@@ -239,7 +270,9 @@ export class PictureUploaderComponent implements AfterViewInit {
     private renderPreviews() {
         if (this.boxes.length === 0) return;
         const lastBox = this.boxes[this.boxes.length -1];
-        this.galleryHeight = lastBox.top + lastBox.height;
+        setTimeout(() => {
+            this.galleryHeight = lastBox.top + lastBox.height;
+        }, 0)
         for(let i = 0; i < this.pictures.length; ++i) {
             const picture = this.pictures[i];
             const box = document.getElementById(picture.id);
@@ -272,26 +305,22 @@ export class PictureUploaderComponent implements AfterViewInit {
     public postImage(
         url: string,
         image: File,
+        customFormData?: { [name: string]: any },
         headers?: Headers | { [name: string]: any },
         partName: string = 'image',
-        customFormData?: { [name: string]: any },
         withCredentials?: boolean
     ): Observable<Response> {
 
         if (!url || url === '') {
             throw new Error('Url is not set! Please set it before doing queries');
         }
-
         const options: RequestOptionsArgs = new RequestOptions();
-
         if (withCredentials) {
             options.withCredentials = withCredentials;
         }
-
         if (headers) {
             options.headers = new Headers(headers);
         }
-
         // add custom form data
         let formData = new FormData();
         for (let key in customFormData) {
@@ -300,5 +329,4 @@ export class PictureUploaderComponent implements AfterViewInit {
         formData.append(partName, image);
         return this.http.post(url, formData, options);
     }
-
 }
