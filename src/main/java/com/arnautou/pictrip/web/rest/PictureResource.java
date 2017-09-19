@@ -81,7 +81,7 @@ public class PictureResource {
      */
     @PostMapping("/pictures/upload")
     @Timed
-    public ResponseEntity<Long> uploadPicture(
+    public ResponseEntity<PictureDTO> uploadPicture(
         @RequestParam("image") MultipartFile file,
         @RequestParam("tripId") Optional<Long> tripId,
         @RequestParam("stepId") Optional<Long> stepId) throws URISyntaxException, IOException {
@@ -94,54 +94,11 @@ public class PictureResource {
         }
         if (!file.isEmpty()) {
             try {
-                StringBuilder uploadDirectory = new StringBuilder();
-                uploadDirectory.append(File.separator);
-                uploadDirectory.append("uploads");
-                uploadDirectory.append(File.separator);
-                uploadDirectory.append("user-");
-                uploadDirectory.append(userId);
-                uploadDirectory.append(File.separator);
-                if(tripId.isPresent()) {
-                    uploadDirectory.append("trip-");
-                    uploadDirectory.append(tripId.get());
-                    uploadDirectory.append(File.separator);
-                }
-                if(stepId.isPresent()) {
-                    uploadDirectory.append("step-");
-                    uploadDirectory.append(stepId.get());
-                    uploadDirectory.append(File.separator);
-                }
-                String realPathtoUploads = request.getServletContext().getRealPath(uploadDirectory.toString());
-                if (!new File(realPathtoUploads).exists()) {
-                    new File(realPathtoUploads).mkdirs();
-                }
-
-                LocalDateTime now = LocalDateTime.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH:mm:ss:n");
-                StringBuilder fileNameBuilder = new StringBuilder();
-                fileNameBuilder.append("IMG-");
-                fileNameBuilder.append(formatter.format(now));
-                if(file.getContentType().equals("image/jpeg")) {
-                    fileNameBuilder.append(".jpeg");
-                } else if(file.getContentType().equals("image/png")) {
-                    fileNameBuilder.append(".png");
-                } else {
+                PictureDTO result = this.pictureService.upload(request, file, userId, tripId, stepId);
+                if(result == null) {
                     return ResponseEntity.unprocessableEntity().body(null);
                 }
-                String filePath = realPathtoUploads + File.separator + fileNameBuilder.toString();
-                log.info("Upload picture in = {}", filePath);
-                File dest = new File(filePath);
-                dest.createNewFile();
-                FileOutputStream fos = new FileOutputStream(dest);
-                fos.write(file.getBytes());
-                fos.close();
-                PictureDTO newPicture = new PictureDTO();
-                newPicture.setCaption("");
-                newPicture.setSize(file.getSize());
-                newPicture.setSrc(dest.getAbsolutePath());
-                newPicture.setViews(0l);
-                PictureDTO result = pictureService.save(newPicture);
-                return ResponseEntity.created(new URI("/api/pictures/" + result.getId())).body(result.getId());
+                return ResponseEntity.created(new URI("/api/pictures/" + result.getId())).body(result);
             } catch (IOException e) {
                 e.printStackTrace();
                 throw e;

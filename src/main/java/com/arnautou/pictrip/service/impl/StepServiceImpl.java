@@ -1,6 +1,7 @@
 package com.arnautou.pictrip.service.impl;
 
 import com.arnautou.pictrip.domain.Journey;
+import com.arnautou.pictrip.domain.Picture;
 import com.arnautou.pictrip.domain.Trip;
 import com.arnautou.pictrip.service.*;
 import com.arnautou.pictrip.domain.Step;
@@ -58,6 +59,9 @@ public class StepServiceImpl implements StepService{
 
     @Autowired
     private JourneyService journeyService;
+
+    @Autowired
+    private PictureService pictureService;
 
     /**
      * Save a step.
@@ -191,6 +195,13 @@ public class StepServiceImpl implements StepService{
         // Save the new step
         step.setPlaceId(place.getId());
         Step newStep = save(step);
+
+        // Save the pictures
+        step.getPictures().stream().map(pic -> pic.getId()).forEach(id -> {
+            Picture pic = this.pictureService.getOne(id);
+            pic.setStep(newStep);
+            this.pictureService.save(pic);
+        });
 
         // Save the journey
         if(step.getNumber() > 1) {

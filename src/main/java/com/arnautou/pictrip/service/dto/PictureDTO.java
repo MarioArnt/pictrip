@@ -14,9 +14,6 @@ public class PictureDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
-    private String src;
-
     private String caption;
 
     @NotNull
@@ -38,14 +35,6 @@ public class PictureDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getSrc() {
-        return src;
-    }
-
-    public void setSrc(String src) {
-        this.src = src;
     }
 
     public String getCaption() {
@@ -129,7 +118,6 @@ public class PictureDTO implements Serializable {
     public String toString() {
         return "PictureDTO{" +
             "id=" + getId() +
-            ", src='" + getSrc() + "'" +
             ", caption='" + getCaption() + "'" +
             ", size='" + getSize() + "'" +
             ", views='" + getViews() + "'" +

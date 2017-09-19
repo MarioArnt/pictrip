@@ -1,5 +1,5 @@
 <input #fileInput type="file" multiple [accept]="extensions" style="display:none" (change)="handleFiles($event)">
-<button class="btn teal white-text" (click)="selectFiles()">Select some files</button>
+<button class="btn teal white-text" (click)="selectFiles($event)">Select some files</button>
 <md-spinner *ngIf="loadingPictures"
             mode="determinate"
             [value]="loadingPicturesProgress"

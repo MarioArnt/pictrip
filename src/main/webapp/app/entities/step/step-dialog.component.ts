@@ -31,6 +31,7 @@ export class StepDialogComponent implements OnInit {
     maxNumberSteps: number;
     update: boolean;
     formData: any;
+    uploadInProgress: boolean;
 
     @ViewChild('placeAutocomplete')
     public placeAutocompleteElementRef: ElementRef;
@@ -51,6 +52,7 @@ export class StepDialogComponent implements OnInit {
         this.update = false;
         this.maxNumberSteps = 1;
         this.formData = {};
+        this.uploadInProgress = false;
 
         this.routeSub = this.route.params.subscribe((params) => {
             this.step.tripId = params['tripId'];
@@ -68,7 +70,7 @@ export class StepDialogComponent implements OnInit {
                         this.formData.stepId = this.step.id;
                     });
                 } else {
-                    this.maxNumberSteps = numberSteps;
+                    this.maxNumberSteps = numberSteps + 1;
                     this.step.number = this.maxNumberSteps;
                 }
             });
@@ -134,6 +136,17 @@ export class StepDialogComponent implements OnInit {
         if (this.step.number > this.maxNumberSteps) {
             this.step.number = this.maxNumberSteps;
         }
+    }
+
+    filesAdded() {
+        this.uploadInProgress = true;
+    }
+
+    picturesUploaded($event) {
+        console.log('>>>>> IMG UPLOADED', $event);
+        this.uploadInProgress = false;
+        const picturesId = $event.responses.map((res) => res.json());
+        this.step.pictures = picturesId;
     }
 
     private subscribeToSaveResponse(result: Observable<Step>) {

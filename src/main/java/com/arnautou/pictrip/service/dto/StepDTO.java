@@ -46,6 +46,12 @@ public class StepDTO implements Serializable {
 
     private Transportation arrivalTransportation;
 
+    private Long departureId;
+
+    private Transportation departureTransportation;
+
+    private Set<PictureDTO> pictures;
+
     public Long getId() {
         return id;
     }
@@ -148,6 +154,30 @@ public class StepDTO implements Serializable {
 
     public void setArrivalTransportation(Transportation arrivalTransportation) {
         this.arrivalTransportation = arrivalTransportation;
+    }
+
+    public void setDepartureId(Long departureId) {
+        this.departureId = departureId;
+    }
+
+    public Long getDepartureId() {
+        return departureId;
+    }
+
+    public void setDepartureTransportation(Transportation departureTransportation) {
+        this.departureTransportation = departureTransportation;
+    }
+
+    public Transportation getDepartureTransportation() {
+        return departureTransportation;
+    }
+
+    public Set<PictureDTO> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(Set<PictureDTO> pictures) {
+        this.pictures = pictures;
     }
 
     @Override

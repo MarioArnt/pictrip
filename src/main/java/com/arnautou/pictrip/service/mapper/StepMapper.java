@@ -8,7 +8,7 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity Step and its DTO StepDTO.
  */
-@Mapper(componentModel = "spring", uses = {PlaceMapper.class, TripMapper.class, })
+@Mapper(componentModel = "spring", uses = {PlaceMapper.class, TripMapper.class, PictureMapper.class })
 public interface StepMapper extends EntityMapper <StepDTO, Step> {
 
     @Mapping(source = "place.id", target = "placeId")
@@ -19,6 +19,8 @@ public interface StepMapper extends EntityMapper <StepDTO, Step> {
     @Mapping(source = "trip.name", target = "tripName")
     @Mapping(source = "arrival.id", target = "arrivalId")
     @Mapping(source = "arrival.transportation", target = "arrivalTransportation")
+    @Mapping(source = "departure.id", target="departureId")
+    @Mapping(source = "departure.transportation", target="departureTransportation")
     StepDTO toDto(Step step);
 
     @Mapping(source = "placeId", target = "place")

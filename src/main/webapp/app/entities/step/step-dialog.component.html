@@ -152,14 +152,18 @@
         </small>
     </div>-->
     <h5 class="margin-b-2">Upload pictures</h5>
-    <jhi-image-uploader [formData]="formData"></jhi-image-uploader>
+    <jhi-image-uploader
+        [formData]="formData"
+        (onFilesAdded)="filesAdded()"
+        (onQueueProcessed)="picturesUploaded($event)">
+    </jhi-image-uploader>
 
 
     <div class="padding-t-2 clear-both">
         <button type="button" class="btn btn-default" data-dismiss="modal"  [routerLink]="['/trip/' + step.tripId]">
             <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>
-        <button type="submit" [disabled]="!addressResolved || isSaving" class="btn btn-primary">
+        <button type="submit" [disabled]="!addressResolved || isSaving || uploadInProgress" class="btn btn-primary">
             <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
         </button>
     </div>
