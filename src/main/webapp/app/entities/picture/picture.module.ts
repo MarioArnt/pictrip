@@ -6,7 +6,6 @@ import {
     PictureService,
     PicturePopupService,
     PictureComponent,
-    PictureUploaderComponent,
     PictureDetailComponent,
     PictureDialogComponent,
     PicturePopupComponent,
@@ -15,6 +14,7 @@ import {
     pictureRoute,
     picturePopupRoute,
 } from './';
+import { PictureUploaderComponent } from "../../shared/images/picture-uploader/picture-uploader.component";
 
 const ENTITY_STATES = [
     ...pictureRoute,
@@ -27,7 +27,6 @@ const ENTITY_STATES = [
         RouterModule.forRoot(ENTITY_STATES, { useHash: true })
     ],
     exports: [
-        PictureUploaderComponent,
     ],
     declarations: [
         PictureComponent,
@@ -36,7 +35,6 @@ const ENTITY_STATES = [
         PictureDeleteDialogComponent,
         PicturePopupComponent,
         PictureDeletePopupComponent,
-        PictureUploaderComponent,
     ],
     entryComponents: [
         PictureComponent,
@@ -44,7 +42,7 @@ const ENTITY_STATES = [
         PicturePopupComponent,
         PictureDeleteDialogComponent,
         PictureDeletePopupComponent,
-        PictureUploaderComponent,
+        //PictureUploaderComponent,
     ],
     providers: [
         PictureService,

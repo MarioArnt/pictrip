@@ -2,40 +2,18 @@ import { Component, Input, ViewChild, ElementRef, ViewChildren, QueryList, After
     HostListener } from '@angular/core';
 import { RequestOptionsArgs, RequestOptions, Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-
 import * as justifiedLayout from 'justified-layout';
 import { Ng2PicaService } from 'ng2-pica';
 
-enum PictureState {
-    'QUEUED',
-    'RESIZING',
-    'UPLOADING',
-    'UPLOADED',
-    'ABORTED'
-}
-
-class PictureToUpload {
-    id: string;
-    originalHeight: number;
-    originalWidth: number;
-    imgElement: any;
-    state: PictureState;
-    originalFile: File;
-    resizedFile: File;
-}
-
-class PictureUploadReport {
-    processed: number;
-    failed: number;
-    uploaded: number;
-    responses: Response[];
-}
+import { PictureState } from './picture-state.enum';
+import { PictureToUpload } from './picture-to-upload.model';
+import { PictureUploadReport } from './pictures-upload-report.model';
 
 @Component({
     selector: 'jhi-image-uploader',
     templateUrl: './picture-uploader.component.html',
     styleUrls: [
-        'picture.scss'
+        'picture-uploader.scss'
     ]
 })
 export class PictureUploaderComponent implements AfterViewInit {
