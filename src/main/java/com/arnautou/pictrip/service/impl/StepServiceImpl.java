@@ -22,6 +22,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.Option;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -200,6 +205,11 @@ public class StepServiceImpl implements StepService{
         step.getPictures().stream().map(pic -> pic.getId()).forEach(id -> {
             Picture pic = this.pictureService.getOne(id);
             pic.setStep(newStep);
+            try {
+                this.pictureService.movePictureToStepFolder(pic, newStep.getId());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             this.pictureService.save(pic);
         });
 

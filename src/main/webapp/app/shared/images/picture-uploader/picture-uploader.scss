@@ -1,0 +1,41 @@
+#justified-gallery-container {
+    width: 100%;
+    position: relative;
+    .justified-gallery-box{
+        position: absolute;
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2;
+            background-color: rgba(0, 150, 136, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+        }
+        .overlay-error {
+            .retry {
+                cursor: pointer;
+                height: 100%;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                p {
+                    margin: 3px 0;
+                }
+                i.fa {
+                    font-size: 26pt;
+                }
+            }
+            background-color: rgba(211, 47, 47, 0.7);
+        }
+        md-spinner {
+            height: 60px;
+            width: 60px;
+        }
+    }
+}

@@ -84,4 +84,13 @@ public interface PictureService {
      */
     PictureDTO upload(HttpServletRequest request, MultipartFile file, Long userId, Optional<Long> tripId, Optional<Long> stepId) throws IOException;
 
+    /**
+     * Move a picture from /uploads/user-id/trip-id to /uploads/user-id/trip-id/step-id
+     * when the Step is created and step ID is available
+     * @param picture : the picture entity
+     * @param stepId : the step ID
+     * @throws IOException : if something wrong happens when writing on disk
+     */
+    void movePictureToStepFolder(Picture picture, Long stepId) throws IOException;
+
 }

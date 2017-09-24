@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
@@ -212,5 +215,29 @@ public class PictureServiceImpl implements PictureService{
             new File(realPathToUploads).mkdirs();
         }
         return realPathToUploads;
+    }
+
+    @Override
+    public void movePictureToStepFolder(Picture picture, Long stepId) throws IOException {
+        File oldPicture = new File(picture.getSrc());
+        String fileName = oldPicture.getName();
+        String oldDirectory = oldPicture.getParent();
+        StringBuilder newDirectory = new StringBuilder();
+        newDirectory.append(oldDirectory);
+        newDirectory.append(File.separator);
+        newDirectory.append("step-");
+        newDirectory.append(stepId);
+        newDirectory.append(File.separator);
+        if (!new File(newDirectory.toString()).exists()) {
+            new File(newDirectory.toString()).mkdirs();
+        }
+        StringBuilder newFilePath = new StringBuilder();
+        newFilePath.append(newDirectory.toString());
+        newFilePath.append(File.separator);
+        newFilePath.append(fileName);
+        Path oldPath = FileSystems.getDefault().getPath(picture.getSrc());
+        Path newPath = FileSystems.getDefault().getPath(newFilePath.toString());
+        Files.move(oldPath, newPath);
+        picture.setSrc(newFilePath.toString());
     }
 }
