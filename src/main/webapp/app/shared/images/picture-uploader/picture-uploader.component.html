@@ -8,28 +8,32 @@
 <div id="justified-gallery-container" class="margin-v-2" [style.height.px]="galleryHeight">
     <div #boxes class="justified-gallery-box"
          *ngFor="let box of boxes; index as i"
-         [id]="pictures[i].id"
+         [id]="pictures[i]?.id"
          [style.width.px]="box.width"
          [style.height.px]="box.height"
          [style.top.px]="box.top"
          [style.left.px]="box.left">
         <div class="overlay"
-             *ngIf="pictures[i].state != pictureState.UPLOADED"
-             [ngClass]="{'overlay-error': pictures[i].state == pictureState.ABORTED}">
-            <md-spinner *ngIf="pictures[i].state == pictureState.RESIZING"
+             [ngClass]="{'overlay-error': pictures[i] != null && pictures[i].state == pictureState.ABORTED, success: pictures[i] != null && pictures[i].state == pictureState.UPLOADED}">
+            <md-spinner *ngIf="pictures[i] != null && pictures[i].state == pictureState.RESIZING"
                         mode="indeterminate"
                         color="warn">
             </md-spinner>
-            <md-spinner *ngIf="pictures[i].state == pictureState.UPLOADING"
+            <md-spinner *ngIf="pictures[i] != null && pictures[i].state == pictureState.UPLOADING"
                         mode="indeterminate"
                         color="accent">
             </md-spinner>
-            <div *ngIf="pictures[i].state == pictureState.ABORTED"
-                 class="text-center white-text retry"
+            <div *ngIf="pictures[i] != null && pictures[i].state == pictureState.ABORTED"
+                 class="text-center white-text icon"
                  (click)="retry(pictures[i])">
                 <p *ngIf="">Upload failure</p>
                 <i class="fa fa-refresh"></i>
                 <p *ngIf="">Click to retry</p>
+            </div>
+            <div *ngIf="pictures[i] != null && pictures[i].state == pictureState.UPLOADED"
+                 class="text-center white-text icon"
+                 (click)="deleteUploadedPicture(pictures[i])">
+                <i class="fa fa-trash"></i>
             </div>
         </div>
     </div>

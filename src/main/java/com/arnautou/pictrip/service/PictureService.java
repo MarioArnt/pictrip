@@ -58,7 +58,7 @@ public interface PictureService {
      *
      *  @param id the id of the entity
      */
-    void delete(Long id);
+    void delete(Long id) throws IOException;
 
     /**
      * Search for the picture corresponding to the query.

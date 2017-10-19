@@ -163,9 +163,14 @@ public class PictureResource {
      */
     @DeleteMapping("/pictures/{id}")
     @Timed
-    public ResponseEntity<Void> deletePicture(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePicture(@PathVariable Long id) throws IOException {
         log.debug("REST request to delete Picture : {}", id);
-        pictureService.delete(id);
+        try {
+            pictureService.delete(id);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw e;
+        }
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 

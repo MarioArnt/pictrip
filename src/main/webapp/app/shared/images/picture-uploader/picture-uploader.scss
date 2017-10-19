@@ -1,7 +1,27 @@
 #justified-gallery-container {
     width: 100%;
     position: relative;
-    .justified-gallery-box{
+    .justified-gallery-box:hover {
+        .overlay.success {
+            display: flex;
+            .icon {
+                cursor: pointer;
+                height: 100%;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                p {
+                    margin: 3px 0;
+                }
+                i.fa {
+                    font-size: 26pt;
+                }
+            }
+            background-color: rgba(211, 47, 47, 0.7);
+        }
+    }
+    .justified-gallery-box {
         position: absolute;
         .overlay {
             position: absolute;
@@ -16,8 +36,12 @@
             justify-content: center;
             padding: 5px;
         }
+        .overlay.success {
+            display: none;
+        }
         .overlay-error {
-            .retry {
+            display: flex;
+            .icon {
                 cursor: pointer;
                 height: 100%;
                 width: 100%;

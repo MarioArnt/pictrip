@@ -126,8 +126,11 @@ public class PictureServiceImpl implements PictureService{
      *  @param id the id of the entity
      */
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws IOException {
         log.debug("Request to delete Picture : {}", id);
+        Picture toDelete = pictureRepository.findOne(id);
+        Path path = FileSystems.getDefault().getPath(toDelete.getSrc());
+        Files.deleteIfExists(path);
         pictureRepository.delete(id);
         pictureSearchRepository.delete(id);
     }

@@ -160,6 +160,24 @@ export class PictureUploaderComponent implements AfterViewInit {
         }
     }
 
+    deleteUploadedPicture(picture: PictureToUpload): void {
+        if(picture.dbid != null) {
+            this.http.delete(`api/pictures/${picture.dbid}`).subscribe(
+                (res: Response) => {
+                    console.log('success');
+                    const toRemove = this.pictures.indexOf(picture);
+                    console.log('remove at index ' + toRemove);
+                    if (toRemove > -1) {
+                        this.pictures.splice(toRemove, 1);
+                        this.calculateImagesDimension();
+                    }
+                },
+                () => {
+                    console.log('Image deletion failure');
+                });
+        }
+    }
+
     private resizeImages() {
         const toResize = Observable.of(...this.toUpload);
         const resizeSequence = toResize.mergeMap((picture) => this.resizeImage(picture), null, 2);
@@ -187,6 +205,7 @@ export class PictureUploaderComponent implements AfterViewInit {
         this.postImage('api/pictures/upload', picture.resizedFile, this.formData).subscribe(
             (res: Response) => {
                 picture.state = PictureState.UPLOADED;
+                picture.dbid = res.json().id;
                 console.log('Image uploaded !');
                 this.uploaded++;
                 this.responses.push(res);
@@ -218,6 +237,7 @@ export class PictureUploaderComponent implements AfterViewInit {
                 window.URL.revokeObjectURL(img.src);
                 const toUpload: PictureToUpload = {
                     id: id[0],
+                    dbid: null,
                     imgElement: img,
                     originalHeight: img.height,
                     originalWidth: img.width,
