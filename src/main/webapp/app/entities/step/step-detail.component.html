@@ -1,17 +1,54 @@
 
 <div *ngIf="step">
-    <h2><span jhiTranslate="pictripApp.step.detail.title">Step</span> {{step.id}}</h2>
-    <hr>
+    <agm-map [latitude]="step?.placeLat" [longitude]="step?.placeLng" [zoom]="zoom" zoomControl="false" streetViewControl="false">
+        <agm-marker [latitude]="step?.placeLat" [longitude]="step?.placeLng" [label]="step.number?.toString()"></agm-marker>
+    </agm-map>
     <jhi-alert-error></jhi-alert-error>
+    <div class="main-content">
+
+        <div class="step-controls">
+            <div class="previous-step">
+                <div class="previous-arrow">
+                    <i class="fa fa-arrow-left"></i>
+                </div>
+                <div class="previous-step-details">
+                    <i class="fa fa-train"></i>
+                    <p>#4 - Fès, Maroc</p>
+                </div>
+            </div>
+
+            <div class="back-to-map" [routerLink]="['/trip', step.tripId]">
+                <i class="fa fa-map-o"></i>
+                <span>Back to Map</span>
+            </div>
+
+            <div class="next-step">
+                <div class="next-arrow">
+                    <i class="fa fa-arrow-right"></i>
+                </div>
+                <div class="next-step-details">
+                    <i class="fa fa-bus"></i>
+                    <p>#6 - Ouzoud, Maroc</p>
+                </div>
+            </div>
+        </div>
+
+
+        <h4 class="text-center">#{{step.number}} - {{step.placeName}}</h4>
+        <h5 *ngIf="step.dateFrom && step.dateTo">
+            <span>
+                <i class="fa fa-calendar"></i>
+            </span>
+            {{step.dateFrom}} - {{step.dateTo}}
+        </h5>
+        <p *ngIf="step.description"><span>{{step.description}}</span></p>
+    </div>
     <dl class="row-md jh-entity-details">
         <dt><span jhiTranslate="pictripApp.step.number">Number</span></dt>
         <dd>
             <span>{{step.number}}</span>
         </dd>
-        <dt><span jhiTranslate="pictripApp.step.description">Description</span></dt>
-        <dd>
-            <span>{{step.description}}</span>
-        </dd>
+
         <dt><span jhiTranslate="pictripApp.step.dateFrom">Date From</span></dt>
         <dd>
             <span>{{step.dateFrom | date:'mediumDate'}}</span>

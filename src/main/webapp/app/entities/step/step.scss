@@ -24,3 +24,42 @@ md-input-container {
         cursor: pointer;
     }
 }
+
+.step-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .previous-arrow, .next-arrow {
+        height: 40px;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16pt;
+    }
+
+    .previous-step {
+        cursor: pointer;
+        width: 33.33%;
+        text-align: left;
+        .previous-arrow {
+            float: left;
+        }
+    }
+
+    .next-step {
+        cursor: pointer;
+        width: 33.33%;
+        text-align: right;
+        .next-arrow {
+            float: right;
+        }
+    }
+
+    .back-to-map {
+        cursor: pointer;
+        width: 33.34%;
+        text-align: center;
+    }
+}
+

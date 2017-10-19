@@ -8,11 +8,15 @@ import { StepService } from './step.service';
 
 @Component({
     selector: 'jhi-step-detail',
-    templateUrl: './step-detail.component.html'
+    templateUrl: './step-detail.component.html',
+    styleUrls: [
+        'step.scss'
+    ]
 })
 export class StepDetailComponent implements OnInit, OnDestroy {
 
     step: Step;
+    zoom: number;
     private subscription: Subscription;
     private eventSubscriber: Subscription;
 
@@ -21,6 +25,7 @@ export class StepDetailComponent implements OnInit, OnDestroy {
         private stepService: StepService,
         private route: ActivatedRoute
     ) {
+        this.zoom = 12;
     }
 
     ngOnInit() {

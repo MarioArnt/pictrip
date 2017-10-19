@@ -52,7 +52,7 @@
                 <p *ngIf="step.dateFrom && step.dateTo"><i class="fa fa-calendar margin-r-1"></i>{{formatDate(step.dateFrom)}} - {{formatDate(step.dateTo)}}</p>
                 <p><i class="fa fa-camera margin-r-1"></i>24 photos</p>
                 <p>{{summarizeText(step.description)}}</p>
-                <a class="waves-effect waves-light btn teal white-text">See details</a>
+                <a class="waves-effect waves-light btn teal white-text" [routerLink]="['/step', step.id]">See details</a>
                 <a class="waves-effect waves-teal btn-flat"(click)="closeInfoWindow(stepInfoWindow)">Close</a>
             </agm-info-window>
         </agm-marker>
